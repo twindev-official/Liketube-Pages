@@ -3,7 +3,7 @@
   <head>
     <title>Welcome to Liketube - Where the ultimate posts reveal</title>
     <style>
-      /* Basic Reset & Body Style */
+/* Basic Reset & Body Style */
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
@@ -117,31 +117,79 @@
     </style>
   </head>
   <body>
-    <header class="navbar">
+<header class="navbar">
         <div class="navbar-left">
             <a href="#" class="logo">liketube</a>
-        </div>
-
-        <div class="navbar-center">
             <div class="search-bar">
-                <input type="text" placeholder="Search LikeTube...">
-                <button type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#3b5998" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                </button>
+                <input type="text" placeholder="Search...">
             </div>
         </div>
 
         <div class="navbar-right">
             <ul class="nav-links">
-                <li><a href="#">Profile</a></li>
-                <li class="separator"></li>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Messages <span class="notification-badge">3</span></a></li>
-                <li><a href="#">Settings ▼</a></li>
+                <li><a href="#">Who Are We?</a></li>
+                <li>
+                    <button id="theme-toggle" class="theme-toggle">🌙</button>
+                </li>
+                <li><a href="#" class="login-button">Log In</a></li>
             </ul>
+            <button class="hamburger-menu" id="hamburger-menu">☰</button>
         </div>
     </header>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#">Who Are We?</a></li>
+            <li><a href="#">Log In</a></li>
+            <li>
+                <button id="mobile-theme-toggle">Switch Theme</button>
+            </li>
+        </ul>
+    </nav>
+
+    <script>
+        // --- JavaScript for Navbar Functionality ---
+
+        // Get all the necessary elements from the DOM
+        const hamburgerBtn = document.getElementById('hamburger-menu');
+        const mobileNav = document.getElementById('mobile-nav');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+        const body = document.body;
+
+        // --- Hamburger Menu Logic ---
+        hamburgerBtn.addEventListener('click', () => {
+            // Toggle the 'active' class to show/hide the mobile menu
+            mobileNav.classList.toggle('active');
+        });
+
+        // --- Theme Toggling Logic ---
+        function toggleTheme() {
+            body.classList.toggle('dark-mode');
+
+            // Update the icon and save preference to localStorage
+            const isDarkMode = body.classList.contains('dark-mode');
+            themeToggleBtn.textContent = isDarkMode ? '☀️' : '🌙';
+            
+            // Save the user's preference
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Add event listeners to both theme toggle buttons
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+        
+        // --- Check for Saved Theme on Page Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggleBtn.textContent = '☀️';
+            } else {
+                body.classList.remove('dark-mode');
+                themeToggleBtn.textContent = '🌙';
+            }
+        });
+    </script>
   </body>
 </html>

@@ -1,1 +1,147 @@
-<h1>Under Construction</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Liketube - Where the ultimate posts reveal</title>
+    <style>
+      /* Basic Reset & Body Style */
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #e9ebee; /* Classic Facebook light grey background */
+        }
+
+        /* The Main Navbar Container */
+        .navbar {
+            background-color: #3b5998; /* The iconic 2012 Facebook blue */
+            border-bottom: 1px solid #29487d;
+            height: 42px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        /* Left Section: Logo */
+        .navbar-left .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Center Section: Search Bar */
+        .navbar-center {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar {
+            display: flex;
+            width: 50%;
+            max-width: 450px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            border: 1px solid #29487d;
+            border-right: none;
+            padding: 6px 10px;
+            font-size: 14px;
+            border-radius: 2px 0 0 2px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background-color: #f0f2f5;
+            border: 1px solid #29487d;
+            border-radius: 0 2px 2px 0;
+            padding: 0 12px;
+            cursor: pointer;
+        }
+        
+        .search-bar button img {
+            height: 16px;
+            width: 16px;
+        }
+
+        /* Right Section: Navigation Links */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li {
+            margin-left: 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            opacity: 0.9;
+        }
+        
+        .nav-links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .separator {
+            height: 20px;
+            border-left: 1px solid #29487d;
+            margin: 0 10px;
+        }
+
+        /* Small red notification badge */
+        .notification-badge {
+            background-color: #e41e3f;
+            color: white;
+            border-radius: 2px;
+            padding: 1px 4px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="logo">liketube</a>
+        </div>
+
+        <div class="navbar-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search LikeTube...">
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#3b5998" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <ul class="nav-links">
+                <li><a href="#">Profile</a></li>
+                <li class="separator"></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Messages <span class="notification-badge">3</span></a></li>
+                <li><a href="#">Settings ▼</a></li>
+            </ul>
+        </div>
+    </header>
+  </body>
+</html>

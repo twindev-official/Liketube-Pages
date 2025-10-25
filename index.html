@@ -1,195 +1,1796 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Welcome to Liketube - Where the ultimate posts reveal</title>
+<!-- Set default theme to auto -->
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LikeTube - Welcome</title>
+    <!-- We are using <style> tags to keep everything in one file. -->
+    <!-- This CSS is designed to look like a website from ~2012 -->
     <style>
-/* Basic Reset & Body Style */
+        /* --- Color Variables --- */
+        :root {
+            /* Light Mode (Default) */
+            --bg-color: #d0d8e8;
+            --page-bg: #fff;
+            --text-color: #333;
+            --text-color-light: #777;
+            --border-color: #b0b0b0;
+            --border-color-light: #e0e0e0;
+            --border-color-dotted: #ccc;
+            --hr-color: #eee;
+            --header-gradient-top: #4a70a8;
+            --header-gradient-bottom: #3b5998;
+            --header-border: #29447e;
+            --link-color: #3b5998;
+            --footer-bg: #f9f9f9;
+            --input-bg: #f2f2f2;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Overrides */
+            --bg-color: #1a1a1a;
+            --page-bg: #2b2b2b;
+            --text-color: #e0e0e0;
+            --text-color-light: #888;
+            --border-color: #555;
+            --border-color-light: #444;
+            --border-color-dotted: #555;
+            --hr-color: #444;
+            --header-gradient-top: #3a506b;
+            --header-gradient-bottom: #2c3e50;
+            --header-border: #1a242f;
+            --link-color: #58a6ff;
+            --footer-bg: #222;
+            --input-bg: #3c3c3c;
+        }
+
+        /* Auto dark mode based on system preference */
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme="auto"] {
+                --bg-color: #1a1a1a;
+                --page-bg: #2b2b2b;
+                --text-color: #e0e0e0;
+                --text-color-light: #888;
+                --border-color: #555;
+                --border-color-light: #444;
+                --border-color-dotted: #555;
+                --hr-color: #444;
+                --header-gradient-top: #3a506b;
+                --header-gradient-bottom: #2c3e50;
+                --header-border: #1a242f;
+                --link-color: #58a6ff;
+                --footer-bg: #222;
+                --input-bg: #3c3c3c;
+            }
+        }
+        /* --- End Variables --- */
+
+
         body {
+            /* Added Tahoma for better Arabic font support */
+            font-family: "Helvetica Neue", Arial, Tahoma, Helvetica, sans-serif;
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #e9ebee; /* Classic Facebook light grey background */
+            /* A classic light blue/grey background, common in 2012 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.2s, color 0.2s;
         }
 
-        /* The Main Navbar Container */
-        .navbar {
-            background-color: #3b5998; /* The iconic 2012 Facebook blue */
-            border-bottom: 1px solid #29487d;
-            height: 42px;
-            padding: 0 20px;
+        /* --- Global Wrapper --- */
+        .page-wrapper {
+            max-width: 980px;
+            margin: 0 auto;
+            background-color: var(--page-bg);
+            /* The classic box-shadow */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-top: 0;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Main Header (Logo & Nav) --- */
+        .main-header {
+            /* The classic "Web 2.0" glossy gradient */
+            background: linear-gradient(to bottom, var(--header-gradient-top), var(--header-gradient-bottom));
+            padding: 10px 15px; /* Added a bit more padding */
+            border-bottom: 1px solid var(--header-border); /* Darker blue border */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            color: white;
-        }
-
-        /* Left Section: Logo */
-        .navbar-left .logo {
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            color: white;
-        }
-
-        /* Center Section: Search Bar */
-        .navbar-center {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .search-bar {
-            display: flex;
-            width: 50%;
-            max-width: 450px;
-        }
-
-        .search-bar input {
-            width: 100%;
-            border: 1px solid #29487d;
-            border-right: none;
-            padding: 6px 10px;
-            font-size: 14px;
-            border-radius: 2px 0 0 2px;
-            outline: none;
-        }
-
-        .search-bar button {
-            background-color: #f0f2f5;
-            border: 1px solid #29487d;
-            border-radius: 0 2px 2px 0;
-            padding: 0 12px;
-            cursor: pointer;
-        }
-        
-        .search-bar button img {
-            height: 16px;
-            width: 16px;
-        }
-
-        /* Right Section: Navigation Links */
-        .navbar-right {
-            display: flex;
             align-items: center;
         }
-        
-        .nav-links {
-            list-style-type: none;
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            /* The classic text-shadow */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+        .logo:hover {
+            text-decoration: none;
+        }
+
+        /* Wrapper for nav and utility items */
+        .nav-and-utility {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-nav ul {
             margin: 0;
             padding: 0;
+            list-style: none;
             display: flex;
-            align-items: center;
+            gap: 5px;
         }
-        
-        .nav-links li {
-            margin-left: 15px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
+
+        .main-nav a {
+            color: #fff;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 14px;
+            padding: 8px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        /* Active state for the current page */
+        .main-nav a.active,
+        .main-nav a:hover {
+            background-color: rgba(0, 0, 0, 0.15); /* Darken on hover */
+        }
+
+        /* Utility links (Login/Signup) in header */
+        .header-utility {
             display: flex;
             align-items: center;
-            opacity: 0.9;
+            gap: 15px;
+            /* Use padding-inline-start for RTL compatibility */
+            padding-inline-start: 20px; 
+             /* Use border-inline-start for RTL compatibility */
+            border-inline-start: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
-        .nav-links a:hover {
-            opacity: 1;
+
+        .header-utility a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .header-utility a:hover {
             text-decoration: underline;
         }
 
-        .separator {
-            height: 20px;
-            border-left: 1px solid #29487d;
-            margin: 0 10px;
-        }
-
-        /* Small red notification badge */
-        .notification-badge {
-            background-color: #e41e3f;
-            color: white;
-            border-radius: 2px;
-            padding: 1px 4px;
+        .lang-select-header,
+        .theme-select-header {
+            border: 1px solid var(--header-border);
+            border-radius: 3px;
             font-size: 11px;
-            margin-left: 5px;
-        }
-    </style>
-  </head>
-  <body>
-<header class="navbar">
-        <div class="navbar-left">
-            <a href="#" class="logo">liketube</a>
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
-            </div>
-        </div>
-
-        <div class="navbar-right">
-            <ul class="nav-links">
-                <li><a href="#">Who Are We?</a></li>
-                <li>
-                    <button id="theme-toggle" class="theme-toggle">🌙</button>
-                </li>
-                <li><a href="#" class="login-button">Log In</a></li>
-            </ul>
-            <button class="hamburger-menu" id="hamburger-menu">☰</button>
-        </div>
-    </header>
-
-    <nav class="mobile-nav" id="mobile-nav">
-        <ul>
-            <li><a href="#">Who Are We?</a></li>
-            <li><a href="#">Log In</a></li>
-            <li>
-                <button id="mobile-theme-toggle">Switch Theme</button>
-            </li>
-        </ul>
-    </nav>
-
-    <script>
-        // --- JavaScript for Navbar Functionality ---
-
-        // Get all the necessary elements from the DOM
-        const hamburgerBtn = document.getElementById('hamburger-menu');
-        const mobileNav = document.getElementById('mobile-nav');
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
-        const body = document.body;
-
-        // --- Hamburger Menu Logic ---
-        hamburgerBtn.addEventListener('click', () => {
-            // Toggle the 'active' class to show/hide the mobile menu
-            mobileNav.classList.toggle('active');
-        });
-
-        // --- Theme Toggling Logic ---
-        function toggleTheme() {
-            body.classList.toggle('dark-mode');
-
-            // Update the icon and save preference to localStorage
-            const isDarkMode = body.classList.contains('dark-mode');
-            themeToggleBtn.textContent = isDarkMode ? '☀️' : '🌙';
-            
-            // Save the user's preference
-            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            height: 22px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
 
-        // Add event listeners to both theme toggle buttons
-        themeToggleBtn.addEventListener('click', toggleTheme);
-        mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+
+        /* --- Main Content Area --- */
+        .container {
+            padding: 20px;
+            /* No longer flex, main content takes full width */
+        }
+
+        .main-content {
+            width: 100%;
+        }
+
+        .main-content h1 {
+            font-size: 24px;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--hr-color);
+            padding-bottom: 10px;
+        }
         
-        // --- Check for Saved Theme on Page Load ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                body.classList.add('dark-mode');
-                themeToggleBtn.textContent = '☀️';
-            } else {
-                body.classList.remove('dark-mode');
-                themeToggleBtn.textContent = '🌙';
+        /* Welcome image banner */
+        .welcome-banner {
+            width: 100%;
+            height: 250px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color-dotted);
+        }
+
+        .welcome-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-color-light);
+            border-top: 1px solid var(--border-color-light);
+            background: var(--footer-bg);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Loading Overlay (REMOVED) --- */
+        /* We don't need this anymore as translations are instant */
+
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay (REMOVED) -->
+
+    <!-- Main Page Wrapper -->
+    <div class="page-wrapper">
+
+        <!-- Header with Logo and Main Navigation -->
+        <header class="main-header">
+            <a href="#" class="logo" data-key="logo">LikeTube</a>
+            
+            <div class="nav-and-utility">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="active" data-key="navHome">Home</a></li>
+                        <li><a href="#" data-key="navPosts">Posts</a></li>
+                        <li><a href="#" data-key="navPing">Ping</a></li> <!-- This is the "Messenger" link -->
+                    </ul>
+                </nav>
+                
+                <!-- Login, Signup, and Language moved here -->
+                <div class="header-utility">
+                    <a href="#" data-key="utilLogin">Login</a>
+                    <a href="#" data-key="utilSignup">Signup</a>
+                    <!-- Added id="lang-switcher" for JavaScript -->
+                    <select name="lang" class="lang-select-header" id="lang-switcher">
+                        <option value="en">English (US)</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ar">العربية</option> <!-- Added Arabic -->
+                    </select>
+                    <!-- Theme switcher -->
+                    <select name="theme" class="theme-select-header" id="theme-switcher">
+                        <option value="auto" data-key="themeAuto">Automatic</option>
+                        <option value="light" data-key="themeLight">Light</option>
+                        <option value="dark" data-key="themeDark">Dark</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+
+            <!-- Welcome Page Content -->
+            <main class="main-content">
+                <h1 data-key="welcomeTitle">Welcome to LikeTube!</h1>
+                <p data-key="welcomeSubtext">The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.</p>
+                
+                <!-- Placeholder welcome image -->
+                <div class="welcome-banner">
+                    <img src="https://via.placeholder.com/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!" alt="Welcome Banner"
+                         onerror="this.src='https://placehold.co/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!'; this.onerror=null;">
+                </div>
+
+                <!-- Fake post feed was here, but is now removed for the "signed out" look -->
+
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p data-key="footerText">&copy; 2012 LikeTube. All rights reserved. (Because it's 2012, get it?)</p>
+        </footer>
+
+    </div> <!-- End .page-wrapper -->
+
+    <!-- JavaScript for Language Toggler -->
+    <script>
+        // --- Manual Translations Object ---
+        // This is the new, reliable way. All translations are stored here.
+        const translations = {
+            'en': {
+                navHome: 'Home',
+                navPosts: 'Posts',
+                navPing: 'Ping',
+                utilLogin: 'Login',
+                utilSignup: 'Signup',
+                welcomeTitle: 'Welcome to LikeTube!',
+                welcomeSubtext: 'The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.',
+                footerText: '&copy; 2012 LikeTube. All rights reserved. (Because it\'s 2012, get it?)',
+                themeAuto: 'Automatic',
+                themeLight: 'Light',
+                themeDark: 'Dark'
+            },
+            'es': {
+                navHome: 'Inicio',
+                navPosts: 'Publicaciones',
+                navPing: 'Ping',
+                utilLogin: 'Iniciar sesión',
+                utilSignup: 'Registrarse',
+                welcomeTitle: '¡Bienvenido a LikeTube!',
+                welcomeSubtext: 'La red social que se siente como en 2012. Conecta con amigos, comparte actualizaciones y recuerda cuando internet era más simple.',
+                footerText: '&copy; 2012 LikeTube. Todos los derechos reservados. (Porque es 2012, ¿entiendes?)',
+                themeAuto: 'Automático',
+                themeLight: 'Claro',
+                themeDark: 'Oscuro'
+            },
+            'fr': {
+                navHome: 'Accueil',
+                navPosts: 'Messages',
+                navPing: 'Ping',
+                utilLogin: 'Connexion',
+                utilSignup: 'S\'inscrire',
+                welcomeTitle: 'Bienvenue sur LikeTube !',
+                welcomeSubtext: 'Le réseau social qui ressemble à 2012. Connectez-vous avec des amis, partagez des mises à jour et souvenez-vous quand Internet était plus simple.',
+                footerText: '&copy; 2012 LikeTube. Tous droits réservés. (Parce que c\'est 2012, vous l\'avez ?)',
+                themeAuto: 'Automatique',
+                themeLight: 'Clair',
+                themeDark: 'Sombre'
+            },
+            'de': {
+                navHome: 'Startseite',
+                navPosts: 'Beiträge',
+                navPing: 'Ping',
+                utilLogin: 'Anmelden',
+                utilSignup: 'Registrieren',
+                welcomeTitle: 'Willkommen bei LikeTube!',
+                welcomeSubtext: 'Das soziale Netzwerk, das sich anfühlt wie 2012. Verbinde dich mit Freunden, teile Updates und erinnere dich daran, als das Internet einfacher war.',
+                footerText: '&copy; 2012 LikeTube. Alle Rechte vorbehalten. (Weil es 2012 ist, verstehst du?)',
+                themeAuto: 'Automatisch',
+                themeLight: 'Hell',
+                themeDark: 'Dunkel'
+            },
+            'ar': {
+                navHome: 'الرئيسية',
+                navPosts: 'المنشورات',
+                navPing: 'رنين',
+                utilLogin: 'تسجيل الدخول',
+                utilSignup: 'التسجيل',
+                welcomeTitle: 'أهلاً بك في لايك تيوب!',
+                welcomeSubtext: 'الشبكة الاجتماعية التي تبدو تمامًا مثل عام 2012. تواصل مع الأصدقاء، وشارك التحديثات، وتذكر عندما كان الإنترنت أبسط.',
+                footerText: '&copy; 2012 لايك تيوب. جميع الحقوق محفوظة. (لأنه 2012، فهمت؟)',
+                themeAuto: 'تلقائي',
+                themeLight: 'فاتح',
+                themeDark: 'داكن'
             }
+        };
+
+        // --- All API-related functions (fetchTranslations, retryWithBackoff) are REMOVED ---
+
+        // --- Page Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const themeSwitcher = document.getElementById('theme-switcher');
+            // We don't need the loading overlay anymore
+            
+            // --- Theme Logic ---
+            const savedTheme = localStorage.getItem('liketube-theme') || 'auto';
+            setTheme(savedTheme);
+            themeSwitcher.value = savedTheme;
+
+            themeSwitcher.addEventListener('change', (event) => {
+                const selectedTheme = event.target.value;
+                setTheme(selectedTheme);
+                localStorage.setItem('liketube-theme', selectedTheme);
+            });
+
+            // --- Language Logic (Simplified) ---
+            const savedLang = localStorage.getItem('liketube-lang') || 'en';
+            langSwitcher.value = savedLang;
+            // Apply saved language on load (it will be instant)
+            changeLanguage(savedLang); 
+
+            langSwitcher.addEventListener('change', (event) => {
+                const selectedLang = event.target.value;
+                
+                // No loading spinner needed
+                // No try/catch needed
+                
+                changeLanguage(selectedLang);
+                localStorage.setItem('liketube-lang', selectedLang);
+
+                // No "finally" block needed
+            });
         });
+
+        function setTheme(theme) {
+             document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        // This function applies the translations to the page
+        function applyTranslations(translations) {
+            if (!translations) return;
+            // Find all elements with a "data-key" attribute
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key]) {
+                    // Use innerHTML to correctly render special characters like &copy;
+                    element.innerHTML = translations[key];
+                }
+            });
+        }
+
+        // This is the main function to change the language (Simplified)
+        function changeLanguage(lang) {
+            // Set page direction for RTL (Right-to-Left) languages
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+
+            // 1. Get translations from our local object
+            const newTranslations = translations[lang];
+            
+            if (newTranslations) {
+                // 2. Apply them
+                applyTranslations(newTranslations);
+            } else {
+                // Fallback to English if something goes wrong
+                applyTranslations(translations['en']);
+            }
+        }
+
     </script>
-  </body>
+</body>
 </html>
+
+<!DOCTYPE html>
+<!-- Set default theme to auto -->
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LikeTube - Welcome</title>
+    <!-- We are using <style> tags to keep everything in one file. -->
+    <!-- This CSS is designed to look like a website from ~2012 -->
+    <style>
+        /* --- Color Variables --- */
+        :root {
+            /* Light Mode (Default) */
+            --bg-color: #d0d8e8;
+            --page-bg: #fff;
+            --text-color: #333;
+            --text-color-light: #777;
+            --border-color: #b0b0b0;
+            --border-color-light: #e0e0e0;
+            --border-color-dotted: #ccc;
+            --hr-color: #eee;
+            --header-gradient-top: #4a70a8;
+            --header-gradient-bottom: #3b5998;
+            --header-border: #29447e;
+            --link-color: #3b5998;
+            --footer-bg: #f9f9f9;
+            --input-bg: #f2f2f2;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Overrides */
+            --bg-color: #1a1a1a;
+            --page-bg: #2b2b2b;
+            --text-color: #e0e0e0;
+            --text-color-light: #888;
+            --border-color: #555;
+            --border-color-light: #444;
+            --border-color-dotted: #555;
+            --hr-color: #444;
+            --header-gradient-top: #3a506b;
+            --header-gradient-bottom: #2c3e50;
+            --header-border: #1a242f;
+            --link-color: #58a6ff;
+            --footer-bg: #222;
+            --input-bg: #3c3c3c;
+        }
+
+        /* Auto dark mode based on system preference */
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme="auto"] {
+                --bg-color: #1a1a1a;
+                --page-bg: #2b2b2b;
+                --text-color: #e0e0e0;
+                --text-color-light: #888;
+                --border-color: #555;
+                --border-color-light: #444;
+                --border-color-dotted: #555;
+                --hr-color: #444;
+                --header-gradient-top: #3a506b;
+                --header-gradient-bottom: #2c3e50;
+                --header-border: #1a242f;
+                --link-color: #58a6ff;
+                --footer-bg: #222;
+                --input-bg: #3c3c3c;
+            }
+        }
+        /* --- End Variables --- */
+
+
+        body {
+            /* Added Tahoma for better Arabic font support */
+            font-family: "Helvetica Neue", Arial, Tahoma, Helvetica, sans-serif;
+            margin: 0;
+            /* A classic light blue/grey background, common in 2012 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        /* --- Global Wrapper --- */
+        .page-wrapper {
+            max-width: 980px;
+            margin: 0 auto;
+            background-color: var(--page-bg);
+            /* The classic box-shadow */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-top: 0;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Main Header (Logo & Nav) --- */
+        .main-header {
+            /* The classic "Web 2.0" glossy gradient */
+            background: linear-gradient(to bottom, var(--header-gradient-top), var(--header-gradient-bottom));
+            padding: 10px 15px; /* Added a bit more padding */
+            border-bottom: 1px solid var(--header-border); /* Darker blue border */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            /* The classic text-shadow */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+        .logo:hover {
+            text-decoration: none;
+        }
+
+        /* Wrapper for nav and utility items */
+        .nav-and-utility {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            gap: 5px;
+        }
+
+        .main-nav a {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        /* Active state for the current page */
+        .main-nav a.active,
+        .main-nav a:hover {
+            background-color: rgba(0, 0, 0, 0.15); /* Darken on hover */
+        }
+
+        /* Utility links (Login/Signup) in header */
+        .header-utility {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            /* Use padding-inline-start for RTL compatibility */
+            padding-inline-start: 20px; 
+             /* Use border-inline-start for RTL compatibility */
+            border-inline-start: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-utility a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .header-utility a:hover {
+            text-decoration: underline;
+        }
+
+        .lang-select-header,
+        .theme-select-header {
+            border: 1px solid var(--header-border);
+            border-radius: 3px;
+            font-size: 11px;
+            height: 22px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+
+        /* --- Main Content Area --- */
+        .container {
+            padding: 20px;
+            /* No longer flex, main content takes full width */
+        }
+
+        .main-content {
+            width: 100%;
+        }
+
+        .main-content h1 {
+            font-size: 24px;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--hr-color);
+            padding-bottom: 10px;
+        }
+        
+        /* Welcome image banner */
+        .welcome-banner {
+            width: 100%;
+            height: 250px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color-dotted);
+        }
+
+        .welcome-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-color-light);
+            border-top: 1px solid var(--border-color-light);
+            background: var(--footer-bg);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Loading Overlay (REMOVED) --- */
+        /* We don't need this anymore as translations are instant */
+
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay (REMOVED) -->
+
+    <!-- Main Page Wrapper -->
+    <div class="page-wrapper">
+
+        <!-- Header with Logo and Main Navigation -->
+        <header class="main-header">
+            <a href="#" class="logo" data-key="logo">LikeTube</a>
+            
+            <div class="nav-and-utility">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="active" data-key="navHome">Home</a></li>
+                        <li><a href="#" data-key="navPosts">Posts</a></li>
+                        <li><a href="#" data-key="navPing">Ping</a></li> <!-- This is the "Messenger" link -->
+                    </ul>
+                </nav>
+                
+                <!-- Login, Signup, and Language moved here -->
+                <div class="header-utility">
+                    <a href="#" data-key="utilLogin">Login</a>
+                    <a href="#" data-key="utilSignup">Signup</a>
+                    <!-- Added id="lang-switcher" for JavaScript -->
+                    <select name="lang" class="lang-select-header" id="lang-switcher">
+                        <option value="en">English (US)</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ar">العربية</option> <!-- Added Arabic -->
+                    </select>
+                    <!-- Theme switcher -->
+                    <select name="theme" class="theme-select-header" id="theme-switcher">
+                        <option value="auto" data-key="themeAuto">Automatic</option>
+                        <option value="light" data-key="themeLight">Light</option>
+                        <option value="dark" data-key="themeDark">Dark</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+
+            <!-- Welcome Page Content -->
+            <main class="main-content">
+                <h1 data-key="welcomeTitle">Welcome to LikeTube!</h1>
+                <p data-key="welcomeSubtext">The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.</p>
+                
+                <!-- Placeholder welcome image -->
+                <div class="welcome-banner">
+                    <img src="https://via.placeholder.com/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!" alt="Welcome Banner"
+                         onerror="this.src='https://placehold.co/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!'; this.onerror=null;">
+                </div>
+
+                <!-- Fake post feed was here, but is now removed for the "signed out" look -->
+
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p data-key="footerText">&copy; 2012 LikeTube. All rights reserved. (Because it's 2012, get it?)</p>
+        </footer>
+
+    </div> <!-- End .page-wrapper -->
+
+    <!-- JavaScript for Language Toggler -->
+    <script>
+        // --- Manual Translations Object ---
+        // This is the new, reliable way. All translations are stored here.
+        const translations = {
+            'en': {
+                navHome: 'Home',
+                navPosts: 'Posts',
+                navPing: 'Ping',
+                utilLogin: 'Login',
+                utilSignup: 'Signup',
+                welcomeTitle: 'Welcome to LikeTube!',
+                welcomeSubtext: 'The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.',
+                footerText: '&copy; 2012 LikeTube. All rights reserved. (Because it\'s 2012, get it?)',
+                themeAuto: 'Automatic',
+                themeLight: 'Light',
+                themeDark: 'Dark'
+            },
+            'es': {
+                navHome: 'Inicio',
+                navPosts: 'Publicaciones',
+                navPing: 'Ping',
+                utilLogin: 'Iniciar sesión',
+                utilSignup: 'Registrarse',
+                welcomeTitle: '¡Bienvenido a LikeTube!',
+                welcomeSubtext: 'La red social que se siente como en 2012. Conecta con amigos, comparte actualizaciones y recuerda cuando internet era más simple.',
+                footerText: '&copy; 2012 LikeTube. Todos los derechos reservados. (Porque es 2012, ¿entiendes?)',
+                themeAuto: 'Automático',
+                themeLight: 'Claro',
+                themeDark: 'Oscuro'
+            },
+            'fr': {
+                navHome: 'Accueil',
+                navPosts: 'Messages',
+                navPing: 'Ping',
+                utilLogin: 'Connexion',
+                utilSignup: 'S\'inscrire',
+                welcomeTitle: 'Bienvenue sur LikeTube !',
+                welcomeSubtext: 'Le réseau social qui ressemble à 2012. Connectez-vous avec des amis, partagez des mises à jour et souvenez-vous quand Internet était plus simple.',
+                footerText: '&copy; 2012 LikeTube. Tous droits réservés. (Parce que c\'est 2012, vous l\'avez ?)',
+                themeAuto: 'Automatique',
+                themeLight: 'Clair',
+                themeDark: 'Sombre'
+            },
+            'de': {
+                navHome: 'Startseite',
+                navPosts: 'Beiträge',
+                navPing: 'Ping',
+                utilLogin: 'Anmelden',
+                utilSignup: 'Registrieren',
+                welcomeTitle: 'Willkommen bei LikeTube!',
+                welcomeSubtext: 'Das soziale Netzwerk, das sich anfühlt wie 2012. Verbinde dich mit Freunden, teile Updates und erinnere dich daran, als das Internet einfacher war.',
+                footerText: '&copy; 2012 LikeTube. Alle Rechte vorbehalten. (Weil es 2012 ist, verstehst du?)',
+                themeAuto: 'Automatisch',
+                themeLight: 'Hell',
+                themeDark: 'Dunkel'
+            },
+            'ar': {
+                navHome: 'الرئيسية',
+                navPosts: 'المنشورات',
+                navPing: 'رنين',
+                utilLogin: 'تسجيل الدخول',
+                utilSignup: 'التسجيل',
+                welcomeTitle: 'أهلاً بك في لايك تيوب!',
+                welcomeSubtext: 'الشبكة الاجتماعية التي تبدو تمامًا مثل عام 2012. تواصل مع الأصدقاء، وشارك التحديثات، وتذكر عندما كان الإنترنت أبسط.',
+                footerText: '&copy; 2012 لايك تيوب. جميع الحقوق محفوظة. (لأنه 2012، فهمت؟)',
+                themeAuto: 'تلقائي',
+                themeLight: 'فاتح',
+                themeDark: 'داكن'
+            }
+        };
+
+        // --- All API-related functions (fetchTranslations, retryWithBackoff) are REMOVED ---
+
+        // --- Page Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const themeSwitcher = document.getElementById('theme-switcher');
+            // We don't need the loading overlay anymore
+            
+            // --- Theme Logic ---
+            const savedTheme = localStorage.getItem('liketube-theme') || 'auto';
+            setTheme(savedTheme);
+            themeSwitcher.value = savedTheme;
+
+            themeSwitcher.addEventListener('change', (event) => {
+                const selectedTheme = event.target.value;
+                setTheme(selectedTheme);
+                localStorage.setItem('liketube-theme', selectedTheme);
+            });
+
+            // --- Language Logic (Simplified) ---
+            const savedLang = localStorage.getItem('liketube-lang') || 'en';
+            langSwitcher.value = savedLang;
+            // Apply saved language on load (it will be instant)
+            changeLanguage(savedLang); 
+
+            langSwitcher.addEventListener('change', (event) => {
+                const selectedLang = event.target.value;
+                
+                // No loading spinner needed
+                // No try/catch needed
+                
+                changeLanguage(selectedLang);
+                localStorage.setItem('liketube-lang', selectedLang);
+
+                // No "finally" block needed
+            });
+        });
+
+        function setTheme(theme) {
+             document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        // This function applies the translations to the page
+        function applyTranslations(translations) {
+            if (!translations) return;
+            // Find all elements with a "data-key" attribute
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key]) {
+                    // Use innerHTML to correctly render special characters like &copy;
+                    element.innerHTML = translations[key];
+                }
+            });
+        }
+
+        // This is the main function to change the language (Simplified)
+        function changeLanguage(lang) {
+            // Set page direction for RTL (Right-to-Left) languages
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+
+            // 1. Get translations from our local object
+            const newTranslations = translations[lang];
+            
+            if (newTranslations) {
+                // 2. Apply them
+                applyTranslations(newTranslations);
+            } else {
+                // Fallback to English if something goes wrong
+                applyTranslations(translations['en']);
+            }
+        }
+
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<!-- Set default theme to auto -->
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LikeTube - Welcome</title>
+    <!-- We are using <style> tags to keep everything in one file. -->
+    <!-- This CSS is designed to look like a website from ~2012 -->
+    <style>
+        /* --- Color Variables --- */
+        :root {
+            /* Light Mode (Default) */
+            --bg-color: #d0d8e8;
+            --page-bg: #fff;
+            --text-color: #333;
+            --text-color-light: #777;
+            --border-color: #b0b0b0;
+            --border-color-light: #e0e0e0;
+            --border-color-dotted: #ccc;
+            --hr-color: #eee;
+            --header-gradient-top: #4a70a8;
+            --header-gradient-bottom: #3b5998;
+            --header-border: #29447e;
+            --link-color: #3b5998;
+            --footer-bg: #f9f9f9;
+            --input-bg: #f2f2f2;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Overrides */
+            --bg-color: #1a1a1a;
+            --page-bg: #2b2b2b;
+            --text-color: #e0e0e0;
+            --text-color-light: #888;
+            --border-color: #555;
+            --border-color-light: #444;
+            --border-color-dotted: #555;
+            --hr-color: #444;
+            --header-gradient-top: #3a506b;
+            --header-gradient-bottom: #2c3e50;
+            --header-border: #1a242f;
+            --link-color: #58a6ff;
+            --footer-bg: #222;
+            --input-bg: #3c3c3c;
+        }
+
+        /* Auto dark mode based on system preference */
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme="auto"] {
+                --bg-color: #1a1a1a;
+                --page-bg: #2b2b2b;
+                --text-color: #e0e0e0;
+                --text-color-light: #888;
+                --border-color: #555;
+                --border-color-light: #444;
+                --border-color-dotted: #555;
+                --hr-color: #444;
+                --header-gradient-top: #3a506b;
+                --header-gradient-bottom: #2c3e50;
+                --header-border: #1a242f;
+                --link-color: #58a6ff;
+                --footer-bg: #222;
+                --input-bg: #3c3c3c;
+            }
+        }
+        /* --- End Variables --- */
+
+
+        body {
+            /* Added Tahoma for better Arabic font support */
+            font-family: "Helvetica Neue", Arial, Tahoma, Helvetica, sans-serif;
+            margin: 0;
+            /* A classic light blue/grey background, common in 2012 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        /* --- Global Wrapper --- */
+        .page-wrapper {
+            max-width: 980px;
+            margin: 0 auto;
+            background-color: var(--page-bg);
+            /* The classic box-shadow */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-top: 0;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Main Header (Logo & Nav) --- */
+        .main-header {
+            /* The classic "Web 2.0" glossy gradient */
+            background: linear-gradient(to bottom, var(--header-gradient-top), var(--header-gradient-bottom));
+            padding: 10px 15px; /* Added a bit more padding */
+            border-bottom: 1px solid var(--header-border); /* Darker blue border */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            /* The classic text-shadow */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+        .logo:hover {
+            text-decoration: none;
+        }
+
+        /* Wrapper for nav and utility items */
+        .nav-and-utility {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            gap: 5px;
+        }
+
+        .main-nav a {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        /* Active state for the current page */
+        .main-nav a.active,
+        .main-nav a:hover {
+            background-color: rgba(0, 0, 0, 0.15); /* Darken on hover */
+        }
+
+        /* Utility links (Login/Signup) in header */
+        .header-utility {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            /* Use padding-inline-start for RTL compatibility */
+            padding-inline-start: 20px; 
+             /* Use border-inline-start for RTL compatibility */
+            border-inline-start: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-utility a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .header-utility a:hover {
+            text-decoration: underline;
+        }
+
+        .lang-select-header,
+        .theme-select-header {
+            border: 1px solid var(--header-border);
+            border-radius: 3px;
+            font-size: 11px;
+            height: 22px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+
+        /* --- Main Content Area --- */
+        .container {
+            padding: 20px;
+            /* No longer flex, main content takes full width */
+        }
+
+        .main-content {
+            width: 100%;
+        }
+
+        .main-content h1 {
+            font-size: 24px;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--hr-color);
+            padding-bottom: 10px;
+        }
+        
+        /* Welcome image banner */
+        .welcome-banner {
+            width: 100%;
+            height: 250px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color-dotted);
+        }
+
+        .welcome-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-color-light);
+            border-top: 1px solid var(--border-color-light);
+            background: var(--footer-bg);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Loading Overlay (REMOVED) --- */
+        /* We don't need this anymore as translations are instant */
+
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay (REMOVED) -->
+
+    <!-- Main Page Wrapper -->
+    <div class="page-wrapper">
+
+        <!-- Header with Logo and Main Navigation -->
+        <header class="main-header">
+            <a href="#" class="logo" data-key="logo">LikeTube</a>
+            
+            <div class="nav-and-utility">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="active" data-key="navHome">Home</a></li>
+                        <li><a href="#" data-key="navPosts">Posts</a></li>
+                        <li><a href="#" data-key="navPing">Ping</a></li> <!-- This is the "Messenger" link -->
+                    </ul>
+                </nav>
+                
+                <!-- Login, Signup, and Language moved here -->
+                <div class="header-utility">
+                    <a href="#" data-key="utilLogin">Login</a>
+                    <a href="#" data-key="utilSignup">Signup</a>
+                    <!-- Added id="lang-switcher" for JavaScript -->
+                    <select name="lang" class="lang-select-header" id="lang-switcher">
+                        <option value="en">English (US)</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ar">العربية</option> <!-- Added Arabic -->
+                    </select>
+                    <!-- Theme switcher -->
+                    <select name="theme" class="theme-select-header" id="theme-switcher">
+                        <option value="auto" data-key="themeAuto">Automatic</option>
+                        <option value="light" data-key="themeLight">Light</option>
+                        <option value="dark" data-key="themeDark">Dark</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+
+            <!-- Welcome Page Content -->
+            <main class="main-content">
+                <h1 data-key="welcomeTitle">Welcome to LikeTube!</h1>
+                <p data-key="welcomeSubtext">The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.</p>
+                
+                <!-- Placeholder welcome image -->
+                <div class="welcome-banner">
+                    <img src="https://via.placeholder.com/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!" alt="Welcome Banner"
+                         onerror="this.src='https://placehold.co/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!'; this.onerror=null;">
+                </div>
+
+                <!-- Fake post feed was here, but is now removed for the "signed out" look -->
+
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p data-key="footerText">&copy; 2012 LikeTube. All rights reserved. (Because it's 2012, get it?)</p>
+        </footer>
+
+    </div> <!-- End .page-wrapper -->
+
+    <!-- JavaScript for Language Toggler -->
+    <script>
+        // --- Manual Translations Object ---
+        // This is the new, reliable way. All translations are stored here.
+        const translations = {
+            'en': {
+                navHome: 'Home',
+                navPosts: 'Posts',
+                navPing: 'Ping',
+                utilLogin: 'Login',
+                utilSignup: 'Signup',
+                welcomeTitle: 'Welcome to LikeTube!',
+                welcomeSubtext: 'The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.',
+                footerText: '&copy; 2012 LikeTube. All rights reserved. (Because it\'s 2012, get it?)',
+                themeAuto: 'Automatic',
+                themeLight: 'Light',
+                themeDark: 'Dark'
+            },
+            'es': {
+                navHome: 'Inicio',
+                navPosts: 'Publicaciones',
+                navPing: 'Ping',
+                utilLogin: 'Iniciar sesión',
+                utilSignup: 'Registrarse',
+                welcomeTitle: '¡Bienvenido a LikeTube!',
+                welcomeSubtext: 'La red social que se siente como en 2012. Conecta con amigos, comparte actualizaciones y recuerda cuando internet era más simple.',
+                footerText: '&copy; 2012 LikeTube. Todos los derechos reservados. (Porque es 2012, ¿entiendes?)',
+                themeAuto: 'Automático',
+                themeLight: 'Claro',
+                themeDark: 'Oscuro'
+            },
+            'fr': {
+                navHome: 'Accueil',
+                navPosts: 'Messages',
+                navPing: 'Ping',
+                utilLogin: 'Connexion',
+                utilSignup: 'S\'inscrire',
+                welcomeTitle: 'Bienvenue sur LikeTube !',
+                welcomeSubtext: 'Le réseau social qui ressemble à 2012. Connectez-vous avec des amis, partagez des mises à jour et souvenez-vous quand Internet était plus simple.',
+                footerText: '&copy; 2012 LikeTube. Tous droits réservés. (Parce que c\'est 2012, vous l\'avez ?)',
+                themeAuto: 'Automatique',
+                themeLight: 'Clair',
+                themeDark: 'Sombre'
+            },
+            'de': {
+                navHome: 'Startseite',
+                navPosts: 'Beiträge',
+                navPing: 'Ping',
+                utilLogin: 'Anmelden',
+                utilSignup: 'Registrieren',
+                welcomeTitle: 'Willkommen bei LikeTube!',
+                welcomeSubtext: 'Das soziale Netzwerk, das sich anfühlt wie 2012. Verbinde dich mit Freunden, teile Updates und erinnere dich daran, als das Internet einfacher war.',
+                footerText: '&copy; 2012 LikeTube. Alle Rechte vorbehalten. (Weil es 2012 ist, verstehst du?)',
+                themeAuto: 'Automatisch',
+                themeLight: 'Hell',
+                themeDark: 'Dunkel'
+            },
+            'ar': {
+                navHome: 'الرئيسية',
+                navPosts: 'المنشورات',
+                navPing: 'رنين',
+                utilLogin: 'تسجيل الدخول',
+                utilSignup: 'التسجيل',
+                welcomeTitle: 'أهلاً بك في لايك تيوب!',
+                welcomeSubtext: 'الشبكة الاجتماعية التي تبدو تمامًا مثل عام 2012. تواصل مع الأصدقاء، وشارك التحديثات، وتذكر عندما كان الإنترنت أبسط.',
+                footerText: '&copy; 2012 لايك تيوب. جميع الحقوق محفوظة. (لأنه 2012، فهمت؟)',
+                themeAuto: 'تلقائي',
+                themeLight: 'فاتح',
+                themeDark: 'داكن'
+            }
+        };
+
+        // --- All API-related functions (fetchTranslations, retryWithBackoff) are REMOVED ---
+
+        // --- Page Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const themeSwitcher = document.getElementById('theme-switcher');
+            // We don't need the loading overlay anymore
+            
+            // --- Theme Logic ---
+            const savedTheme = localStorage.getItem('liketube-theme') || 'auto';
+            setTheme(savedTheme);
+            themeSwitcher.value = savedTheme;
+
+            themeSwitcher.addEventListener('change', (event) => {
+                const selectedTheme = event.target.value;
+                setTheme(selectedTheme);
+                localStorage.setItem('liketube-theme', selectedTheme);
+            });
+
+            // --- Language Logic (Simplified) ---
+            const savedLang = localStorage.getItem('liketube-lang') || 'en';
+            langSwitcher.value = savedLang;
+            // Apply saved language on load (it will be instant)
+            changeLanguage(savedLang); 
+
+            langSwitcher.addEventListener('change', (event) => {
+                const selectedLang = event.target.value;
+                
+                // No loading spinner needed
+                // No try/catch needed
+                
+                changeLanguage(selectedLang);
+                localStorage.setItem('liketube-lang', selectedLang);
+
+                // No "finally" block needed
+            });
+        });
+
+        function setTheme(theme) {
+             document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        // This function applies the translations to the page
+        function applyTranslations(translations) {
+            if (!translations) return;
+            // Find all elements with a "data-key" attribute
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key]) {
+                    // Use innerHTML to correctly render special characters like &copy;
+                    element.innerHTML = translations[key];
+                }
+            });
+        }
+
+        // This is the main function to change the language (Simplified)
+        function changeLanguage(lang) {
+            // Set page direction for RTL (Right-to-Left) languages
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+
+            // 1. Get translations from our local object
+            const newTranslations = translations[lang];
+            
+            if (newTranslations) {
+                // 2. Apply them
+                applyTranslations(newTranslations);
+            } else {
+                // Fallback to English if something goes wrong
+                applyTranslations(translations['en']);
+            }
+        }
+
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<!-- Set default theme to auto -->
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LikeTube - Welcome</title>
+    <!-- We are using <style> tags to keep everything in one file. -->
+    <!-- This CSS is designed to look like a website from ~2012 -->
+    <style>
+        /* --- Color Variables --- */
+        :root {
+            /* Light Mode (Default) */
+            --bg-color: #d0d8e8;
+            --page-bg: #fff;
+            --text-color: #333;
+            --text-color-light: #777;
+            --border-color: #b0b0b0;
+            --border-color-light: #e0e0e0;
+            --border-color-dotted: #ccc;
+            --hr-color: #eee;
+            --header-gradient-top: #4a70a8;
+            --header-gradient-bottom: #3b5998;
+            --header-border: #29447e;
+            --link-color: #3b5998;
+            --footer-bg: #f9f9f9;
+            --input-bg: #f2f2f2;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Overrides */
+            --bg-color: #1a1a1a;
+            --page-bg: #2b2b2b;
+            --text-color: #e0e0e0;
+            --text-color-light: #888;
+            --border-color: #555;
+            --border-color-light: #444;
+            --border-color-dotted: #555;
+            --hr-color: #444;
+            --header-gradient-top: #3a506b;
+            --header-gradient-bottom: #2c3e50;
+            --header-border: #1a242f;
+            --link-color: #58a6ff;
+            --footer-bg: #222;
+            --input-bg: #3c3c3c;
+        }
+
+        /* Auto dark mode based on system preference */
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme="auto"] {
+                --bg-color: #1a1a1a;
+                --page-bg: #2b2b2b;
+                --text-color: #e0e0e0;
+                --text-color-light: #888;
+                --border-color: #555;
+                --border-color-light: #444;
+                --border-color-dotted: #555;
+                --hr-color: #444;
+                --header-gradient-top: #3a506b;
+                --header-gradient-bottom: #2c3e50;
+                --header-border: #1a242f;
+                --link-color: #58a6ff;
+                --footer-bg: #222;
+                --input-bg: #3c3c3c;
+            }
+        }
+        /* --- End Variables --- */
+
+
+        body {
+            /* Added Tahoma for better Arabic font support */
+            font-family: "Helvetica Neue", Arial, Tahoma, Helvetica, sans-serif;
+            margin: 0;
+            /* A classic light blue/grey background, common in 2012 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        /* --- Global Wrapper --- */
+        .page-wrapper {
+            max-width: 980px;
+            margin: 0 auto;
+            background-color: var(--page-bg);
+            /* The classic box-shadow */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-top: 0;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Main Header (Logo & Nav) --- */
+        .main-header {
+            /* The classic "Web 2.0" glossy gradient */
+            background: linear-gradient(to bottom, var(--header-gradient-top), var(--header-gradient-bottom));
+            padding: 10px 15px; /* Added a bit more padding */
+            border-bottom: 1px solid var(--header-border); /* Darker blue border */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            /* The classic text-shadow */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+        .logo:hover {
+            text-decoration: none;
+        }
+
+        /* Wrapper for nav and utility items */
+        .nav-and-utility {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            gap: 5px;
+        }
+
+        .main-nav a {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        /* Active state for the current page */
+        .main-nav a.active,
+        .main-nav a:hover {
+            background-color: rgba(0, 0, 0, 0.15); /* Darken on hover */
+        }
+
+        /* Utility links (Login/Signup) in header */
+        .header-utility {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            /* Use padding-inline-start for RTL compatibility */
+            padding-inline-start: 20px; 
+             /* Use border-inline-start for RTL compatibility */
+            border-inline-start: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-utility a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .header-utility a:hover {
+            text-decoration: underline;
+        }
+
+        .lang-select-header,
+        .theme-select-header {
+            border: 1px solid var(--header-border);
+            border-radius: 3px;
+            font-size: 11px;
+            height: 22px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+
+        /* --- Main Content Area --- */
+        .container {
+            padding: 20px;
+            /* No longer flex, main content takes full width */
+        }
+
+        .main-content {
+            width: 100%;
+        }
+
+        .main-content h1 {
+            font-size: 24px;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--hr-color);
+            padding-bottom: 10px;
+        }
+        
+        /* Welcome image banner */
+        .welcome-banner {
+            width: 100%;
+            height: 250px;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color-dotted);
+        }
+
+        .welcome-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-color-light);
+            border-top: 1px solid var(--border-color-light);
+            background: var(--footer-bg);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* --- Loading Overlay (REMOVED) --- */
+        /* We don't need this anymore as translations are instant */
+
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay (REMOVED) -->
+
+    <!-- Main Page Wrapper -->
+    <div class="page-wrapper">
+
+        <!-- Header with Logo and Main Navigation -->
+        <header class="main-header">
+            <a href="#" class="logo" data-key="logo">LikeTube</a>
+            
+            <div class="nav-and-utility">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="active" data-key="navHome">Home</a></li>
+                        <li><a href="#" data-key="navPosts">Posts</a></li>
+                        <li><a href="#" data-key="navPing">Ping</a></li> <!-- This is the "Messenger" link -->
+                    </ul>
+                </nav>
+                
+                <!-- Login, Signup, and Language moved here -->
+                <div class="header-utility">
+                    <a href="#" data-key="utilLogin">Login</a>
+                    <a href="#" data-key="utilSignup">Signup</a>
+                    <!-- Added id="lang-switcher" for JavaScript -->
+                    <select name="lang" class="lang-select-header" id="lang-switcher">
+                        <option value="en">English (US)</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ar">العربية</option> <!-- Added Arabic -->
+                    </select>
+                    <!-- Theme switcher -->
+                    <select name="theme" class="theme-select-header" id="theme-switcher">
+                        <option value="auto" data-key="themeAuto">Automatic</option>
+                        <option value="light" data-key="themeLight">Light</option>
+                        <option value="dark" data-key="themeDark">Dark</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+
+            <!-- Welcome Page Content -->
+            <main class="main-content">
+                <h1 data-key="welcomeTitle">Welcome to LikeTube!</h1>
+                <p data-key="welcomeSubtext">The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.</p>
+                
+                <!-- Placeholder welcome image -->
+                <div class="welcome-banner">
+                    <img src="https://via.placeholder.com/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!" alt="Welcome Banner"
+                         onerror="this.src='https://placehold.co/940x250/3b5998/FFFFFF?text=Welcome+to+LikeTube!'; this.onerror=null;">
+                </div>
+
+                <!-- Fake post feed was here, but is now removed for the "signed out" look -->
+
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p data-key="footerText">&copy; 2012 LikeTube. All rights reserved. (Because it's 2012, get it?)</p>
+        </footer>
+
+    </div> <!-- End .page-wrapper -->
+
+    <!-- JavaScript for Language Toggler -->
+    <script>
+        // --- Manual Translations Object ---
+        // This is the new, reliable way. All translations are stored here.
+        const translations = {
+            'en': {
+                navHome: 'Home',
+                navPosts: 'Posts',
+                navPing: 'Ping',
+                utilLogin: 'Login',
+                utilSignup: 'Signup',
+                welcomeTitle: 'Welcome to LikeTube!',
+                welcomeSubtext: 'The social network that feels just like 2012. Connect with friends, share updates, and remember when the internet was simpler.',
+                footerText: '&copy; 2012 LikeTube. All rights reserved. (Because it\'s 2012, get it?)',
+                themeAuto: 'Automatic',
+                themeLight: 'Light',
+                themeDark: 'Dark'
+            },
+            'es': {
+                navHome: 'Inicio',
+                navPosts: 'Publicaciones',
+                navPing: 'Ping',
+                utilLogin: 'Iniciar sesión',
+                utilSignup: 'Registrarse',
+                welcomeTitle: '¡Bienvenido a LikeTube!',
+                welcomeSubtext: 'La red social que se siente como en 2012. Conecta con amigos, comparte actualizaciones y recuerda cuando internet era más simple.',
+                footerText: '&copy; 2012 LikeTube. Todos los derechos reservados. (Porque es 2012, ¿entiendes?)',
+                themeAuto: 'Automático',
+                themeLight: 'Claro',
+                themeDark: 'Oscuro'
+            },
+            'fr': {
+                navHome: 'Accueil',
+                navPosts: 'Messages',
+                navPing: 'Ping',
+                utilLogin: 'Connexion',
+                utilSignup: 'S\'inscrire',
+                welcomeTitle: 'Bienvenue sur LikeTube !',
+                welcomeSubtext: 'Le réseau social qui ressemble à 2012. Connectez-vous avec des amis, partagez des mises à jour et souvenez-vous quand Internet était plus simple.',
+                footerText: '&copy; 2012 LikeTube. Tous droits réservés. (Parce que c\'est 2012, vous l\'avez ?)',
+                themeAuto: 'Automatique',
+                themeLight: 'Clair',
+                themeDark: 'Sombre'
+            },
+            'de': {
+                navHome: 'Startseite',
+                navPosts: 'Beiträge',
+                navPing: 'Ping',
+                utilLogin: 'Anmelden',
+                utilSignup: 'Registrieren',
+                welcomeTitle: 'Willkommen bei LikeTube!',
+                welcomeSubtext: 'Das soziale Netzwerk, das sich anfühlt wie 2012. Verbinde dich mit Freunden, teile Updates und erinnere dich daran, als das Internet einfacher war.',
+                footerText: '&copy; 2012 LikeTube. Alle Rechte vorbehalten. (Weil es 2012 ist, verstehst du?)',
+                themeAuto: 'Automatisch',
+                themeLight: 'Hell',
+                themeDark: 'Dunkel'
+            },
+            'ar': {
+                navHome: 'الرئيسية',
+                navPosts: 'المنشورات',
+                navPing: 'رنين',
+                utilLogin: 'تسجيل الدخول',
+                utilSignup: 'التسجيل',
+                welcomeTitle: 'أهلاً بك في لايك تيوب!',
+                welcomeSubtext: 'الشبكة الاجتماعية التي تبدو تمامًا مثل عام 2012. تواصل مع الأصدقاء، وشارك التحديثات، وتذكر عندما كان الإنترنت أبسط.',
+                footerText: '&copy; 2012 لايك تيوب. جميع الحقوق محفوظة. (لأنه 2012، فهمت؟)',
+                themeAuto: 'تلقائي',
+                themeLight: 'فاتح',
+                themeDark: 'داكن'
+            }
+        };
+
+        // --- All API-related functions (fetchTranslations, retryWithBackoff) are REMOVED ---
+
+        // --- Page Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const themeSwitcher = document.getElementById('theme-switcher');
+            // We don't need the loading overlay anymore
+            
+            // --- Theme Logic ---
+            const savedTheme = localStorage.getItem('liketube-theme') || 'auto';
+            setTheme(savedTheme);
+            themeSwitcher.value = savedTheme;
+
+            themeSwitcher.addEventListener('change', (event) => {
+                const selectedTheme = event.target.value;
+                setTheme(selectedTheme);
+                localStorage.setItem('liketube-theme', selectedTheme);
+            });
+
+            // --- Language Logic (Simplified) ---
+            const savedLang = localStorage.getItem('liketube-lang') || 'en';
+            langSwitcher.value = savedLang;
+            // Apply saved language on load (it will be instant)
+            changeLanguage(savedLang); 
+
+            langSwitcher.addEventListener('change', (event) => {
+                const selectedLang = event.target.value;
+                
+                // No loading spinner needed
+                // No try/catch needed
+                
+                changeLanguage(selectedLang);
+                localStorage.setItem('liketube-lang', selectedLang);
+
+                // No "finally" block needed
+            });
+        });
+
+        function setTheme(theme) {
+             document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        // This function applies the translations to the page
+        function applyTranslations(translations) {
+            if (!translations) return;
+            // Find all elements with a "data-key" attribute
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[key]) {
+                    // Use innerHTML to correctly render special characters like &copy;
+                    element.innerHTML = translations[key];
+                }
+            });
+        }
+
+        // This is the main function to change the language (Simplified)
+        function changeLanguage(lang) {
+            // Set page direction for RTL (Right-to-Left) languages
+            if (lang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.dir = 'ltr';
+            }
+
+            // 1. Get translations from our local object
+            const newTranslations = translations[lang];
+            
+            if (newTranslations) {
+                // 2. Apply them
+                applyTranslations(newTranslations);
+            } else {
+                // Fallback to English if something goes wrong
+                applyTranslations(translations['en']);
+            }
+        }
+
+    </script>
+</body>
+</html>
+

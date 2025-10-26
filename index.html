@@ -1,374 +1,835 @@
 <!DOCTYPE html>
-<!-- Set default language to English -->
-<html lang="en" class="">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liketube - For the Muslim Community</title>
+    <title>Liketube</title>
+    <!-- Using Tahoma font for a more classic web feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Load Inter font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Custom Tailwind Configuration -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class', // Enable dark mode using a class
-            theme: {
-                extend: {
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'], // Set Inter as the default font
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.3s ease-out',
-                        'slide-down': 'slideDown 0.3s ease-out'
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: 0 },
-                            '100%': { opacity: 1 },
-                        },
-                        slideDown: {
-                            '0%': { opacity: 0, transform: 'translateY(-10px)' },
-                            '100%': { opacity: 1, transform: 'translateY(0)' },
-                        }
-                    }
-                }
+    <style>
+        :root {
+            /* Light Mode (Default) - Classic Theme */
+            --bg-color: #e6f0ff; /* Light blue background */
+            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998); /* Blue gradient header */
+            --header-border: #365899;
+            --header-text: #ffffff;
+            --header-text-secondary: #d0d8e8; /* Lighter text for hover */
+            --text-color: #000000;
+            --text-color-secondary: #333;
+            --primary-blue: #3b5998; /* Classic Facebook blue */
+            --primary-blue-hover: #365899;
+            --search-bg: #ffffff;
+            --search-border: #ddd;
+            --footer-bg: #343a40;
+            --footer-text: #f8f9fa;
+            --dropdown-bg: #ffffff;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            --dropdown-hover: #f1f1f1;
+            
+            /* Button Gradients */
+            --btn-login-bg: linear-gradient(to bottom, #f0f8ff, #d6e8ff);
+            --btn-login-hover-bg: linear-gradient(to bottom, #d6e8ff, #c0d9ff);
+            --btn-login-border: var(--primary-blue);
+            --btn-login-text: var(--primary-blue);
+            
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
+            --btn-signup-border: #1e7e34;
+            --btn-signup-text: #ffffff;
+        }
+
+        .dark-mode {
+            /* Dark Mode - Classic Theme */
+            --bg-color: #1a2233; /* Dark blue background */
+            --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a); /* Dark blue gradient header */
+            --header-border: #243f7a;
+            --header-text: #e0e0e0;
+            --header-text-secondary: #a0a8b8;
+            --text-color: #e0e0e0;
+            --text-color-secondary: #aaaaaa;
+            --primary-blue: #5890ff; /* Brighter blue for dark mode */
+            --primary-blue-hover: #4267B2;
+            --search-bg: #2c2c2c;
+            --search-border: #444;
+            --footer-bg: #1c1c1c;
+            --footer-text: #aaaaaa;
+            --dropdown-bg: #2c2c2c;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+            --dropdown-hover: #3a3a3a;
+            
+            /* Dark Mode Button Gradients */
+            --btn-login-bg: linear-gradient(to bottom, #2c3a5e, #24304d);
+            --btn-login-hover-bg: linear-gradient(to bottom, #24304d, #1e2840);
+            --btn-login-border: var(--primary-blue);
+            --btn-login-text: var(--primary-blue);
+            
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838); /* Green remains the same */
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
+            --btn-signup-border: #1e7e34;
+            --btn-signup-text: #ffffff;
+        }
+
+        /* --- Base & Animations --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeAndSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        .fade-slide-up {
+            animation: fadeAndSlideUp 0.8s ease-out forwards;
+        }
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-image: var(--header-bg);
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--header-border); /* Updated border */
+            transition: background-image 0.3s ease; /* Transition background */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-left, .header-center, .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+            justify-content: flex-start;
+            align-items: baseline; /* Aligns logo text with nav text */
+        }
+        .header-center {
+            flex: 2;
+            justify-content: center;
+        }
+        .header-right {
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--header-text); /* Header text color */
+            text-decoration: none;
+            margin-right: 2.5rem;
+            animation: fadeAndSlideUp 0.6s ease-out;
+        }
+
+        .nav-links a {
+            margin: 0 1.2rem;
+            color: var(--header-text); /* Header text color */
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.2s ease;
+            opacity: 0;
+            animation: fadeAndSlideUp 0.6s ease-out forwards;
+        }
+        .nav-links a:nth-child(1) { animation-delay: 0.1s; }
+        .nav-links a:nth-child(2) { animation-delay: 0.2s; }
+        .nav-links a:nth-child(3) { animation-delay: 0.3s; }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--header-text); /* Line color */
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--header-text-secondary); /* Lighter hover */
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            align-items: center;
+            background-color: var(--search-bg);
+            border: 1px solid var(--search-border);
+            border-radius: 4px; /* Reduced for classic look */
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s, border-color 0.3s;
+            opacity: 0;
+            animation: fadeAndSlideUp 0.6s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        .search-bar i {
+            color: #888;
+            margin-right: 0.5rem;
+        }
+        [dir="rtl"] .search-bar i {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            color: #000; /* Text color inside search bar */
+            font-family: 'Tahoma', sans-serif;
+            font-size: 0.9rem;
+        }
+        .dark-mode .search-bar input {
+            color: var(--text-color); /* Dark mode text */
+        }
+
+        /* --- Togglers & Buttons --- */
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem; /* Space between togglers and buttons */
+        }
+        
+        .user-controls > * {
+            opacity: 0;
+            animation: fadeAndSlideUp 0.6s ease-out forwards;
+        }
+        .user-controls > *:nth-child(1) { animation-delay: 0.4s; }
+        .user-controls > *:nth-child(2) { animation-delay: 0.5s; }
+        .user-controls > *:nth-child(3) { animation-delay: 0.6s; }
+        .user-controls > *:nth-child(4) { animation-delay: 0.7s; }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--header-text); /* Header text color */
+            font-size: 1.2rem; /* Icon size */
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        .lang-toggle {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Subtle hover for gradient */
+            color: var(--header-text);
+        }
+
+        .dropdown-menu {
+            display: none; /* Hidden by default */
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background-color: var(--dropdown-bg);
+            min-width: 140px;
+            box-shadow: var(--dropdown-shadow);
+            z-index: 1;
+            border-radius: 4px; /* Reduced for classic look */
+            overflow: hidden;
+            /* Animations for click toggle */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+        }
+        
+        /* This class will be toggled by JS */
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        [dir="rtl"] .dropdown-menu {
+            right: auto;
+            left: 0;
+        }
+
+        .dropdown-menu a {
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--dropdown-hover);
+        }
+        
+        .dropdown-menu a.active {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        /* REMOVED hover logic */
+
+        .btn {
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px; /* Reduced for classic look */
+            cursor: pointer;
+            font-weight: 700; /* Bolder for classic feel */
+            font-family: 'Tahoma', sans-serif;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background-image: var(--btn-login-bg);
+            border: 1px solid var(--btn-login-border);
+            color: var(--btn-login-text);
+        }
+        .btn-login:hover {
+            background-image: var(--btn-login-hover-bg);
+            transform: translateY(-2px);
+        }
+
+        .btn-signup {
+            background-image: var(--btn-signup-bg);
+            color: var(--btn-signup-text);
+            border: 1px solid var(--btn-signup-border);
+        }
+        .btn-signup:hover {
+            background-image: var(--btn-signup-hover-bg);
+            border-color: var(--btn-signup-border);
+            transform: translateY(-2px);
+            /* Removed modern shadow */
+        }
+
+        /* --- Main Content Sections --- */
+        .content-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Aligned to left */
+            gap: 5rem; /* Added gap */
+            padding: 6rem 5rem;
+            min-height: 80vh;
+        }
+        [dir="rtl"] .content-section, [dir="rtl"] .content-section.reverse {
+            text-align: right;
+            justify-content: flex-start; /* RTL starts from the right */
+        }
+        
+        /* Reverse order for the Dawaa section */
+        .content-section.reverse {
+            flex-direction: row-reverse;
+        }
+        [dir="rtl"] .content-section.reverse {
+            flex-direction: row; /* Un-reverse for RTL */
+        }
+
+        .text-content {
+            flex: 1;
+            max-width: 600px;
+        }
+        
+        .text-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--text-color);
+            opacity: 0;
+        }
+        
+        .text-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--text-color);
+            opacity: 0;
+        }
+
+        .text-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-color-secondary);
+            max-width: 500px;
+            opacity: 0;
+        }
+        [dir="rtl"] .text-content p {
+            margin: 0 0 0 auto;
+        }
+
+        .image-content {
+            flex: 1;
+            max-width: 550px; /* Give image a bit more space */
+            opacity: 0;
+        }
+        
+        .image-content img {
+            max-width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            /* Removed modern shadow */
+            transition: transform 0.4s ease;
+        }
+        
+        .image-content img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1200px) {
+            .header {
+                padding: 1rem 2rem;
+            }
+            .content-section {
+                padding: 4rem 3rem;
+            }
+            .text-content h1 { font-size: 2.5rem; }
+            .text-content h2 { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 992px) {
+            .header-center {
+                display: none; /* Hide search bar in center */
+            }
+            .header-left {
+                flex: 1;
+            }
+            .header-right {
+                flex: 1;
+            }
+            .content-section, .content-section.reverse {
+                flex-direction: column;
+                text-align: center;
+                padding: 3rem 2rem;
+                min-height: auto;
+                gap: 2rem; /* Reduce gap on mobile */
+            }
+            .text-content p {
+                margin: 0 auto;
+            }
+            [dir="rtl"] .content-section, [dir="rtl"] .content-section.reverse {
+                text-align: center;
+            }
+            [dir="rtl"] .content-section.reverse {
+                flex-direction: column; /* Keep column for RTL mobile */
+            }
+            [dir="rtl"] .text-content p {
+                margin: 0 auto;
+            }
+            .image-content {
+                margin-top: 2rem;
             }
         }
-    </script>
-
-    <!-- Custom Styles for Nostalgic Feel (using Tailwind) -->
-    <style type="text/tailwindcss">
-        /* Base body styling */
-        body {
-            @apply font-inter bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300;
-        }
-
-        /* Styling for the header navigation tabs */
-        .nav-tab {
-            @apply text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 border-b-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400 px-1 py-2 text-sm font-medium transition-all duration-200;
-        }
         
-        /* Styling for dropdown menu items */
-        .dropdown-item {
-            @apply block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150;
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: wrap;
+                padding: 1rem;
+            }
+            .header-left, .header-right {
+                flex-basis: 50%;
+            }
+            .header-left {
+                justify-content: flex-start;
+            }
+            .header-right {
+                justify-content: flex-end;
+            }
+            .nav-links {
+                display: none; /* Hide nav links on small screens, would need a burger menu */
+            }
+            .user-controls {
+                gap: 0.25rem;
+            }
+            .btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            .logo {
+                margin-right: 0;
+            }
+            .content-section {
+                padding: 3rem 1rem;
+            }
+            .text-content h1 { font-size: 2rem; }
+            .text-content h2 { font-size: 1.8rem; }
+            .text-content p { font-size: 1rem; }
         }
 
-        /* Primary action button (Sign Up) */
-        .btn-primary {
-            @apply px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200;
-        }
-        
-        /* Secondary action button (Login) */
-        .btn-secondary {
-            @apply px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all duration-200;
-        }
-
-        /* Main content card styling */
-        .content-card {
-            @apply bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg overflow-hidden;
-        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body>
 
-    <!-- Header / Navbar -->
-    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <a href="#" class="logo">Liketube</a>
+            <nav class="nav-links">
+                <a href="#" data-key="nav_home">Home</a>
+                <a href="#" data-key="nav_posts">Posts</a>
+                <a href="#" data-key="nav_ping">Ping</a>
+            </nav>
+        </div>
+
+        <div class="header-center">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="user-controls">
+                <!-- Theme Toggler Dropdown -->
+                <div class="dropdown">
+                    <button class="dropdown-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
+                        <i class="fas fa-sun" id="theme-icon"></i>
+                    </button>
+                    <div class="dropdown-menu" id="theme-menu">
+                        <a href="#" data-theme="light" data-key="theme_light"><i class="fas fa-sun fa-fw"></i> Light</a>
+                        <a href="#" data-theme="dark" data-key="theme_dark"><i class="fas fa-moon fa-fw"></i> Dark</a>
+                        <a href="#" data-theme="auto" data-key="theme_auto"><i class="fas fa-magic fa-fw"></i> Automatic</a>
+                    </div>
+                </div>
                 
-                <!-- Left Side: Brand and Nav Tabs -->
-                <div class="flex items-center space-x-8">
-                    <!-- Brand Logo -->
-                    <a href="#" class="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        Liketube
-                    </a>
-                    
-                    <!-- Desktop Nav Tabs -->
-                    <div class="hidden md:flex space-x-4">
-                        <a href="#" class="nav-tab">Posts</a>
-                        <a href="#" class="nav-tab">Ping</a>
+                <!-- Language Toggler Dropdown -->
+                <div class="dropdown">
+                    <button class="dropdown-toggle lang-toggle" id="lang-toggle-btn" aria-label="Toggle language">
+                        EN
+                    </button>
+                    <div class="dropdown-menu" id="lang-menu">
+                        <a href="#" data-lang="en" data-key="lang_en">English</a>
+                        <a href="#" data-lang="ar" data-key="lang_ar">Arabic</a>
                     </div>
                 </div>
 
-                <!-- Right Side: Toggles and Auth Buttons -->
-                <div class="flex items-center space-x-3 sm:space-x-4">
-                    
-                    <!-- Language Toggle Dropdown -->
-                    <div class="relative">
-                        <button id="lang-toggle-btn" type="button" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white p-2 rounded-md transition-colors duration-150" aria-label="Toggle language">
-                            <!-- Globe Icon -->
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C13.18 7.061 14.288 7.5 15.5 7.5c1.212 0 2.32-.439 3.334-1.136M1.88 10.184l1.653 1.653m.002-3.306l-1.653 1.653M1.88 10.184l-1.653-1.653m3.306 0l-1.653-1.653" />
-                            </svg>
-                            <span id="lang-label" class="hidden sm:inline ml-2 text-sm font-medium">English</span>
-                            <!-- Chevron Down Icon -->
-                            <svg class="w-4 h-4 ml-1 hidden sm:inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
-                        
-                        <!-- Language Dropdown Menu -->
-                        <div id="lang-menu" class="hidden absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-1 animate-fade-in z-50">
-                            <button data-lang="en" class="dropdown-item">English</button>
-                            <button data-lang="ar" class="dropdown-item text-right" lang="ar" dir="rtl">العربية</button>
-                        </div>
-                    </div>
-
-                    <!-- Theme Toggle Dropdown -->
-                    <div class="relative">
-                        <button id="theme-toggle-btn" type="button" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white p-2 rounded-md transition-colors duration-150" aria-label="Toggle theme">
-                            <!-- Theme Icon (will be set by JS) -->
-                            <svg id="theme-icon-auto" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-1.621-.621A3 3 0 0115 18.257V17.25m-6 0V3h6v14.25m-6 0h6m-7.5 0h9" />
-                            </svg>
-                            <svg id="theme-icon-light" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591M12 12a2.25 2.25 0 00-2.25 2.25v.01c0 .317.031.63.091.936a2.25 2.25 0 01-1.933-2.25 2.25 2.25 0 00-2.25-2.25c-.317 0-.63.031-.936.091a2.25 2.25 0 01-2.25-1.933A2.25 2.25 0 005.25 6c0-.317.031-.63.091-.936A2.25 2.25 0 013 7.007a2.25 2.25 0 00-2.25 2.25 2.25 2.25 0 002.25 2.25c.317 0 .63-.031.936-.091a2.25 2.25 0 011.933 2.25z" />
-                            </svg>
-                            <svg id="theme-icon-dark" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-                            </svg>
-                            <span id="theme-label" class="hidden sm:inline ml-2 text-sm font-medium">Automatic</span>
-                            <!-- Chevron Down Icon -->
-                            <svg class="w-4 h-4 ml-1 hidden sm:inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                        </button>
-                        
-                        <!-- Theme Dropdown Menu -->
-                        <div id="theme-menu" class="hidden absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-1 animate-fade-in z-50">
-                            <button data-theme="light" class="dropdown-item">Light</button>
-                            <button data-theme="dark" class="dropdown-item">Dark</button>
-                            <button data-theme="auto" class="dropdown-item">Automatic</button>
-                        </div>
-                    </div>
-
-                    <!-- Desktop Auth Buttons -->
-                    <div class="hidden sm:flex items-center space-x-2">
-                        <a href="#" class="btn-secondary">Login</a>
-                        <a href="#" class="btn-primary">Sign Up</a>
-                    </div>
-                    
-                    <!-- Mobile Menu Button -->
-                    <div class="md:hidden">
-                        <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
-                            <span class="sr-only">Open main menu</span>
-                            <!-- Menu Icon -->
-                            <svg id="mobile-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                            </svg>
-                            <!-- Close Icon -->
-                            <svg id="mobile-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-
-                </div>
+                <a href="#" class="btn btn-login" data-key="btn_login">Login</a>
+                <a href="#" class="btn btn-signup" data-key="btn_signup">Signup</a>
             </div>
-            
-            <!-- Mobile Menu, shown on small screens -->
-            <div class="md:hidden hidden animate-slide-down" id="mobile-menu">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Posts</a>
-                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Ping</a>
-                </div>
-                <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-                    <div class="flex flex-col space-y-2 px-4">
-                        <a href="#" class="btn-primary w-full text-center">Sign Up</a>
-                        <a href="#" class="btn-secondary w-full text-center">Login</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        </div>
     </header>
 
-    <!-- Main Body Content -->
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-16 flex-grow">
-        
-        <!-- Hero Section (Description + Image 1) -->
-        <section class="content-card">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <!-- Platform Description -->
-                <div class="animate-fade-in" style="animation-delay: 100ms;">
-                    <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-4">
-                        Welcome to Liketube
-                    </h1>
-                    <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.
-                    </p>
-                </div>
-                
-                <!-- Placeholder Image 1 -->
-                <div class="flex justify-center items-center animate-fade-in" style="animation-delay: 200ms;">
-                    <img src="https://placehold.co/500x300/e2e8f0/64748b?text=Liketube+Screenshot" 
-                         alt="Liketube Platform Screenshot" 
-                         class="rounded-lg shadow-md object-cover w-full h-full max-w-md"
-                         onerror="this.src='https://placehold.co/500x300/e2e8f0/64748b?text=Image+Not+Available'">
-                </div>
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="content-section">
+            <div class="text-content">
+                <h1 class="slide-in-left" data-key="hero_title">Welcome to Liketube</h1>
+                <p class="slide-in-left" style="animation-delay: 0.2s;" data-key="hero_desc">
+                    Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.
+                </p>
+            </div>
+            <div class="image-content fade-in" style="animation-delay: 0.3s;">
+                <img src="arab-countries.png" alt="Arab Counties">
             </div>
         </section>
 
-        <!-- Placeholder Content Section (Lorem + Image 2) -->
-        <section class="content-card mt-8 animate-fade-in" style="animation-delay: 300ms;">
-            <div class="space-y-6">
-                <!-- Placeholder Text -->
-                <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">A Community-Focused Experience</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    <p>Integer ut ANTE. Maecenas m ALESUADA, nisl sit amet MATTIS omare, nisl nisl PElLENTESQUE, ut egestas PUREUS. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Curabitur aliquet quam id dui posuere blandit.</p>
-                </div>
-                
-                <!-- Placeholder Image 2 -->
-                <div class="flex justify-center pt-4">
-                    <img src="https://placehold.co/600x350/e2e8f0/64748b?text=Community+Feature" 
-                         alt="Community Feature Illustration" 
-                         class="rounded-lg shadow-md object-cover w-full max-w-2xl"
-                         onerror="this.src='https://placehold.co/600x350/e2e8f0/64748b?text=Image+Not+Available'">
-                </div>
+        <!-- Dawaa Section (Reversed) -->
+        <section class="content-section reverse">
+            <div class="text-content">
+                <h2 class="slide-in-right" data-key="dawaa_title">Your Daawaa Continues Here</h2>
+                <p class="slide-in-right" style="animation-delay: 0.2s;" data-key="dawaa_desc">
+                    Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.
+                </p>
+            </div>
+            <div class="image-content fade-in" style="animation-delay: 0.3s;">
+                <img src="muslim-daawaa.png" alt="Islam Daawaa Image">
             </div>
         </section>
-
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-200 dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 mt-auto">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <p class="text-center text-gray-600 dark:text-gray-400 text-sm">
-                © 2025 Twindev. All rights reserved.
-            </p>
-        </div>
+    <footer class="footer">
+        <p data-key="footer_text">© 2025 Twindev. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for Toggles -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Translations ---
+            const translations = {
+                en: {
+                    nav_home: "Home",
+                    nav_posts: "Posts",
+                    nav_ping: "Ping",
+                    search_placeholder: "Search for people, posts, groups...",
+                    theme_light: "Light",
+                    theme_dark: "Dark",
+                    theme_auto: "Automatic",
+                    lang_en: "English",
+                    lang_ar: "Arabic",
+                    btn_login: "Login",
+                    btn_signup: "Signup",
+                    hero_title: "Welcome to Liketube",
+                    hero_desc: "Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.",
+                    dawaa_title: "Your Daawaa Continues Here",
+                    dawaa_desc: "Work in daawaa and hot recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.",
+                    footer_text: "© 2025 Twindev. All rights reserved."
+                },
+                ar: {
+                    nav_home: "الرئيسية",
+                    nav_posts: "المنشورات",
+                    nav_ping: "رنين",
+                    search_placeholder: "ابحث عن أشخاص، منشورات، مجموعات...",
+                    theme_light: "فاتح",
+                    theme_dark: "داكن",
+                    theme_auto: "تلقائي",
+                    lang_en: "الإنجليزية",
+                    lang_ar: "العربية",
+                    btn_login: "تسجيل الدخول",
+                    btn_signup: "إنشاء حساب",
+                    hero_title: "أهلاً بك في لايك تيوب",
+                    hero_desc: "لايك تيوب هي منصة تواصل اجتماعي جديدة ومجانية بالكامل ذات طابع كلاسيكي، تم إنشاؤها خصيصًا للمجتمع المسلم. تتوفر برامج للتحميل لأنظمة أندرويد وويندوز.",
+                    dawaa_title: "دعوتك مستمرة هنا",
+                    dawaa_desc: "هل تعمل في الدعوة وتم حظرك مؤخرًا من فيسبوك؟ يمكنك متابعة الدعوة الإلكترونية هنا بدون أي تكاليف على الإطلاق.",
+                    footer_text: "© 2025 توين ديف. جميع الحقوق محفوظة."
+                }
+            };
 
-            // --- Theme Switcher Logic ---
-            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            // --- Theme Toggler ---
             const themeMenu = document.getElementById('theme-menu');
-            const themeLabel = document.getElementById('theme-label');
-            const themeIcons = {
-                light: document.getElementById('theme-icon-light'),
-                dark: document.getElementById('theme-icon-dark'),
-                auto: document.getElementById('theme-icon-auto')
-            };
+            const themeIcon = document.getElementById('theme-icon');
+            const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-            const applyTheme = (theme) => {
-                // Hide all icons
-                Object.values(themeIcons).forEach(icon => icon.classList.add('hidden'));
-
-                if (theme === 'light') {
-                    document.documentElement.classList.remove('dark');
-                    themeLabel.textContent = 'Light';
-                    themeIcons.light.classList.remove('hidden');
-                } else if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                    themeLabel.textContent = 'Dark';
-                    themeIcons.dark.classList.remove('hidden');
-                } else { // 'auto'
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
-                    themeLabel.textContent = 'Automatic';
-                    themeIcons.auto.classList.remove('hidden');
+            // Function to apply the theme
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                } else { // 'light'
+                    document.body.classList.remove('dark-mode');
                 }
-            };
+            }
 
-            const setTheme = (theme) => {
-                localStorage.setItem('theme', theme);
-                applyTheme(theme);
-            };
+            // Function to update the icon based on *selection*
+            function updateThemeIcon(selectedTheme) {
+                if (selectedTheme === 'auto') {
+                    themeIcon.className = 'fas fa-magic';
+                } else if (selectedTheme === 'dark') {
+                    themeIcon.className = 'fas fa-moon';
+                } else {
+                    themeIcon.className = 'fas fa-sun';
+                }
+            }
 
-            // Apply saved theme on load
+            // Function to handle automatic theme
+            function applyAutomaticTheme() {
+                if (osDarkScheme.matches) {
+                    applyTheme('dark');
+                } else {
+                    applyTheme('light');
+                }
+            }
+            
+            // Set theme on load
             const savedTheme = localStorage.getItem('theme') || 'auto';
-            applyTheme(savedTheme);
-
-            // Listen for system theme changes (for 'auto' mode)
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                if (localStorage.getItem('theme') === 'auto') {
-                    applyTheme('auto');
-                }
-            });
             
-            // Add listeners to theme menu buttons
+            // 1. Set the active class in the menu
+            document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
+            const activeThemeLink = document.querySelector(`#theme-menu a[data-theme="${savedTheme}"]`);
+            if (activeThemeLink) {
+                activeThemeLink.classList.add('active');
+            }
+
+            // 2. Set the correct icon
+            updateThemeIcon(savedTheme);
+            
+            // 3. Apply the correct theme
+            if (savedTheme === 'auto') {
+                applyAutomaticTheme();
+            } else {
+                applyTheme(savedTheme);
+            }
+
+            // Listen for theme changes from the dropdown
             themeMenu.addEventListener('click', (e) => {
-                const theme = e.target.closest('button')?.dataset.theme;
-                if (theme) {
-                    setTheme(theme);
-                    themeMenu.classList.add('hidden');
+                e.preventDefault();
+                const target = e.target.closest('a[data-theme]');
+                if (!target) return;
+                
+                // Update active class
+                document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
+                target.classList.add('active');
+                
+                const newTheme = target.getAttribute('data-theme');
+                localStorage.setItem('theme', newTheme);
+                
+                // 1. Update the icon
+                updateThemeIcon(newTheme);
+                
+                // 2. Apply the theme
+                if (newTheme === 'auto') {
+                    applyAutomaticTheme();
+                } else {
+                    applyTheme(newTheme);
+                }
+                
+                target.closest('.dropdown-menu').classList.remove('show'); // Close menu
+            });
+
+            // Listen for OS theme changes
+            osDarkScheme.addEventListener('change', () => {
+                if (localStorage.getItem('theme') === 'auto') {
+                    applyAutomaticTheme();
                 }
             });
 
-            // --- Language Toggle Logic ---
-            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            // --- Language Toggler ---
             const langMenu = document.getElementById('lang-menu');
-            const langLabel = document.getElementById('lang-label');
-            const htmlEl = document.documentElement;
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            const searchInput = document.querySelector('[data-key="search_placeholder"]');
 
-            langMenu.addEventListener('click', (e) => {
-                const lang = e.target.closest('button')?.dataset.lang;
-                if (lang) {
-                    htmlEl.setAttribute('lang', lang);
-                    if (lang === 'ar') {
-                        htmlEl.setAttribute('dir', 'rtl');
-                        langLabel.textContent = 'العربية';
-                    } else {
-                        htmlEl.setAttribute('dir', 'ltr');
-                        langLabel.textContent = 'English';
+            function setLanguage(lang) {
+                if (!translations[lang]) lang = 'en';
+
+                // Set HTML lang and dir
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+                // Translate all [data-key] elements
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (translations[lang][key]) {
+                        // Handle placeholders separately
+                        if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
+                            el.placeholder = translations[lang][key];
+                        } else {
+                            el.innerText = translations[lang][key];
+                        }
                     }
-                    langMenu.classList.add('hidden');
+                });
+
+                // Update lang button text
+                langToggleBtn.textContent = lang.toUpperCase();
+                
+                // Update active class in dropdown
+                document.querySelectorAll('#lang-menu a').forEach(a => a.classList.remove('active'));
+                const activeLangLink = document.querySelector(`#lang-menu a[data-lang="${lang}"]`);
+                if (activeLangLink) {
+                    activeLangLink.classList.add('active');
                 }
-            });
 
-            // --- Mobile Menu Toggle ---
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const iconOpen = document.getElementById('mobile-icon-open');
-            const iconClose = document.getElementById('mobile-icon-close');
+                // Save preference
+                localStorage.setItem('language', lang);
+            }
 
-            mobileMenuBtn.addEventListener('click', () => {
-                const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-                mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-                mobileMenu.classList.toggle('hidden');
-                iconOpen.classList.toggle('hidden');
-                iconClose.classList.toggle('hidden');
+            // Set language on load
+            const savedLang = localStorage.getItem('language') || 'en';
+            setLanguage(savedLang);
+            
+            // Listen for language changes from dropdown
+            langMenu.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('a[data-lang]');
+                if (!target) return;
+
+                const newLang = target.getAttribute('data-lang');
+                setLanguage(newLang);
+                target.closest('.dropdown-menu').classList.remove('show'); // Close menu on select
             });
             
-            // --- Dropdown Toggle Logic (for both theme and lang) ---
-            const toggleDropdown = (btn, menu) => {
-                menu.classList.toggle('hidden');
-            };
             
-            themeToggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleDropdown(themeToggleBtn, themeMenu);
-                langMenu.classList.add('hidden'); // Close other menu
-            });
-            
-            langToggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleDropdown(langToggleBtn, langMenu);
-                themeMenu.classList.add('hidden'); // Close other menu
+            // --- CLICK-TO-TOGGLE Dropdown Logic ---
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent window click from firing
+                    const menu = toggle.nextElementSibling;
+                    
+                    // Close all other open menus
+                    document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== menu) {
+                            openMenu.classList.remove('show');
+                        }
+                    });
+                    
+                    // Toggle the current menu
+                    menu.classList.toggle('show');
+                });
             });
 
-            // --- Click outside to close dropdowns ---
-            window.addEventListener('click', (e) => {
-                if (!themeToggleBtn.contains(e.target) && !themeMenu.contains(e.target)) {
-                    themeMenu.classList.add('hidden');
-                }
-                if (!langToggleBtn.contains(e.target) && !langMenu.contains(e.target)) {
-                    langMenu.classList.add('hidden');
-                }
+            // Close dropdowns if clicking outside
+            window.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                    openMenu.classList.remove('show');
+                });
             });
+
         });
     </script>
-
 </body>
 </html>
+
+

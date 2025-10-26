@@ -1,54 +1,374 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Set default language to English -->
+<html lang="en" class="">
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Liketube</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liketube - For the Muslim Community</title>
+    
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Configuration -->
     <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              amiri: ['Amiri', 'serif'],
-              opensans: ['Open Sans', 'sans-serif'],
-            },
-            colors: {
-              'liketube-blue': '#1A3371',
-              'liketube-background': '#0D1117',
-              'liketube-card': '#161B22',
-              'liketube-login-bg': '#30363D',
-              'liketube-login-border': '#484F58',
+        tailwind.config = {
+            darkMode: 'class', // Enable dark mode using a class
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'], // Set Inter as the default font
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-down': 'slideDown 0.3s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
+                        },
+                        slideDown: {
+                            '0%': { opacity: 0, transform: 'translateY(-10px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        }
+                    }
+                }
             }
-          },
-        },
-      };
+        }
     </script>
-    <script>
-      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
-    </script>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0"
-  }
-}
-</script>
+
+    <!-- Custom Styles for Nostalgic Feel (using Tailwind) -->
+    <style type="text/tailwindcss">
+        /* Base body styling */
+        body {
+            @apply font-inter bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300;
+        }
+
+        /* Styling for the header navigation tabs */
+        .nav-tab {
+            @apply text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 border-b-2 border-transparent hover:border-blue-600 dark:hover:border-blue-400 px-1 py-2 text-sm font-medium transition-all duration-200;
+        }
+        
+        /* Styling for dropdown menu items */
+        .dropdown-item {
+            @apply block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150;
+        }
+
+        /* Primary action button (Sign Up) */
+        .btn-primary {
+            @apply px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200;
+        }
+        
+        /* Secondary action button (Login) */
+        .btn-secondary {
+            @apply px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 transition-all duration-200;
+        }
+
+        /* Main content card styling */
+        .content-card {
+            @apply bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg overflow-hidden;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 dark:bg-liketube-background text-gray-800 dark:text-gray-200">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                
+                <!-- Left Side: Brand and Nav Tabs -->
+                <div class="flex items-center space-x-8">
+                    <!-- Brand Logo -->
+                    <a href="#" class="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        Liketube
+                    </a>
+                    
+                    <!-- Desktop Nav Tabs -->
+                    <div class="hidden md:flex space-x-4">
+                        <a href="#" class="nav-tab">Posts</a>
+                        <a href="#" class="nav-tab">Ping</a>
+                    </div>
+                </div>
+
+                <!-- Right Side: Toggles and Auth Buttons -->
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    
+                    <!-- Language Toggle Dropdown -->
+                    <div class="relative">
+                        <button id="lang-toggle-btn" type="button" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white p-2 rounded-md transition-colors duration-150" aria-label="Toggle language">
+                            <!-- Globe Icon -->
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C13.18 7.061 14.288 7.5 15.5 7.5c1.212 0 2.32-.439 3.334-1.136M1.88 10.184l1.653 1.653m.002-3.306l-1.653 1.653M1.88 10.184l-1.653-1.653m3.306 0l-1.653-1.653" />
+                            </svg>
+                            <span id="lang-label" class="hidden sm:inline ml-2 text-sm font-medium">English</span>
+                            <!-- Chevron Down Icon -->
+                            <svg class="w-4 h-4 ml-1 hidden sm:inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Language Dropdown Menu -->
+                        <div id="lang-menu" class="hidden absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-1 animate-fade-in z-50">
+                            <button data-lang="en" class="dropdown-item">English</button>
+                            <button data-lang="ar" class="dropdown-item text-right" lang="ar" dir="rtl">العربية</button>
+                        </div>
+                    </div>
+
+                    <!-- Theme Toggle Dropdown -->
+                    <div class="relative">
+                        <button id="theme-toggle-btn" type="button" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white p-2 rounded-md transition-colors duration-150" aria-label="Toggle theme">
+                            <!-- Theme Icon (will be set by JS) -->
+                            <svg id="theme-icon-auto" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-1.621-.621A3 3 0 0115 18.257V17.25m-6 0V3h6v14.25m-6 0h6m-7.5 0h9" />
+                            </svg>
+                            <svg id="theme-icon-light" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591M12 12a2.25 2.25 0 00-2.25 2.25v.01c0 .317.031.63.091.936a2.25 2.25 0 01-1.933-2.25 2.25 2.25 0 00-2.25-2.25c-.317 0-.63.031-.936.091a2.25 2.25 0 01-2.25-1.933A2.25 2.25 0 005.25 6c0-.317.031-.63.091-.936A2.25 2.25 0 013 7.007a2.25 2.25 0 00-2.25 2.25 2.25 2.25 0 002.25 2.25c.317 0 .63-.031.936-.091a2.25 2.25 0 011.933 2.25z" />
+                            </svg>
+                            <svg id="theme-icon-dark" class="w-5 h-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                            </svg>
+                            <span id="theme-label" class="hidden sm:inline ml-2 text-sm font-medium">Automatic</span>
+                            <!-- Chevron Down Icon -->
+                            <svg class="w-4 h-4 ml-1 hidden sm:inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Theme Dropdown Menu -->
+                        <div id="theme-menu" class="hidden absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-1 animate-fade-in z-50">
+                            <button data-theme="light" class="dropdown-item">Light</button>
+                            <button data-theme="dark" class="dropdown-item">Dark</button>
+                            <button data-theme="auto" class="dropdown-item">Automatic</button>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Auth Buttons -->
+                    <div class="hidden sm:flex items-center space-x-2">
+                        <a href="#" class="btn-secondary">Login</a>
+                        <a href="#" class="btn-primary">Sign Up</a>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="sr-only">Open main menu</span>
+                            <!-- Menu Icon -->
+                            <svg id="mobile-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                            <!-- Close Icon -->
+                            <svg id="mobile-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Mobile Menu, shown on small screens -->
+            <div class="md:hidden hidden animate-slide-down" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Posts</a>
+                    <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">Ping</a>
+                </div>
+                <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col space-y-2 px-4">
+                        <a href="#" class="btn-primary w-full text-center">Sign Up</a>
+                        <a href="#" class="btn-secondary w-full text-center">Login</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Body Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-16 flex-grow">
+        
+        <!-- Hero Section (Description + Image 1) -->
+        <section class="content-card">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Platform Description -->
+                <div class="animate-fade-in" style="animation-delay: 100ms;">
+                    <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-4">
+                        Welcome to Liketube
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+                        Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.
+                    </p>
+                </div>
+                
+                <!-- Placeholder Image 1 -->
+                <div class="flex justify-center items-center animate-fade-in" style="animation-delay: 200ms;">
+                    <img src="https://placehold.co/500x300/e2e8f0/64748b?text=Liketube+Screenshot" 
+                         alt="Liketube Platform Screenshot" 
+                         class="rounded-lg shadow-md object-cover w-full h-full max-w-md"
+                         onerror="this.src='https://placehold.co/500x300/e2e8f0/64748b?text=Image+Not+Available'">
+                </div>
+            </div>
+        </section>
+
+        <!-- Placeholder Content Section (Lorem + Image 2) -->
+        <section class="content-card mt-8 animate-fade-in" style="animation-delay: 300ms;">
+            <div class="space-y-6">
+                <!-- Placeholder Text -->
+                <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">A Community-Focused Experience</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>Integer ut ANTE. Maecenas m ALESUADA, nisl sit amet MATTIS omare, nisl nisl PElLENTESQUE, ut egestas PUREUS. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Curabitur aliquet quam id dui posuere blandit.</p>
+                </div>
+                
+                <!-- Placeholder Image 2 -->
+                <div class="flex justify-center pt-4">
+                    <img src="https://placehold.co/600x350/e2e8f0/64748b?text=Community+Feature" 
+                         alt="Community Feature Illustration" 
+                         class="rounded-lg shadow-md object-cover w-full max-w-2xl"
+                         onerror="this.src='https://placehold.co/600x350/e2e8f0/64748b?text=Image+Not+Available'">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-200 dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <p class="text-center text-gray-600 dark:text-gray-400 text-sm">
+                © 2025 Twindev. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Toggles -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Theme Switcher Logic ---
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            const themeMenu = document.getElementById('theme-menu');
+            const themeLabel = document.getElementById('theme-label');
+            const themeIcons = {
+                light: document.getElementById('theme-icon-light'),
+                dark: document.getElementById('theme-icon-dark'),
+                auto: document.getElementById('theme-icon-auto')
+            };
+
+            const applyTheme = (theme) => {
+                // Hide all icons
+                Object.values(themeIcons).forEach(icon => icon.classList.add('hidden'));
+
+                if (theme === 'light') {
+                    document.documentElement.classList.remove('dark');
+                    themeLabel.textContent = 'Light';
+                    themeIcons.light.classList.remove('hidden');
+                } else if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    themeLabel.textContent = 'Dark';
+                    themeIcons.dark.classList.remove('hidden');
+                } else { // 'auto'
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    if (prefersDark) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                    themeLabel.textContent = 'Automatic';
+                    themeIcons.auto.classList.remove('hidden');
+                }
+            };
+
+            const setTheme = (theme) => {
+                localStorage.setItem('theme', theme);
+                applyTheme(theme);
+            };
+
+            // Apply saved theme on load
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            applyTheme(savedTheme);
+
+            // Listen for system theme changes (for 'auto' mode)
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+                if (localStorage.getItem('theme') === 'auto') {
+                    applyTheme('auto');
+                }
+            });
+            
+            // Add listeners to theme menu buttons
+            themeMenu.addEventListener('click', (e) => {
+                const theme = e.target.closest('button')?.dataset.theme;
+                if (theme) {
+                    setTheme(theme);
+                    themeMenu.classList.add('hidden');
+                }
+            });
+
+            // --- Language Toggle Logic ---
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            const langMenu = document.getElementById('lang-menu');
+            const langLabel = document.getElementById('lang-label');
+            const htmlEl = document.documentElement;
+
+            langMenu.addEventListener('click', (e) => {
+                const lang = e.target.closest('button')?.dataset.lang;
+                if (lang) {
+                    htmlEl.setAttribute('lang', lang);
+                    if (lang === 'ar') {
+                        htmlEl.setAttribute('dir', 'rtl');
+                        langLabel.textContent = 'العربية';
+                    } else {
+                        htmlEl.setAttribute('dir', 'ltr');
+                        langLabel.textContent = 'English';
+                    }
+                    langMenu.classList.add('hidden');
+                }
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('mobile-icon-open');
+            const iconClose = document.getElementById('mobile-icon-close');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+                mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                iconOpen.classList.toggle('hidden');
+                iconClose.classList.toggle('hidden');
+            });
+            
+            // --- Dropdown Toggle Logic (for both theme and lang) ---
+            const toggleDropdown = (btn, menu) => {
+                menu.classList.toggle('hidden');
+            };
+            
+            themeToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleDropdown(themeToggleBtn, themeMenu);
+                langMenu.classList.add('hidden'); // Close other menu
+            });
+            
+            langToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleDropdown(langToggleBtn, langMenu);
+                themeMenu.classList.add('hidden'); // Close other menu
+            });
+
+            // --- Click outside to close dropdowns ---
+            window.addEventListener('click', (e) => {
+                if (!themeToggleBtn.contains(e.target) && !themeMenu.contains(e.target)) {
+                    themeMenu.classList.add('hidden');
+                }
+                if (!langToggleBtn.contains(e.target) && !langMenu.contains(e.target)) {
+                    langMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

@@ -150,7 +150,7 @@
         .header-left {
             flex: 1;
             justify-content: flex-start;
-            align-items: center; /* FIXED: Align items in the center to prevent nav links stacking */
+            align-items: center; 
         }
         .header-center {
             flex: 2;
@@ -170,8 +170,15 @@
             animation: fadeAndSlideUp 0.6s ease-out;
         }
 
+        /* --- Nav Links FIX: Added display: flex to nav-links container --- */
+        .nav-links {
+            display: flex; /* CRITICAL FIX: Make the container a flex container */
+            align-items: center; /* Vertically align links */
+            gap: 1.2rem; /* Use gap for spacing instead of margins on links */
+        }
+        
         .nav-links a {
-            margin: 0 1.2rem;
+            /* Removed margin as we are using gap on the container */
             color: var(--header-text); /* Header text color */
             text-decoration: none;
             font-weight: 500;
@@ -179,7 +186,7 @@
             transition: color 0.2s ease;
             opacity: 0;
             animation: fadeAndSlideUp 0.6s ease-out forwards;
-            padding-bottom: 5px; /* Add padding to prevent links from touching each other */
+            padding: 0 0 5px 0; /* Only apply bottom padding for underline positioning */
         }
         .nav-links a:nth-child(1) { animation-delay: 0.1s; }
         .nav-links a:nth-child(2) { animation-delay: 0.2s; }
@@ -708,7 +715,7 @@
                 </p>
             </div>
             <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <img src="Arab-countries.png" alt="Arab Map">
+                <img src="arab-countries.png" alt="Illustration of the Arab Countries">
             </div>
         </section>
 
@@ -721,14 +728,15 @@
                 </p>
             </div>
             <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <img src="muslim-daawaa" alt="Muslim Daawaa Illustration">
+                <!-- Placeholder image for Dawaa illustration -->
+                <img src="muslim-daawaa.png" alt="Illustration for Muslim Dawaa">
             </div>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <p data-key="footer_text">© 2025 Twindev. All rights reserved.</p>
+        <p data-key="footer_text">© 2025 Liketube. Developed by Twindev. All rights reserved.</p>
     </footer>
 
     <script>
@@ -775,7 +783,7 @@
                     hero_desc: "Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.",
                     dawaa_title: "Your Daawaa Continues Here",
                     dawaa_desc: "Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.",
-                    footer_text: "© 2025 Twindev. All rights reserved."
+                    footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved."
                 },
                 ar: {
                     nav_home: "الرئيسية",
@@ -793,7 +801,7 @@
                     hero_desc: "لايك تيوب هي منصة تواصل اجتماعي جديدة ومجانية بالكامل ذات طابع كلاسيكي، تم إنشاؤها خصيصًا للمجتمع المسلم. تتوفر برامج للتحميل لأنظمة أندرويد وويندوز.",
                     dawaa_title: "دعوتك مستمرة هنا",
                     dawaa_desc: "هل تعمل في الدعوة وتم حظرك مؤخرًا من فيسبوك؟ يمكنك متابعة الدعوة الإلكترونية هنا بدون أي تكاليف على الإطلاق.",
-                    footer_text: "© 2025 توين ديف. جميع الحقوق محفوظة."
+                    footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة."
                 }
             };
 

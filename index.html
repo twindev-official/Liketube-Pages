@@ -39,6 +39,10 @@
             --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
+
+            /* Mobile Menu */
+            --mobile-menu-bg: #f0f2f5;
+            --mobile-menu-text: #000000;
         }
 
         .dark-mode {
@@ -70,6 +74,10 @@
             --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
+
+            /* Mobile Menu */
+            --mobile-menu-bg: #2c2c2c;
+            --mobile-menu-text: #e0e0e0;
         }
 
         /* --- Base & Animations --- */
@@ -142,7 +150,7 @@
         .header-left {
             flex: 1;
             justify-content: flex-start;
-            align-items: baseline; /* Aligns logo text with nav text */
+            align-items: center; /* FIXED: Align items in the center to prevent nav links stacking */
         }
         .header-center {
             flex: 2;
@@ -171,6 +179,7 @@
             transition: color 0.2s ease;
             opacity: 0;
             animation: fadeAndSlideUp 0.6s ease-out forwards;
+            padding-bottom: 5px; /* Add padding to prevent links from touching each other */
         }
         .nav-links a:nth-child(1) { animation-delay: 0.1s; }
         .nav-links a:nth-child(2) { animation-delay: 0.2s; }
@@ -208,6 +217,30 @@
             opacity: 0;
             animation: fadeAndSlideUp 0.6s ease-out forwards;
             animation-delay: 0.2s;
+        }
+        
+        .mobile-search-bar { /* Used in the mobile menu */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: var(--search-bg);
+            border: 1px solid var(--search-border);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .mobile-search-bar i {
+            color: #888;
+            margin-right: 0.5rem;
+        }
+        .mobile-search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            color: var(--text-color);
+            font-family: 'Tahoma', sans-serif;
+            font-size: 0.9rem;
         }
 
         .search-bar i {
@@ -362,6 +395,63 @@
             /* Removed modern shadow */
         }
 
+        /* --- Mobile Menu Styling --- */
+        .hamburger-menu {
+            display: none; /* Hide by default, show on mobile */
+            font-size: 1.5rem;
+            color: var(--header-text);
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%; /* Takes 80% of screen width */
+            height: 100%;
+            background-color: var(--mobile-menu-bg);
+            color: var(--mobile-menu-text);
+            z-index: 1050;
+            padding: 2rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        .mobile-nav-links a {
+            display: block;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            color: var(--mobile-menu-text);
+            font-weight: 700;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+        }
+        .dark-mode .mobile-nav-links a {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mobile-nav-links a:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
         /* --- Main Content Sections --- */
         .content-section {
             display: flex;
@@ -421,6 +511,8 @@
         .image-content {
             flex: 1;
             max-width: 550px; /* Give image a bit more space */
+            justify-content: center;
+            align-items: center;
             opacity: 0;
         }
         
@@ -461,11 +553,14 @@
         }
 
         @media (max-width: 992px) {
-            .header-center {
-                display: none; /* Hide search bar in center */
+            .hamburger-menu {
+                display: block; /* Show hamburger on tablet/mobile */
+            }
+            .header-center, .nav-links {
+                display: none; /* Hide search bar and desktop nav links */
             }
             .header-left {
-                flex: 1;
+                flex: none;
             }
             .header-right {
                 flex: 1;
@@ -496,20 +591,15 @@
         
         @media (max-width: 768px) {
             .header {
-                flex-wrap: wrap;
+                flex-wrap: nowrap; /* Keep header elements in a single row */
                 padding: 1rem;
             }
-            .header-left, .header-right {
-                flex-basis: 50%;
-            }
             .header-left {
+                flex: 1;
                 justify-content: flex-start;
             }
             .header-right {
-                justify-content: flex-end;
-            }
-            .nav-links {
-                display: none; /* Hide nav links on small screens, would need a burger menu */
+                flex: none; /* Let user controls shrink */
             }
             .user-controls {
                 gap: 0.25rem;
@@ -519,7 +609,8 @@
                 font-size: 0.8rem;
             }
             .logo {
-                margin-right: 0;
+                margin-right: 0.5rem;
+                font-size: 1.5rem;
             }
             .content-section {
                 padding: 3rem 1rem;
@@ -533,9 +624,33 @@
 </head>
 <body>
 
+    <!-- Mobile Menu Container -->
+    <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-times mobile-menu-close" id="mobile-menu-close"></i>
+        
+        <!-- Search Bar -->
+        <div class="mobile-search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
+        </div>
+
+        <!-- Nav Links -->
+        <nav class="mobile-nav-links">
+            <a href="#" data-key="nav_home">Home</a>
+            <a href="#" data-key="nav_posts">Posts</a>
+            <a href="#" data-key="nav_ping">Ping</a>
+        </nav>
+        
+        <p style="margin-top: auto; font-size: 0.8rem; color: #666;">
+            Navigation and Search are moved here on mobile devices.
+        </p>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-left">
+            <!-- Hamburger Menu (Mobile Only) -->
+            <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
             <a href="#" class="logo">Liketube</a>
             <nav class="nav-links">
                 <a href="#" data-key="nav_home">Home</a>
@@ -593,7 +708,7 @@
                 </p>
             </div>
             <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <img src="arab-countries.png" alt="Arab Counties">
+                <img src="Arab-countries.png" alt="Arab Map">
             </div>
         </section>
 
@@ -606,7 +721,7 @@
                 </p>
             </div>
             <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <img src="muslim-daawaa.png" alt="Islam Daawaa Image">
+                <img src="muslim-daawaa" alt="Muslim Daawaa Illustration">
             </div>
         </section>
     </main>
@@ -618,6 +733,30 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu Toggler ---
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+            hamburgerMenu.addEventListener('click', () => {
+                mobileMenu.classList.add('open');
+                // Optional: Prevent background scrolling when menu is open
+                document.body.style.overflow = 'hidden';
+            });
+
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+
+            // Close mobile menu if a link is clicked
+            document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            });
+
             // --- Translations ---
             const translations = {
                 en: {
@@ -635,7 +774,7 @@
                     hero_title: "Welcome to Liketube",
                     hero_desc: "Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.",
                     dawaa_title: "Your Daawaa Continues Here",
-                    dawaa_desc: "Work in daawaa and hot recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.",
+                    dawaa_desc: "Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.",
                     footer_text: "© 2025 Twindev. All rights reserved."
                 },
                 ar: {
@@ -748,7 +887,9 @@
             // --- Language Toggler ---
             const langMenu = document.getElementById('lang-menu');
             const langToggleBtn = document.getElementById('lang-toggle-btn');
-            const searchInput = document.querySelector('[data-key="search_placeholder"]');
+            const searchInput = document.querySelector('.search-bar input[data-key="search_placeholder"]');
+            const mobileSearchInput = document.querySelector('.mobile-search-bar input[data-key="search_placeholder"]');
+
 
             function setLanguage(lang) {
                 if (!translations[lang]) lang = 'en';
@@ -769,6 +910,12 @@
                         }
                     }
                 });
+
+                // Since mobile search bar is a new element, ensure its placeholder is updated
+                if (mobileSearchInput && translations[lang]['search_placeholder']) {
+                    mobileSearchInput.placeholder = translations[lang]['search_placeholder'];
+                }
+
 
                 // Update lang button text
                 langToggleBtn.textContent = lang.toUpperCase();
@@ -831,5 +978,3 @@
     </script>
 </body>
 </html>
-
-

@@ -1,412 +1,345 @@
 <!DOCTYPE html>
-<!-- Set default theme to auto -->
-<html lang="en" data-theme="auto">
+<html lang="en" class="automatic">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LikeTube - Welcome</title>
+    <title>Liketube</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        /* --- Color Variables --- */
-        :root {
-            /* Light Mode (Default) */
-            --bg-color: #d0d8e8;
-            --page-bg: #fff;
-            --text-color: #333;
-            --text-color-light: #777;
-            --border-color: #b0b0b0;
-            --border-color-light: #e0e0e0;
-            --border-color-dotted: #ccc;
-            --hr-color: #eee;
-            --header-gradient-top: #4a70a8;
-            --header-gradient-bottom: #3b5998;
-            --header-border: #29447e;
-            --link-color: #3b5998;
-            --footer-bg: #f9f9f9;
-            --input-bg: #f2f2f2;
+        /* Base styling */
+        body {
+            /* Switched to a system font stack for the classic feel */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        /* Old Facebook inspired header color */
+        .header-classic {
+            background-color: #3b5998; /* Classic Facebook Blue */
+        }
+        
+        /* Dark mode header */
+        .dark .header-classic {
+            background-color: #2c4279;
         }
 
-        [data-theme="dark"] {
-            /* Dark Mode Overrides */
-            --bg-color: #1a1a1a;
-            --page-bg: #2b2b2b;
-            --text-color: #e0e0e0;
-            --text-color-light: #888;
-            --border-color: #555;
-            --border-color-light: #444;
-            --border-color-dotted: #555;
-            --hr-color: #444;
-            --header-gradient-top: #3a506b;
-            --header-gradient-bottom: #2c3e50;
-            --header-border: #1a242f;
-            --link-color: #58a6ff;
-            --footer-bg: #222;
-            --input-bg: #3c3c3c;
+        /* Body background for light/dark */
+        body {
+            background-color: #E9EBEE; /* Old Facebook light gray feed */
+        }
+        .dark body {
+            background-color: #1a202c; /* Standard dark bg */
         }
 
-        /* Auto dark mode based on system preference */
-        @media (prefers-color-scheme: dark) {
-            :root[data-theme="auto"] {
-                --bg-color: #1a1a1a;
-                --page-bg: #2b2b2b;
-                --text-color: #e0e0e0;
-                --text-color-light: #888;
-                --border-color: #555;
-                --border-color-light: #444;
-                --border-color-dotted: #555;
-                --hr-color: #444;
-                --header-gradient-top: #3a506b;
-                --header-gradient-bottom: #2c3e50;
-                --header-border: #1a242f;
-                --link-color: #58a6ff;
-                --footer-bg: #222;
-                --input-bg: #3c3c3c;
+        /* Content card styling */
+        .content-card {
+            background-color: #ffffff;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+        }
+        .dark .content-card {
+            background-color: #2d3748; /* Dark card */
+            border-color: #4a5568;
+        }
+        
+        /* Select dropdown styling */
+        .nav-select {
+            background-color: #ffffff;
+            color: #1c1e21;
+            border: 1px solid #ccd0d5;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.875rem;
+            /* Added transitions and focus styling */
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .nav-select:hover {
+            border-color: #aeb4bd;
+        }
+        .nav-select:focus {
+            outline: none;
+            border-color: #3b5998;
+            box-shadow: 0 0 0 2px rgba(59, 89, 152, 0.3);
+        }
+
+        .dark .nav-select {
+            background-color: #4a5568;
+            color: #e2e8f0;
+            border-color: #718096;
+        }
+        .dark .nav-select:hover {
+            border-color: #a0aec0;
+        }
+        .dark .nav-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Auth button styling - updated for a more classic look */
+        .auth-link {
+            padding: 7px 14px; /* Slightly larger padding */
+            border-radius: 4px;
+            font-weight: 600; /* Bolder font */
+            transition: background-color 0.2s, border-color 0.2s;
+            font-size: 0.875rem;
+            border: 1px solid #3b5998;
+        }
+        .auth-login {
+            background-color: #3b5998; /* Classic FB Blue */
+            color: #ffffff;
+        }
+        .auth-login:hover {
+            background-color: #365492;
+        }
+        .auth-signup {
+            background-color: #f0f2f5; /* Light grey */
+            color: #3b5998; /* Blue text */
+            border: 1px solid #ccd0d5; /* Lighter border */
+        }
+        .auth-signup:hover {
+            background-color: #e9ebef;
+        }
+        .dark .auth-login {
+            background-color: #4a69ad;
+            border-color: #4a69ad;
+        }
+        .dark .auth-login:hover {
+            background-color: #5a7bc4;
+        }
+        .dark .auth-signup {
+             background-color: #4a5568;
+             color: #e2e8f0;
+             border-color: #718096;
+        }
+        .dark .auth-signup:hover {
+            background-color: #5a667a;
+        }
+
+        /* Animation for fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-        /* --- End Variables --- */
 
-
-        body {
-            /* Added Tahoma for better Arabic font support */
-            font-family: "Helvetica Neue", Arial, Tahoma, Helvetica, sans-serif;
-            margin: 0;
-            /* A classic light blue/grey background, common in 2012 */
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.2s, color 0.2s;
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
         }
-
-        /* --- Global Wrapper --- */
-        .page-wrapper {
-            max-width: 980px;
-            margin: 0 auto;
-            background-color: var(--page-bg);
-            /* The classic box-shadow */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-color);
-            border-top: 0;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        /* --- Main Header (Logo & Nav) --- */
-        .main-header {
-            background: linear-gradient(to bottom, var(--header-gradient-top), var(--header-gradient-bottom));
-            padding: 10px 15px;
-            border-bottom: 1px solid var(--header-border); /* Darker blue border */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: #fff;
-            /* The classic text-shadow */
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            letter-spacing: -1px;
-            text-decoration: none;
-        }
-        .logo:hover {
-            text-decoration: none;
-        }
-
-        /* Wrapper for nav and utility items */
-        .nav-and-utility {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .main-nav ul {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            display: flex;
-            gap: 5px;
-        }
-
-        .main-nav a {
-            color: #fff;
-            font-weight: bold;
-            font-size: 14px;
-            padding: 8px 14px;
-            border-radius: 4px;
-            text-decoration: none;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.2s;
-        }
-
-        /* Active state for the current page */
-        .main-nav a.active,
-        .main-nav a:hover {
-            background-color: rgba(0, 0, 0, 0.15); /* Darken on hover */
-        }
-
-        /* Utility links (Login/Signup) in header */
-        .header-utility {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            /* Use padding-inline-start for RTL compatibility */
-            padding-inline-start: 20px; 
-             /* Use border-inline-start for RTL compatibility */
-            border-inline-start: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .header-utility a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .header-utility a:hover {
-            text-decoration: underline;
-        }
-
-        .lang-select-header,
-        .theme-select-header {
-            border: 1px solid var(--header-border);
-            border-radius: 3px;
-            font-size: 11px;
-            height: 22px;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-        }
-
-
-        /* --- Main Content Area --- */
-        .container {
-            padding: 20px;
-            /* No longer flex, main content takes full width */
-        }
-
-        .main-content {
-            width: 100%;
-        }
-
-        .main-content h1 {
-            font-size: 24px;
-            color: var(--text-color);
-            border-bottom: 1px solid var(--hr-color);
-            padding-bottom: 10px;
-
-        }
-        /* --- Footer --- */
-        .main-footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: var(--text-color-light);
-            border-top: 1px solid var(--border-color-light);
-            background: var(--footer-bg);
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        /* --- Loading Overlay (REMOVED) --- */
-        /* We don't need this anymore as translations are instant */
 
     </style>
 </head>
-<body>
 
-    <!-- Loading Overlay (REMOVED) -->
+<body class="flex flex-col min-h-screen text-gray-900 dark:text-gray-100">
 
-    <!-- Main Page Wrapper -->
-    <div class="page-wrapper">
+    <!-- Header / Navbar -->
+    <header class="header-classic text-white shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Left Side: Brand and Tabs -->
+                <div class="flex items-center space-x-6">
+                    <!-- Brand -->
+                    <a href="#" class="text-3xl font-bold" data-key="title">Liketube</a>
+                    <!-- Tabs -->
+                    <div class="hidden md:flex space-x-4">
+                        <!-- Added transition class -->
+                        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors" data-key="ping">Ping</a>
+                        <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors" data-key="posts">Posts</a>
+                    </div>
+                </div>
 
-        <!-- Header with Logo and Main Navigation -->
-        <header class="main-header">
-            <a href="#" class="logo" data-key="logo">LikeTube</a>
-            
-            <div class="nav-and-utility">
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="#" class="active" data-key="navHome">Home</a></li>
-                        <li><a href="#" data-key="navPosts">Posts</a></li>
-                        <li><a href="#" data-key="navPing">Ping</a></li> <!-- This is the "Messenger" link -->
-                    </ul>
-                </nav>
-                
-                <!-- Login, Signup, and Language moved here -->
-                <div class="header-utility">
-                    <a href="#" data-key="utilLogin">Login</a>
-                    <a href="#" data-key="utilSignup">Signup</a>
-                    <!-- Added id="lang-switcher" for JavaScript -->
-                    <select name="lang" class="lang-select-header" id="lang-switcher">
-                        <option value="en">English (US)</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                        <option value="de">Deutsch</option>
-                        <option value="ar">العربية</option> <!-- Added Arabic -->
-                    </select>
-                    <!-- Theme switcher -->
-                    <select name="theme" class="theme-select-header" id="theme-switcher">
-                        <option value="auto" data-key="themeAuto">Automatic</option>
-                        <option value="light" data-key="themeLight">Light</option>
-                        <option value="dark" data-key="themeDark">Dark</option>
-                    </select>
+                <!-- Right Side: Controls and Auth -->
+                <div class="flex items-center space-x-3">
+                    <!-- Language Toggle -->
+                    <div class="flex items-center space-x-2">
+                        <label for="lang-toggle" class="sr-only" data-key="lang">Language</label>
+                        <select id="lang-toggle" name="lang" class="nav-select">
+                            <option value="en" selected>English</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <div class="flex items-center space-x-2">
+                        <label for="theme-toggle" class="sr-only" data-key="theme">Theme</label>
+                        <select id="theme-toggle" name="theme" class="nav-select">
+                            <option value="auto" data-key="auto">Automatic</option>
+                            <option value="light" data-key="light">Light</option>
+                            <option value="dark" data-key="dark">Dark</option>
+                        </select>
+                    </div>
+
+                    <!-- Auth Links -->
+                    <div class="hidden sm:flex items-center space-x-2">
+                        <a href="#" class="auth-link auth-signup" data-key="signup">Sign Up</a>
+                        <a href="#" class="auth-link auth-login" data-key="login">Login</a>
+                    </div>
                 </div>
             </div>
-        </header>
-        </div>
-
-        <!-- Footer -->
-        <footer class="main-footer">
-            <p data-key="footerText">&copy; 2025 Twindev. All rights reserved.</p>
-        </footer>
-
-    </div> <!-- End .page-wrapper -->
-
-    <!-- JavaScript for Language Toggler -->
-    <script>
-        // --- Manual Translations Object ---
-        // This is the new, reliable way. All translations are stored here.
-        const translations = {
-            'en': {
-                navHome: 'Home',
-                navPosts: 'Posts',
-                navPing: 'Ping',
-                utilLogin: 'Login',
-                utilSignup: 'Signup',
-                welcomeTitle: 'Welcome to LikeTube!',
-                welcomeSubtext: 'Brand new social media that is entirely free with a nostalgic old theme and exclusive for muslims. Downloadable version included for Android / Windows.',
-                footerText: '&copy; 2025 Twindev. All rights reserved.',
-                themeAuto: 'Automatic',
-                themeLight: 'Light',
-                themeDark: 'Dark'
-            },
-            'es': {
-                navHome: 'Inicio',
-                navPosts: 'Publicaciones',
-                navPing: 'Ping',
-                utilLogin: 'Iniciar sesión',
-                utilSignup: 'Registrarse',
-                welcomeTitle: '¡Bienvenido a LikeTube!',
-                welcomeSubtext: 'Nueva red social completamente gratuita, con un tema nostálgico y exclusivo para musulmanes. Versión descargable para Android y Windows.',
-                footerText: '&copy; 2025 Twindev. Todos los derechos reservados.',
-                themeAuto: 'Automático',
-                themeLight: 'Claro',
-                themeDark: 'Oscuro'
-            },
-            'fr': {
-                navHome: 'Accueil',
-                navPosts: 'Messages',
-                navPing: 'Ping',
-                utilLogin: 'Connexion',
-                utilSignup: 'S\'inscrire',
-                welcomeTitle: 'Bienvenue sur LikeTube !',
-                welcomeSubtext: 'Nouveau réseau social entièrement gratuit, avec un thème nostalgique et exclusif aux musulmans. Version téléchargeable incluse pour Android et Windows.',
-                footerText: '&copy; 2025 Twindev. Tous droits réservés.',
-                themeAuto: 'Automatique',
-                themeLight: 'Clair',
-                themeDark: 'Sombre'
-            },
-            'de': {
-                navHome: 'Startseite',
-                navPosts: 'Beiträge',
-                navPing: 'Ping',
-                utilLogin: 'Anmelden',
-                utilSignup: 'Registrieren',
-                welcomeTitle: 'Willkommen bei LikeTube!',
-                welcomeSubtext: 'Brandneues, völlig kostenloses soziales Netzwerk mit nostalgischem Design und exklusiv für Muslime. Herunterladbare Version für Android/Windows enthalten.',
-                footerText: '&copy; 2025 Twindev. Alle Rechte vorbehalten.',
-                themeAuto: 'Automatisch',
-                themeLight: 'Hell',
-                themeDark: 'Dunkel'
-            },
-            'ar': {
-                navHome: 'الرئيسية',
-                navPosts: 'المنشورات',
-                navPing: 'رنين',
-                utilLogin: 'تسجيل الدخول',
-                utilSignup: 'التسجيل',
-                welcomeTitle: 'أهلاً بك في لايك تيوب!',
-                welcomeSubtext: 'تطبيق تواصل اجتماعي جديد كليًا، مجاني بالكامل، بطابع عتيق، حصري للمسلمين. نسخة قابلة للتحميل متوفرة لأجهزة أندرويد وويندوز.',
-                footerText: '&copy; 2025 توينديف. جميع الحقوق محفوظة.',
-                themeAuto: 'تلقائي',
-                themeLight: 'فاتح',
-                themeDark: 'داكن'
-            }
-        };
-
-        // --- All API-related functions (fetchTranslations, retryWithBackoff) are REMOVED ---
-
-        // --- Page Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const langSwitcher = document.getElementById('lang-switcher');
-            const themeSwitcher = document.getElementById('theme-switcher');
-            // We don't need the loading overlay anymore
             
-            // --- Theme Logic ---
-            const savedTheme = localStorage.getItem('liketube-theme') || 'auto';
-            setTheme(savedTheme);
-            themeSwitcher.value = savedTheme;
+            <!-- Mobile Auth Links (visible on small screens) -->
+            <div class="sm:hidden flex items-center justify-end space-x-2 pb-3">
+                <a href="#" class="auth-link auth-signup" data-key="signup-mobile">Sign Up</a>
+                <a href="#" class="auth-link auth-login" data-key="login-mobile">Login</a>
+            </div>
+        </nav>
+    </header>
 
-            themeSwitcher.addEventListener('change', (event) => {
-                const selectedTheme = event.target.value;
-                setTheme(selectedTheme);
-                localStorage.setItem('liketube-theme', selectedTheme);
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto max-w-5xl p-4 sm:p-6 lg:p-8 mt-6">
+        <!-- Reduced shadow from shadow-lg to shadow-md for a flatter, older look -->
+        <!-- Added fade-in animation class -->
+        <div class="content-card shadow-md overflow-hidden p-6 md:p-10 animate-fade-in">
+            <!-- Top Section: Description and Image -->
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Description -->
+                <div class="flex-1">
+                    <h1 class="text-2xl font-bold mb-4" data-key="welcome">Welcome to Liketube</h1>
+                    <p class="text-base leading-relaxed mb-4" data-key="description">
+                        Brand new social media that is entirely free with a nostalgic old theme and exclusive for muslims.
+                    </p>
+                    <p class="text-base leading-relaxed" data-key="download">
+                        Downloadable version included for Android / Windows.
+                    </p>
+                </div>
+                <!-- Image -->
+                <div class="flex-shrink-0 md:w-1/3 flex items-center justify-center">
+                    <img src="#" alt="Liketube visual placeholder" 
+                         class="w-64 h-64 md:w-full md:h-auto object-cover bg-gray-300 dark:bg-gray-600 rounded-lg border-4 border-gray-200 dark:border-gray-700">
+                </div>
+            </div>
+
+            <!-- Bottom Section: Nonsense words and Image -->
+            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+                <p class="text-gray-700 dark:text-gray-300" data-key="nonsense">
+                    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Curabitur aliquet quam id dui posuere blandit.
+                </p>
+                <img src="#" alt="Nonsense image placeholder" 
+                     class="w-full h-48 object-cover bg-gray-300 dark:bg-gray-600 rounded-lg mt-4 border-4 border-gray-200 dark:border-gray-700">
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center p-6 mt-10">
+        <p class="text-sm text-gray-600 dark:text-gray-400" data-key="copyright">
+            © 2025 Twindev. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const langToggle = document.getElementById('lang-toggle');
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlEl = document.documentElement;
+
+            // --- TRANSLATION LOGIC ---
+
+            const translations = {
+                en: {
+                    title: "Liketube",
+                    ping: "Ping",
+                    posts: "Posts",
+                    login: "Login",
+                    signup: "Sign Up",
+                    "login-mobile": "Login",
+                    "signup-mobile": "Sign Up",
+                    lang: "Language",
+                    theme: "Theme",
+                    light: "Light",
+                    dark: "Dark",
+                    auto: "Automatic",
+                    welcome: "Welcome to Liketube",
+                    description: "Brand new social media that is entirely free with a nostalgic old theme and exclusive for muslims.",
+                    download: "Downloadable version included for Android / Windows.",
+                    nonsense: "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Curabitur aliquet quam id dui posuere blandit.",
+                    copyright: "© 2025 Twindev. All rights reserved."
+                },
+                ar: {
+                    title: "لايكتيوب",
+                    ping: "رنين",
+                    posts: "المنشورات",
+                    login: "تسجيل الدخول",
+                    signup: "إنشاء حساب",
+                    "login-mobile": "تسجيل الدخول",
+                    "signup-mobile": "إنشاء حساب",
+                    lang: "اللغة",
+                    theme: "المظهر",
+                    light: "فاتح",
+                    dark: "داكن",
+                    auto: "تلقائي",
+                    welcome: "مرحباً بك في لايكتيوب",
+                    description: "شبكة اجتماعية جديدة مجانية بالكامل ذات طابع قديم وحصري للمسلمين.",
+                    download: "نسخة قابلة للتنزيل متاحة للأندرويد / ويندوز.",
+                    nonsense: "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.",
+                    copyright: "© 2025 تويندف. جميع الحقوق محفوظة."
+                }
+            };
+
+            function setLanguage(lang) {
+                if (lang === 'ar') {
+                    htmlEl.lang = 'ar';
+                    htmlEl.dir = 'rtl';
+                } else {
+                    htmlEl.lang = 'en';
+                    htmlEl.dir = 'ltr';
+                }
+
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.dataset.key;
+                    if (translations[lang] && translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+            }
+
+            langToggle.addEventListener('change', (e) => {
+                setLanguage(e.target.value);
             });
 
-            // --- Language Logic (Simplified) ---
-            const savedLang = localStorage.getItem('liketube-lang') || 'en';
-            langSwitcher.value = savedLang;
-            // Apply saved language on load (it will be instant)
-            changeLanguage(savedLang); 
+            // Set initial language
+            setLanguage('en');
 
-            langSwitcher.addEventListener('change', (event) => {
-                const selectedLang = event.target.value;
-                
-                // No loading spinner needed
-                // No try/catch needed
-                
-                changeLanguage(selectedLang);
-                localStorage.setItem('liketube-lang', selectedLang);
+            // --- THEME LOGIC ---
 
-                // No "finally" block needed
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+            function applyTheme(theme) {
+                if (theme === 'dark' || (theme === 'auto' && systemPrefersDark.matches)) {
+                    htmlEl.classList.add('dark');
+                } else {
+                    htmlEl.classList.remove('dark');
+                }
+            }
+
+            themeToggle.addEventListener('change', (e) => {
+                const newTheme = e.target.value;
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
             });
-        });
 
-        function setTheme(theme) {
-             document.documentElement.setAttribute('data-theme', theme);
-        }
-
-        // This function applies the translations to the page
-        function applyTranslations(translations) {
-            if (!translations) return;
-            // Find all elements with a "data-key" attribute
-            document.querySelectorAll('[data-key]').forEach(element => {
-                const key = element.getAttribute('data-key');
-                if (translations[key]) {
-                    // Use innerHTML to correctly render special characters like &copy;
-                    element.innerHTML = translations[key];
+            // Listen for changes in system preference
+            systemPrefersDark.addEventListener('change', (e) => {
+                const currentTheme = localStorage.getItem('theme') || 'auto';
+                if (currentTheme === 'auto') {
+                    applyTheme('auto');
                 }
             });
-        }
 
-        // This is the main function to change the language (Simplified)
-        function changeLanguage(lang) {
-            // Set page direction for RTL (Right-to-Left) languages
-            if (lang === 'ar') {
-                document.documentElement.dir = 'rtl';
-            } else {
-                document.documentElement.dir = 'ltr';
-            }
-
-            // 1. Get translations from our local object
-            const newTranslations = translations[lang];
-            
-            if (newTranslations) {
-                // 2. Apply them
-                applyTranslations(newTranslations);
-            } else {
-                // Fallback to English if something goes wrong
-                applyTranslations(translations['en']);
-            }
-        }
-
+            // Load saved theme or default to 'auto'
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            themeToggle.value = savedTheme;
+            applyTheme(savedTheme);
+        });
     </script>
+
 </body>
 </html>
+
 

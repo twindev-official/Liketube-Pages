@@ -6,6 +6,8 @@
     <title>Liketube</title>
     <!-- Using Tahoma font for a more classic web feel -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FIX: Added Google Font "Tajawal" for better Arabic support -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -86,13 +88,35 @@
             margin: 0;
             padding: 0;
         }
+        
+        /* --- FIX: Ensure full width and no horizontal scroll --- */
+        html, body {
+            width: 100%;
+            min-width: 100%;
+            overflow-x: clip; /* More robust than hidden */
+        }
 
         body {
             font-family: 'Tahoma', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+            /* overflow-x: hidden; <-- Removed, now on html,body */
+        }
+        
+        /* --- FIX: Added specific font for Arabic readability --- */
+        [dir="rtl"] body, 
+        [dir="rtl"] .btn, 
+        [dir="rtl"] input,
+        [dir="rtl"] .mobile-search-bar input {
+            font-family: 'Tajawal', 'Tahoma', sans-serif;
+            /* Adjust line-height for Arabic which tends to be taller */
+            line-height: 1.7; 
+        }
+        
+        [dir="rtl"] .text-content p {
+            /* Give Arabic paragraphs a bit more breathing room */
+            line-height: 1.8; 
         }
 
         @keyframes fadeIn {
@@ -191,6 +215,8 @@
         .nav-links a:nth-child(1) { animation-delay: 0.1s; }
         .nav-links a:nth-child(2) { animation-delay: 0.2s; }
         .nav-links a:nth-child(3) { animation-delay: 0.3s; }
+        /* ADDED: Animation delay for new link */
+        .nav-links a:nth-child(4) { animation-delay: 0.4s; }
 
         .nav-links a::after {
             content: '';
@@ -410,27 +436,43 @@
             cursor: pointer;
             margin-right: 1rem;
         }
+        
+        [dir="rtl"] .hamburger-menu {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
 
         .mobile-menu {
             position: fixed;
             top: 0;
-            left: 0;
+            left: -100%; /* Start off-screen to the left */
             width: 80%; /* Takes 80% of screen width */
             height: 100%;
             background-color: var(--mobile-menu-bg);
             color: var(--mobile-menu-text);
             z-index: 1050;
             padding: 2rem;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-out;
+            transform: translateX(0); /* We will transition left property */
+            transition: left 0.3s ease-out; /* Transition 'left' */
             box-shadow: 2px 0 5px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
+
+        [dir="rtl"] .mobile-menu {
+            left: auto;
+            right: -100%; /* Start off-screen to the right for RTL */
+            transition: right 0.3s ease-out; /* Transition 'right' for RTL */
+        }
         
         .mobile-menu.open {
-            transform: translateX(0);
+            left: 0; /* Slide in from left */
+        }
+        
+        [dir="rtl"] .mobile-menu.open {
+            left: auto;
+            right: 0; /* Slide in from right for RTL */
         }
 
         .mobile-menu-close {
@@ -440,6 +482,11 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-color);
+        }
+        
+        [dir="rtl"] .mobile-menu-close {
+            right: auto;
+            left: 1rem;
         }
         
         .mobile-nav-links a {
@@ -625,6 +672,12 @@
             .text-content h1 { font-size: 2rem; }
             .text-content h2 { font-size: 1.8rem; }
             .text-content p { font-size: 1rem; }
+            
+            /* --- FIX: Improve Arabic readability on mobile --- */
+            [dir="rtl"] .text-content p {
+                font-size: 1.05rem; /* Slightly larger for Arabic */
+                line-height: 1.8; /* More spacing */
+            }
         }
 
     </style>
@@ -646,6 +699,8 @@
             <a href="#" data-key="nav_home">Home</a>
             <a href="#" data-key="nav_posts">Posts</a>
             <a href="#" data-key="nav_ping">Ping</a>
+            <!-- ADDED: Download Link -->
+            <a href="#" data-key="nav_download">Download</a>
         </nav>
         
         <p style="margin-top: auto; font-size: 0.8rem; color: #666;">
@@ -663,6 +718,8 @@
                 <a href="#" data-key="nav_home">Home</a>
                 <a href="#" data-key="nav_posts">Posts</a>
                 <a href="#" data-key="nav_ping">Ping</a>
+                <!-- ADDED: Download Link -->
+                <a href="#" data-key="nav_download">Download</a>
             </nav>
         </div>
 
@@ -771,6 +828,7 @@
                     nav_home: "Home",
                     nav_posts: "Posts",
                     nav_ping: "Ping",
+                    nav_download: "Download", // ADDED
                     search_placeholder: "Search for people, posts, groups...",
                     theme_light: "Light",
                     theme_dark: "Dark",
@@ -788,7 +846,8 @@
                 ar: {
                     nav_home: "الرئيسية",
                     nav_posts: "المنشورات",
-                    nav_ping: "رنين",
+                    nav_ping: "بينغ",
+                    nav_download: "تحميل", // ADDED
                     search_placeholder: "ابحث عن أشخاص، منشورات، مجموعات...",
                     theme_light: "فاتح",
                     theme_dark: "داكن",

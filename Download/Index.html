@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liketube</title>
+    <!-- Page title updated -->
+    <title>Download - Liketube</title>
     <!-- Using Tahoma font for a more classic web feel -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
     <!-- FIX: Added Google Font "Tajawal" for better Arabic support -->
@@ -42,9 +43,18 @@
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
 
+            /* NEW: Download Button */
+            --btn-download-bg: linear-gradient(to bottom, #4267B2, #3b5998);
+            --btn-download-hover-bg: linear-gradient(to bottom, #3b5998, #365899);
+            --btn-download-border: #365899;
+            --btn-download-text: #ffffff;
+
             /* Mobile Menu */
             --mobile-menu-bg: #f0f2f5;
             --mobile-menu-text: #000000;
+
+            /* Added Card BG */
+            --card-bg: #ffffff;
         }
 
         .dark-mode {
@@ -77,9 +87,18 @@
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
 
+            /* NEW: Download Button */
+            --btn-download-bg: linear-gradient(to bottom, #5890ff, #4267B2);
+            --btn-download-hover-bg: linear-gradient(to bottom, #4267B2, #3b5998);
+            --btn-download-border: #4267B2;
+            --btn-download-text: #ffffff;
+            
             /* Mobile Menu */
             --mobile-menu-bg: #2c2c2c;
             --mobile-menu-text: #e0e0e0;
+            
+            /* Added Card BG */
+            --card-bg: #2c3a5e;
         }
 
         /* --- Base & Animations --- */
@@ -89,11 +108,10 @@
             padding: 0;
         }
         
-        /* --- FIX: Ensure full width and no horizontal scroll --- */
         html, body {
             width: 100%;
             min-width: 100%;
-            overflow-x: clip; /* More robust than hidden */
+            overflow-x: clip;
         }
 
         body {
@@ -101,21 +119,17 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
-            /* overflow-x: hidden; <-- Removed, now on html,body */
         }
         
-        /* --- FIX: Added specific font for Arabic readability --- */
         [dir="rtl"] body, 
         [dir="rtl"] .btn, 
         [dir="rtl"] input,
         [dir="rtl"] .mobile-search-bar input {
             font-family: 'Tajawal', 'Tahoma', sans-serif;
-            /* Adjust line-height for Arabic which tends to be taller */
             line-height: 1.7; 
         }
         
         [dir="rtl"] .text-content p {
-            /* Give Arabic paragraphs a bit more breathing room */
             line-height: 1.8; 
         }
 
@@ -159,8 +173,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--header-border); /* Updated border */
-            transition: background-image 0.3s ease; /* Transition background */
+            border-bottom: 1px solid var(--header-border);
+            transition: background-image 0.3s ease;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -188,34 +202,31 @@
         .logo {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--header-text); /* Header text color */
+            color: var(--header-text);
             text-decoration: none;
             margin-right: 2.5rem;
             animation: fadeAndSlideUp 0.6s ease-out;
         }
 
-        /* --- Nav Links FIX: Added display: flex to nav-links container --- */
         .nav-links {
-            display: flex; /* CRITICAL FIX: Make the container a flex container */
-            align-items: center; /* Vertically align links */
-            gap: 1.2rem; /* Use gap for spacing instead of margins on links */
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
         }
         
         .nav-links a {
-            /* Removed margin as we are using gap on the container */
-            color: var(--header-text); /* Header text color */
+            color: var(--header-text);
             text-decoration: none;
             font-weight: 500;
             position: relative;
             transition: color 0.2s ease;
             opacity: 0;
             animation: fadeAndSlideUp 0.6s ease-out forwards;
-            padding: 0 0 5px 0; /* Only apply bottom padding for underline positioning */
+            padding: 0 0 5px 0;
         }
         .nav-links a:nth-child(1) { animation-delay: 0.1s; }
         .nav-links a:nth-child(2) { animation-delay: 0.2s; }
         .nav-links a:nth-child(3) { animation-delay: 0.3s; }
-        /* ADDED: Animation delay for new link */
         .nav-links a:nth-child(4) { animation-delay: 0.4s; }
 
         .nav-links a::after {
@@ -223,7 +234,7 @@
             position: absolute;
             width: 0;
             height: 2px;
-            background-color: var(--header-text); /* Line color */
+            background-color: var(--header-text);
             left: 50%;
             transform: translateX(-50%);
             bottom: -5px;
@@ -231,11 +242,30 @@
         }
 
         .nav-links a:hover {
-            color: var(--header-text-secondary); /* Lighter hover */
+            color: var(--header-text-secondary);
         }
         .nav-links a:hover::after {
             width: 100%;
         }
+        
+        /* --- NEW: Active Nav Link Style --- */
+        .nav-links a.active-nav-link,
+        .mobile-nav-links a.active-nav-link {
+            color: var(--header-text-secondary); /* Make it look "selected" */
+            font-weight: 700;
+        }
+        .nav-links a.active-nav-link::after {
+            width: 100%; /* Show underline */
+        }
+         .mobile-nav-links a.active-nav-link {
+            color: var(--primary-blue);
+            background-color: rgba(0,0,0,0.05);
+         }
+         .dark-mode .mobile-nav-links a.active-nav-link {
+            color: var(--primary-blue);
+         }
+        /* --- End Active Nav Link Style --- */
+
 
         .search-bar {
             width: 100%;
@@ -244,7 +274,7 @@
             align-items: center;
             background-color: var(--search-bg);
             border: 1px solid var(--search-border);
-            border-radius: 4px; /* Reduced for classic look */
+            border-radius: 4px;
             padding: 0.5rem 1rem;
             transition: background-color 0.3s, border-color 0.3s;
             opacity: 0;
@@ -252,7 +282,7 @@
             animation-delay: 0.2s;
         }
         
-        .mobile-search-bar { /* Used in the mobile menu */
+        .mobile-search-bar {
             width: 100%;
             display: flex;
             align-items: center;
@@ -290,19 +320,19 @@
             background: transparent;
             outline: none;
             width: 100%;
-            color: #000; /* Text color inside search bar */
+            color: #000;
             font-family: 'Tahoma', sans-serif;
             font-size: 0.9rem;
         }
         .dark-mode .search-bar input {
-            color: var(--text-color); /* Dark mode text */
+            color: var(--text-color);
         }
 
         /* --- Togglers & Buttons --- */
         .user-controls {
             display: flex;
             align-items: center;
-            gap: 0.75rem; /* Space between togglers and buttons */
+            gap: 0.75rem;
         }
         
         .user-controls > * {
@@ -322,8 +352,8 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: var(--header-text); /* Header text color */
-            font-size: 1.2rem; /* Icon size */
+            color: var(--header-text);
+            font-size: 1.2rem;
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -339,12 +369,12 @@
         }
 
         .dropdown-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.1); /* Subtle hover for gradient */
+            background-color: rgba(255, 255, 255, 0.1);
             color: var(--header-text);
         }
 
         .dropdown-menu {
-            display: none; /* Hidden by default */
+            display: none;
             position: absolute;
             right: 0;
             top: 50px;
@@ -352,16 +382,14 @@
             min-width: 140px;
             box-shadow: var(--dropdown-shadow);
             z-index: 1;
-            border-radius: 4px; /* Reduced for classic look */
+            border-radius: 4px;
             overflow: hidden;
-            /* Animations for click toggle */
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
             transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
         }
         
-        /* This class will be toggled by JS */
         .dropdown-menu.show {
             display: block;
             opacity: 1;
@@ -392,14 +420,12 @@
             color: white;
         }
         
-        /* REMOVED hover logic */
-
         .btn {
             border: none;
             padding: 0.6rem 1.2rem;
-            border-radius: 4px; /* Reduced for classic look */
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: 700; /* Bolder for classic feel */
+            font-weight: 700;
             font-family: 'Tahoma', sans-serif;
             text-decoration: none;
             font-size: 0.9rem;
@@ -425,12 +451,24 @@
             background-image: var(--btn-signup-hover-bg);
             border-color: var(--btn-signup-border);
             transform: translateY(-2px);
-            /* Removed modern shadow */
         }
+
+        /* --- NEW: Download Button Style --- */
+        .btn-download {
+            background-image: var(--btn-download-bg);
+            color: var(--btn-download-text);
+            border: 1px solid var(--btn-download-border);
+        }
+        .btn-download:hover {
+            background-image: var(--btn-download-hover-bg);
+            border-color: var(--btn-download-border);
+            transform: translateY(-2px);
+        }
+        /* --- End Download Button Style --- */
 
         /* --- Mobile Menu Styling --- */
         .hamburger-menu {
-            display: none; /* Hide by default, show on mobile */
+            display: none;
             font-size: 1.5rem;
             color: var(--header-text);
             cursor: pointer;
@@ -445,15 +483,15 @@
         .mobile-menu {
             position: fixed;
             top: 0;
-            left: -100%; /* Start off-screen to the left */
-            width: 80%; /* Takes 80% of screen width */
+            left: -100%;
+            width: 80%;
             height: 100%;
             background-color: var(--mobile-menu-bg);
             color: var(--mobile-menu-text);
             z-index: 1050;
             padding: 2rem;
-            transform: translateX(0); /* We will transition left property */
-            transition: left 0.3s ease-out; /* Transition 'left' */
+            transform: translateX(0);
+            transition: left 0.3s ease-out;
             box-shadow: 2px 0 5px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
@@ -462,17 +500,17 @@
 
         [dir="rtl"] .mobile-menu {
             left: auto;
-            right: -100%; /* Start off-screen to the right for RTL */
-            transition: right 0.3s ease-out; /* Transition 'right' for RTL */
+            right: -100%;
+            transition: right 0.3s ease-out;
         }
         
         .mobile-menu.open {
-            left: 0; /* Slide in from left */
+            left: 0;
         }
         
         [dir="rtl"] .mobile-menu.open {
             left: auto;
-            right: 0; /* Slide in from right for RTL */
+            right: 0;
         }
 
         .mobile-menu-close {
@@ -506,26 +544,25 @@
             background-color: rgba(0,0,0,0.05);
         }
 
-        /* --- Main Content Sections --- */
+        /* --- Main Content Sections (Original from liketube.html) --- */
         .content-section {
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Aligned to left */
-            gap: 5rem; /* Added gap */
+            justify-content: flex-start;
+            gap: 5rem;
             padding: 6rem 5rem;
             min-height: 80vh;
         }
         [dir="rtl"] .content-section, [dir="rtl"] .content-section.reverse {
             text-align: right;
-            justify-content: flex-start; /* RTL starts from the right */
+            justify-content: flex-start;
         }
         
-        /* Reverse order for the Dawaa section */
         .content-section.reverse {
             flex-direction: row-reverse;
         }
         [dir="rtl"] .content-section.reverse {
-            flex-direction: row; /* Un-reverse for RTL */
+            flex-direction: row;
         }
 
         .text-content {
@@ -564,7 +601,7 @@
 
         .image-content {
             flex: 1;
-            max-width: 550px; /* Give image a bit more space */
+            max-width: 550px;
             justify-content: center;
             align-items: center;
             opacity: 0;
@@ -575,13 +612,101 @@
             height: auto;
             max-height: 450px;
             object-fit: contain;
-            /* Removed modern shadow */
             transition: transform 0.4s ease;
         }
         
         .image-content img:hover {
             transform: scale(1.05);
         }
+
+        /* --- NEW: Download Page Styles --- */
+        .download-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .download-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            animation: fadeAndSlideUp 0.6s ease-out;
+        }
+        
+        [dir="rtl"] .download-section h1 {
+            font-family: 'Tajawal', 'Tahoma', sans-serif;
+        }
+
+        .download-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+
+        .download-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--search-border);
+            border-radius: 8px; /* Slightly more rounded */
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            animation: fadeAndSlideUp 0.8s ease-out forwards;
+        }
+        
+        .download-card:nth-child(1) {
+             animation-delay: 0.2s;
+        }
+        .download-card:nth-child(2) {
+             animation-delay: 0.4s;
+        }
+
+        .download-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .dark-mode .download-card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .download-card i {
+            font-size: 4rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .download-card h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        [dir="rtl"] .download-card h2 {
+            font-family: 'Tajawal', 'Tahoma', sans-serif;
+        }
+
+        .download-card p {
+            font-size: 1rem;
+            color: var(--text-color-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            min-height: 60px; /* Give space for description */
+        }
+
+        .download-card .btn {
+            width: 100%; /* Make button full width of card */
+            font-size: 1rem;
+            padding: 0.8rem 1.2rem;
+        }
+
 
         /* --- Footer --- */
         .footer {
@@ -590,7 +715,7 @@
             text-align: center;
             padding: 2rem;
             font-size: 0.9rem;
-            margin-top: 3rem;
+            /* Removed margin-top to be more flexible */
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
@@ -608,10 +733,10 @@
 
         @media (max-width: 992px) {
             .hamburger-menu {
-                display: block; /* Show hamburger on tablet/mobile */
+                display: block;
             }
             .header-center, .nav-links {
-                display: none; /* Hide search bar and desktop nav links */
+                display: none;
             }
             .header-left {
                 flex: none;
@@ -619,12 +744,13 @@
             .header-right {
                 flex: 1;
             }
+            /* Original content section stacking */
             .content-section, .content-section.reverse {
                 flex-direction: column;
                 text-align: center;
                 padding: 3rem 2rem;
                 min-height: auto;
-                gap: 2rem; /* Reduce gap on mobile */
+                gap: 2rem;
             }
             .text-content p {
                 margin: 0 auto;
@@ -633,7 +759,7 @@
                 text-align: center;
             }
             [dir="rtl"] .content-section.reverse {
-                flex-direction: column; /* Keep column for RTL mobile */
+                flex-direction: column;
             }
             [dir="rtl"] .text-content p {
                 margin: 0 auto;
@@ -645,7 +771,7 @@
         
         @media (max-width: 768px) {
             .header {
-                flex-wrap: nowrap; /* Keep header elements in a single row */
+                flex-wrap: nowrap;
                 padding: 1rem;
             }
             .header-left {
@@ -653,7 +779,7 @@
                 justify-content: flex-start;
             }
             .header-right {
-                flex: none; /* Let user controls shrink */
+                flex: none;
             }
             .user-controls {
                 gap: 0.25rem;
@@ -666,6 +792,7 @@
                 margin-right: 0.5rem;
                 font-size: 1.5rem;
             }
+            /* Original content section padding */
             .content-section {
                 padding: 3rem 1rem;
             }
@@ -673,10 +800,24 @@
             .text-content h2 { font-size: 1.8rem; }
             .text-content p { font-size: 1rem; }
             
-            /* --- FIX: Improve Arabic readability on mobile --- */
             [dir="rtl"] .text-content p {
-                font-size: 1.05rem; /* Slightly larger for Arabic */
-                line-height: 1.8; /* More spacing */
+                font-size: 1.05rem;
+                line-height: 1.8;
+            }
+
+            /* Download section responsive */
+            .download-section {
+                padding: 3rem 1rem;
+            }
+            .download-section h1 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .download-container {
+                gap: 1.5rem;
+            }
+            .download-card {
+                padding: 2rem 1.5rem;
             }
         }
 
@@ -696,10 +837,12 @@
 
         <!-- Nav Links -->
         <nav class="mobile-nav-links">
-            <a href="#" data-key="nav_home">Home</a>
+            <!-- Link to home updated -->
+            <a href="liketube.html" data-key="nav_home">Home</a>
             <a href="#" data-key="nav_posts">Posts</a>
             <a href="#" data-key="nav_ping">Ping</a>
-            <a href="download/index.html" data-key="nav_download">Download</a>
+            <!-- Download link is now active -->
+            <a href="#" data-key="nav_download" class="active-nav-link">Download</a>
         </nav>
         
         <p style="margin-top: auto; font-size: 0.8rem; color: #666;">
@@ -712,13 +855,15 @@
         <div class="header-left">
             <!-- Hamburger Menu (Mobile Only) -->
             <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
-            <a href="#" class="logo">Liketube</a>
+            <!-- Logo links to home -->
+            <a href="liketube.html" class="logo">Liketube</a>
             <nav class="nav-links">
-                <a href="#" data-key="nav_home">Home</a>
+                <!-- Link to home updated -->
+                <a href="../index.html" data-key="nav_home">Home</a>
                 <a href="#" data-key="nav_posts">Posts</a>
                 <a href="#" data-key="nav_ping">Ping</a>
-                <!-- ADDED: Download Link -->
-                <a href="#" data-key="nav_download">Download</a>
+                <!-- Download link is now active -->
+                <a href="#" data-key="nav_download" class="active-nav-link">Download</a>
             </nav>
         </div>
 
@@ -762,32 +907,37 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
-        <section class="content-section">
-            <div class="text-content">
-                <h1 class="slide-in-left" data-key="hero_title">Welcome to Liketube</h1>
-                <p class="slide-in-left" style="animation-delay: 0.2s;" data-key="hero_desc">
-                    Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.
-                </p>
-            </div>
-            <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <img src="arab-countries.png" alt="Illustration of the Arab Countries">
+        <!-- NEW: Download Section -->
+        <section class="download-section">
+            <h1 data-key="download_title">Download Liketube</h1>
+            <div class="download-container">
+                
+                <!-- Windows Card -->
+                <div class="download-card">
+                    <i class="fab fa-windows"></i>
+                    <h2 data-key="windows_title">For Windows</h2>
+                    <p data-key="windows_desc">
+                        Get the full desktop experience on your PC. (Windows 10/11)
+                    </p>
+                    <!-- Dummy download link -->
+                    <a href="#" class="btn btn-download" data-key="btn_download">Download</a>
+                </div>
+                
+                <!-- Android Card -->
+                <div class="download-card">
+                    <i class="fab fa-android"></i>
+                    <h2 data-key="android_title">For Android</h2>
+                    <p data-key="android_desc">
+                        Take Liketube with you on the go with our native Android app.
+                    </p>
+                    <!-- Dummy download link -->
+                    <a href="#" class="btn btn-download" data-key="btn_download">Download</a>
+                </div>
+                
             </div>
         </section>
+        <!-- End of NEW Download Section -->
 
-        <!-- Dawaa Section (Reversed) -->
-        <section class="content-section reverse">
-            <div class="text-content">
-                <h2 class="slide-in-right" data-key="dawaa_title">Your Daawaa Continues Here</h2>
-                <p class="slide-in-right" style="animation-delay: 0.2s;" data-key="dawaa_desc">
-                    Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.
-                </p>
-            </div>
-            <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <!-- Placeholder image for Dawaa illustration -->
-                <img src="muslim-daawaa.png" alt="Illustration for Muslim Dawaa">
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -804,7 +954,6 @@
 
             hamburgerMenu.addEventListener('click', () => {
                 mobileMenu.classList.add('open');
-                // Optional: Prevent background scrolling when menu is open
                 document.body.style.overflow = 'hidden';
             });
 
@@ -813,21 +962,23 @@
                 document.body.style.overflow = '';
             });
 
-            // Close mobile menu if a link is clicked
             document.querySelectorAll('.mobile-nav-links a').forEach(link => {
                 link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('open');
-                    document.body.style.overflow = '';
+                    // Only close if it's not a jump link on the same page
+                    if(link.getAttribute('href') !== '#') {
+                        mobileMenu.classList.remove('open');
+                        document.body.style.overflow = '';
+                    }
                 });
             });
 
-            // --- Translations ---
+            // --- Translations (with new keys added) ---
             const translations = {
                 en: {
                     nav_home: "Home",
                     nav_posts: "Posts",
                     nav_ping: "Ping",
-                    nav_download: "Download", // ADDED
+                    nav_download: "Download",
                     search_placeholder: "Search for people, posts, groups...",
                     theme_light: "Light",
                     theme_dark: "Dark",
@@ -836,17 +987,24 @@
                     lang_ar: "Arabic",
                     btn_login: "Login",
                     btn_signup: "Signup",
-                    hero_title: "Welcome to Liketube",
-                    hero_desc: "Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.",
-                    dawaa_title: "Your Daawaa Continues Here",
-                    dawaa_desc: "Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.",
-                    footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved."
+                    hero_title: "Welcome to Liketube", // Kept for other pages if needed
+                    hero_desc: "Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.", // Kept
+                    dawaa_title: "Your Daawaa Continues Here", // Kept
+                    dawaa_desc: "Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.", // Kept
+                    footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved.",
+                    // --- NEW DOWNLOAD PAGE KEYS ---
+                    download_title: "Download Liketube",
+                    windows_title: "For Windows",
+                    windows_desc: "Get the full desktop experience on your PC. (Windows 10/11)",
+                    android_title: "For Android",
+                    android_desc: "Take Liketube with you on the go with our native Android app.",
+                    btn_download: "Download"
                 },
                 ar: {
                     nav_home: "الرئيسية",
                     nav_posts: "المنشورات",
                     nav_ping: "بينغ",
-                    nav_download: "تحميل", // ADDED
+                    nav_download: "تحميل",
                     search_placeholder: "ابحث عن أشخاص، منشورات، مجموعات...",
                     theme_light: "فاتح",
                     theme_dark: "داكن",
@@ -855,11 +1013,18 @@
                     lang_ar: "العربية",
                     btn_login: "تسجيل الدخول",
                     btn_signup: "إنشاء حساب",
-                    hero_title: "أهلاً بك في لايك تيوب",
-                    hero_desc: "لايك تيوب هي منصة تواصل اجتماعي جديدة ومجانية بالكامل ذات طابع كلاسيكي، تم إنشاؤها خصيصًا للمجتمع المسلم. تتوفر برامج للتحميل لأنظمة أندرويد وويندوز.",
-                    dawaa_title: "دعوتك مستمرة هنا",
-                    dawaa_desc: "هل تعمل في الدعوة وتم حظرك مؤخرًا من فيسبوك؟ يمكنك متابعة الدعوة الإلكترونية هنا بدون أي تكاليف على الإطلاق.",
-                    footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة."
+                    hero_title: "أهلاً بك في لايك تيوب", // Kept
+                    hero_desc: "لايك تيوب هي منصة تواصل اجتماعي جديدة ومجانية بالكامل ذات طابع كلاسيكي، تم إنشاؤها خصيصًا للمجتمع المسلم. تتوفر برامج للتحميل لأنظمة أندرويد وويندوز.", // Kept
+                    dawaa_title: "دعوتك مستمرة هنا", // Kept
+                    dawaa_desc: "هل تعمل في الدعوة وتم حظرك مؤخرًا من فيسبوك؟ يمكنك متابعة الدعوة الإلكترونية هنا بدون أي تكاليف على الإطلاق.", // Kept
+                    footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة.",
+                    // --- NEW DOWNLOAD PAGE KEYS ---
+                    download_title: "تحميل لايك تيوب",
+                    windows_title: "لأجهزة ويندوز",
+                    windows_desc: "احصل على تجربة سطح المكتب الكاملة على جهازك. (ويندوز 10/11)",
+                    android_title: "لأجهزة أندرويد",
+                    android_desc: "خذ لايك تيوب معك أينما ذهبت مع تطبيقنا الرسمي للأندرويد.",
+                    btn_download: "تحميل"
                 }
             };
 
@@ -868,16 +1033,14 @@
             const themeIcon = document.getElementById('theme-icon');
             const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-            // Function to apply the theme
             function applyTheme(theme) {
                 if (theme === 'dark') {
                     document.body.classList.add('dark-mode');
-                } else { // 'light'
+                } else {
                     document.body.classList.remove('dark-mode');
                 }
             }
 
-            // Function to update the icon based on *selection*
             function updateThemeIcon(selectedTheme) {
                 if (selectedTheme === 'auto') {
                     themeIcon.className = 'fas fa-magic';
@@ -888,7 +1051,6 @@
                 }
             }
 
-            // Function to handle automatic theme
             function applyAutomaticTheme() {
                 if (osDarkScheme.matches) {
                     applyTheme('dark');
@@ -897,53 +1059,44 @@
                 }
             }
             
-            // Set theme on load
             const savedTheme = localStorage.getItem('theme') || 'auto';
             
-            // 1. Set the active class in the menu
             document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
             const activeThemeLink = document.querySelector(`#theme-menu a[data-theme="${savedTheme}"]`);
             if (activeThemeLink) {
                 activeThemeLink.classList.add('active');
             }
 
-            // 2. Set the correct icon
             updateThemeIcon(savedTheme);
             
-            // 3. Apply the correct theme
             if (savedTheme === 'auto') {
                 applyAutomaticTheme();
             } else {
                 applyTheme(savedTheme);
             }
 
-            // Listen for theme changes from the dropdown
             themeMenu.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = e.target.closest('a[data-theme]');
                 if (!target) return;
                 
-                // Update active class
                 document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
                 target.classList.add('active');
                 
                 const newTheme = target.getAttribute('data-theme');
                 localStorage.setItem('theme', newTheme);
                 
-                // 1. Update the icon
                 updateThemeIcon(newTheme);
                 
-                // 2. Apply the theme
                 if (newTheme === 'auto') {
                     applyAutomaticTheme();
                 } else {
                     applyTheme(newTheme);
                 }
                 
-                target.closest('.dropdown-menu').classList.remove('show'); // Close menu
+                target.closest('.dropdown-menu').classList.remove('show');
             });
 
-            // Listen for OS theme changes
             osDarkScheme.addEventListener('change', () => {
                 if (localStorage.getItem('theme') === 'auto') {
                     applyAutomaticTheme();
@@ -960,15 +1113,12 @@
             function setLanguage(lang) {
                 if (!translations[lang]) lang = 'en';
 
-                // Set HTML lang and dir
                 document.documentElement.lang = lang;
                 document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-                // Translate all [data-key] elements
                 document.querySelectorAll('[data-key]').forEach(el => {
                     const key = el.getAttribute('data-key');
                     if (translations[lang][key]) {
-                        // Handle placeholders separately
                         if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
                             el.placeholder = translations[lang][key];
                         } else {
@@ -977,31 +1127,24 @@
                     }
                 });
 
-                // Since mobile search bar is a new element, ensure its placeholder is updated
                 if (mobileSearchInput && translations[lang]['search_placeholder']) {
                     mobileSearchInput.placeholder = translations[lang]['search_placeholder'];
                 }
 
-
-                // Update lang button text
                 langToggleBtn.textContent = lang.toUpperCase();
                 
-                // Update active class in dropdown
                 document.querySelectorAll('#lang-menu a').forEach(a => a.classList.remove('active'));
                 const activeLangLink = document.querySelector(`#lang-menu a[data-lang="${lang}"]`);
                 if (activeLangLink) {
                     activeLangLink.classList.add('active');
                 }
 
-                // Save preference
                 localStorage.setItem('language', lang);
             }
 
-            // Set language on load
             const savedLang = localStorage.getItem('language') || 'en';
             setLanguage(savedLang);
             
-            // Listen for language changes from dropdown
             langMenu.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = e.target.closest('a[data-lang]');
@@ -1009,7 +1152,7 @@
 
                 const newLang = target.getAttribute('data-lang');
                 setLanguage(newLang);
-                target.closest('.dropdown-menu').classList.remove('show'); // Close menu on select
+                target.closest('.dropdown-menu').classList.remove('show');
             });
             
             
@@ -1018,22 +1161,19 @@
 
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent window click from firing
+                    e.stopPropagation();
                     const menu = toggle.nextElementSibling;
                     
-                    // Close all other open menus
                     document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
                         if (openMenu !== menu) {
                             openMenu.classList.remove('show');
                         }
                     });
                     
-                    // Toggle the current menu
                     menu.classList.toggle('show');
                 });
             });
 
-            // Close dropdowns if clicking outside
             window.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
                     openMenu.classList.remove('show');
@@ -1044,3 +1184,4 @@
     </script>
 </body>
 </html>
+

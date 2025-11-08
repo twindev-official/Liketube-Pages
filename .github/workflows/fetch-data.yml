@@ -1,19 +1,3 @@
-# This is the name of your GitHub Action
-name: Fetch GitHub Data
-
-# This controls WHEN the action runs
-on:
-  # 1. Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-  
-  # 2. Runs on a schedule (this example is once per day at midnight UTC)
-  schedule:
-    - cron: '0 0 * * *'
-  
-  # 3. (Optional) You can also run it every time you push to main
-  # push:
-  #   branches: [ "main" ]
-
 jobs:
   # This is the name of the "job"
   fetch-data:
@@ -33,11 +17,12 @@ jobs:
       # Step 2: Create the directory to store the data, if it doesn't exist
       # We'll use a folder named `_data` to keep things tidy
       - name: Create data directory
-        run: mkdir -p ./_data
+        # <--- FIX 1: Create the 'login' subdirectory as well
+        run: mkdir -p ./_data/login
 
       # Step 3: Fetch the API JSON for a file from another repository
       # This example fetches the 'LICENSE.txt' file from the 'godotengine/godot' repo
-      - name: Fetch specific file API data}/
+      - name: Fetch specific file API data
         run: |
           # --- !! EDIT THESE VALUES !! ---
           # Define the repository and file you want to fetch
@@ -50,7 +35,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${TARGET_OWNER}/${TARGET_REPOcontents/${TARGET_FILE_PATH}" \
+            "https://api.github.com/repos/${TARGET_OWNER}/${TARGET_REPO}/contents/${TARGET_FILE_PATH}" \ # <--- FIX 2: Added missing '/'
             > ./_data/login/accounts.json
             
       # Step 4: Commit the new file (or changes) back to your repository
@@ -60,8 +45,8 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "github-action-bot@users.noreply.github.com"
           
-          # Add the file to be committed
-          git add ./_data/github_file.json
+          # <--- FIX 3: Point to the correct file path you created in Step 3
+          git add ./_data/login/accounts.json
           
           # Check if there are any changes to commit.
           # If there are no changes, the 'git commit' command will fail.

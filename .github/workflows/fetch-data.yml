@@ -10,12 +10,6 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-jobs:
-  # This is the name of the "job"
-  fetch-data:
-    # It runs on a standard virtual machine
-    runs-on: ubuntu-latest
-    
     # ...and the rest of your file continues from here...
 jobs:
   # This is the name of the "job"

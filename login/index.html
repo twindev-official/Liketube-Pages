@@ -4,35 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Liketube</title>
-    <!-- Using Tahoma font for a more classic web feel -->
+    <!-- Fonts from main page -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
-    <!-- FIX: Added Google Font "Tajawal" for better Arabic support -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Icon for the website -->
-    <link rel="icon" href="icon.png">
+    <!-- Icon from main page (assuming path relative to root) -->
+    <link rel="icon" href="../icon.png">
     
-    <!-- Using the same styles from index.html -->
     <style>
+        /* Copied theme variables from index.html for consistency */
         :root {
             /* Light Mode (Default) - Classic Theme */
             --bg-color: #e6f0ff; /* Light blue background */
             --header-bg: linear-gradient(to bottom, #4267B2, #3b5998); /* Blue gradient header */
             --header-border: #365899;
             --header-text: #ffffff;
-            --header-text-secondary: #d0d8e8; /* Lighter text for hover */
             --text-color: #000000;
             --text-color-secondary: #333;
             --primary-blue: #3b5998; /* Classic Facebook blue */
             --primary-blue-hover: #365899;
             --search-bg: #ffffff;
             --search-border: #ddd;
-            --footer-bg: #343a40;
-            --footer-text: #f8f9fa;
-            --dropdown-bg: #ffffff;
-            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-            --dropdown-hover: #f1f1f1;
             
             /* Button Gradients */
             --btn-login-bg: linear-gradient(to bottom, #f0f8ff, #d6e8ff);
@@ -41,13 +33,14 @@
             --btn-login-text: var(--primary-blue);
             
             --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
-            --btn-signup-hover-bg: linear-gradient(to bottom, #21883d, #1e7e34);
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
 
-            /* Mobile Menu */
-            --mobile-menu-bg: #f0f2f5;
-            --mobile-menu-text: #000000;
+            /* Card styles */
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --card-border: #ddd;
         }
 
         .dark-mode {
@@ -56,36 +49,26 @@
             --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a); /* Dark blue gradient header */
             --header-border: #243f7a;
             --header-text: #e0e0e0;
-            --header-text-secondary: #a0a8b8;
             --text-color: #e0e0e0;
             --text-color-secondary: #aaaaaa;
             --primary-blue: #5890ff; /* Brighter blue for dark mode */
             --primary-blue-hover: #4267B2;
             --search-bg: #2c2c2c;
             --search-border: #444;
-            --footer-bg: #1c1c1c;
-            --footer-text: #aaaaaa;
-            --dropdown-bg: #2c2c2c;
-            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
-            --dropdown-hover: #3a3a3a;
             
             /* Dark Mode Button Gradients */
             --btn-login-bg: linear-gradient(to bottom, #2c3a5e, #24304d);
             --btn-login-hover-bg: linear-gradient(to bottom, #24304d, #1e2840);
             --btn-login-border: var(--primary-blue);
             --btn-login-text: var(--primary-blue);
-            
-            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838); /* Green remains the same */
-            --btn-signup-hover-bg: linear-gradient(to bottom, #21883d, #1e7e34);
-            --btn-signup-border: #1e7e34;
-            --btn-signup-text: #ffffff;
 
-            /* Mobile Menu */
-            --mobile-menu-bg: #2c2c2c;
-            --mobile-menu-text: #e0e0e0;
+            /* Card styles */
+            --card-bg: #2c2c2c;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            --card-border: #444;
         }
 
-        /* --- Base & Animations --- */
+        /* --- Base --- */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -94,8 +77,8 @@
         
         html, body {
             width: 100%;
-            min-width: 100%;
-            overflow-x: clip; 
+            height: 100%;
+            overflow-x: hidden;
         }
 
         body {
@@ -105,979 +88,331 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            align-items: center;
+            justify-content: flex-start; /* Align to top */
+            padding-top: 5rem;
         }
         
-        [dir="rtl"] body, 
-        [dir="rtl"] .btn, 
-        [dir="rtl"] input,
-        [dir="rtl"] .mobile-search-bar input {
+        [dir="rtl"] body {
             font-family: 'Tajawal', 'Tahoma', sans-serif;
-            line-height: 1.7; 
         }
-        
-        /* --- Header --- */
-        .header {
-            background-image: var(--header-bg);
-            padding: 1rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--header-border); 
-            transition: background-image 0.3s ease; 
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+
+        /* --- Login Container --- */
+        .login-container {
             width: 100%;
-        }
-
-        .header-left, .header-center, .header-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-left {
-            flex: 1;
-            justify-content: flex-start;
-            align-items: center; 
-        }
-        .header-center {
-            flex: 2;
-            justify-content: center;
-        }
-        .header-right {
-            flex: 1;
-            justify-content: flex-end;
-        }
-
-        .logo {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--header-text); 
-            text-decoration: none;
-            margin-right: 2.5rem;
-        }
-
-        .nav-links {
-            display: flex; 
-            align-items: center; 
-            gap: 1.2rem; 
-        }
-        
-        .nav-links a {
-            color: var(--header-text); 
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: color 0.2s ease;
-            padding: 0 0 5px 0; 
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background-color: var(--header-text); 
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: -5px;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--header-text-secondary); 
-        }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .nav-links a.active-nav-link,
-        .mobile-nav-links a.active-nav-link {
-            color: var(--header-text-secondary); 
-            font-weight: 700;
-        }
-        .nav-links a.active-nav-link::after {
-            width: 100%; 
-        }
-         .mobile-nav-links a.active-nav-link {
-            color: var(--primary-blue);
-            background-color: rgba(0,0,0,0.05);
-         }
-         .dark-mode .mobile-nav-links a.active-nav-link {
-            color: var(--primary-blue);
-         }
-
-        .search-bar {
-            width: 100%;
-            max-width: 450px;
-            display: flex;
-            align-items: center;
-            background-color: var(--search-bg);
-            border: 1px solid var(--search-border);
-            border-radius: 4px; 
-            padding: 0.5rem 1rem;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        
-        .mobile-search-bar { 
-            width: 100%;
-            display: flex;
-            align-items: center;
-            background-color: var(--search-bg);
-            border: 1px solid var(--search-border);
-            border-radius: 4px;
-            padding: 0.5rem 1rem;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        .mobile-search-bar i {
-            color: #888;
-            margin-right: 0.5rem;
-        }
-        .mobile-search-bar input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            color: var(--text-color);
-            font-family: 'Tahoma', sans-serif;
-            font-size: 0.9rem;
-        }
-
-        .search-bar i {
-            color: #888;
-            margin-right: 0.5rem;
-        }
-        [dir="rtl"] .search-bar i {
-            margin-right: 0;
-            margin-left: 0.5rem;
-        }
-
-        .search-bar input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            color: #000; 
-            font-family: 'Tahoma', sans-serif;
-            font-size: 0.9rem;
-        }
-        .dark-mode .search-bar input {
-            color: var(--text-color); 
-        }
-
-        /* --- Togglers & Buttons --- */
-        .user-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem; 
-        }
-        
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--header-text); 
-            font-size: 1.2rem; 
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-        
-        .lang-toggle {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .dropdown-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.1); 
-            color: var(--header-text);
-        }
-
-        .dropdown-menu {
-            display: none; 
-            position: absolute;
-            right: 0;
-            top: 50px;
-            background-color: var(--dropdown-bg);
-            min-width: 140px;
-            box-shadow: var(--dropdown-shadow);
-            z-index: 1;
-            border-radius: 4px; 
-            overflow: hidden;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-        }
-        
-        .dropdown-menu.show {
-            display: block;
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
-        [dir="rtl"] .dropdown-menu {
-            right: auto;
-            left: 0;
-        }
-
-        .dropdown-menu a {
-            color: var(--text-color);
-            padding: 0.75rem 1rem;
-            text-decoration: none;
-            display: block;
-            font-size: 0.9rem;
-            transition: background-color 0.2s;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: var(--dropdown-hover);
-        }
-        
-        .dropdown-menu a.active {
-            background-color: var(--primary-blue);
-            color: white;
-        }
-
-        .btn {
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 4px; 
-            cursor: pointer;
-            font-weight: 700; 
-            font-family: 'Tahoma', sans-serif;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-login {
-            background-image: var(--btn-login-bg);
-            border: 1px solid var(--btn-login-border);
-            color: var(--btn-login-text);
-        }
-        .btn-login:hover {
-            background-image: var(--btn-login-hover-bg);
-            transform: translateY(-2px);
-        }
-
-        .btn-signup {
-            background-image: var(--btn-signup-bg);
-            color: var(--btn-signup-text);
-            border: 1px solid var(--btn-signup-border);
-        }
-        .btn-signup:hover {
-            background-image: var(--btn-signup-hover-bg);
-            border-color: var(--btn-signup-border);
-            transform: translateY(-2px);
-        }
-
-        /* --- Mobile Menu Styling --- */
-        .hamburger-menu {
-            display: none; 
-            font-size: 1.5rem;
-            color: var(--header-text);
-            cursor: pointer;
-            margin-right: 1rem;
-        }
-        
-        [dir="rtl"] .hamburger-menu {
-            margin-right: 0;
-            margin-left: 1rem;
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: -100%; 
-            width: 80%; 
-            height: 100%;
-            background-color: var(--mobile-menu-bg);
-            color: var(--mobile-menu-text);
-            z-index: 1050;
+            max-width: 420px;
             padding: 2rem;
-            transform: translateX(0); 
-            transition: left 0.3s ease-out; 
-            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .login-container h2 {
+            font-size: 1.25rem;
+            color: var(--text-color-secondary);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+        
+        /* --- Form --- */
+        .login-form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        [dir="rtl"] .mobile-menu {
-            left: auto;
-            right: -100%; 
-            transition: right 0.3s ease-out; 
+            gap: 1rem;
         }
         
-        .mobile-menu.open {
-            left: 0; 
+        .form-group {
+            text-align: left;
         }
         
-        [dir="rtl"] .mobile-menu.open {
-            left: auto;
-            right: 0; 
-        }
-
-        .mobile-menu-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-color);
-        }
-        
-        [dir="rtl"] .mobile-menu-close {
-            right: auto;
-            left: 1rem;
-        }
-        
-        .mobile-nav-links a {
+        .form-group label {
             display: block;
-            padding: 0.75rem 0;
-            text-decoration: none;
-            color: var(--mobile-menu-text);
             font-weight: 700;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            transition: background-color 0.2s;
-        }
-        .dark-mode .mobile-nav-links a {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .mobile-nav-links a:hover {
-            background-color: rgba(0,0,0,0.05);
-        }
-
-        /* --- Main Content (Login Form) --- */
-        .login-container {
-            flex-grow: 1; /* Allows footer to be pushed down */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 1rem;
-        }
-
-        .login-box {
-            background-color: var(--dropdown-bg);
-            border: 1px solid var(--search-border);
-            border-radius: 8px; /* Slightly more rounded */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 400px;
-            padding: 2.5rem;
-            /* REMOVED ANIMATION */
-        }
-        
-        .dark-mode .login-box {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .login-box h1 {
-            text-align: center;
-            font-size: 1.8rem;
-            color: var(--text-color);
-            margin-bottom: 2rem;
-            font-weight: 700;
-        }
-        
-        .login-form .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .login-form label {
-            display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
             color: var(--text-color-secondary);
         }
         
-        .login-form input[type="text"],
-        .login-form input[type="password"] {
+        .form-input {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.8rem 1rem;
             font-size: 1rem;
             font-family: 'Tahoma', sans-serif;
+            color: var(--text-color);
+            background-color: var(--search-bg);
             border: 1px solid var(--search-border);
             border-radius: 4px;
-            background-color: var(--search-bg);
-            color: var(--text-color);
+            outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
         
-        .login-form input[type="text"]:focus,
-        .login-form input[type="password"]:focus {
-            outline: none;
+        .form-input:focus {
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 2px rgba(59, 89, 152, 0.2);
+            box-shadow: 0 0 0 3px rgba(59, 89, 152, 0.2);
         }
         
-        /* Login button, full width - CHANGED TO BLUE */
-        .btn-login-submit {
-            background-image: var(--btn-login-bg);
-            border: 1px solid var(--btn-login-border);
-            color: var(--btn-login-text);
-            width: 100%;
-            font-size: 1.1rem;
+        .btn {
+            border: none;
             padding: 0.8rem 1.2rem;
-            margin-top: 0.5rem;
+            border-radius: 4px; /* Reduced for classic look */
+            cursor: pointer;
+            font-weight: 700; /* Bolder for classic feel */
+            font-family: 'Tahoma', sans-serif;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-login-submit {
+            background-image: var(--btn-signup-bg); /* Using signup green for primary action */
+            color: var(--btn-signup-text);
+            border: 1px solid var(--btn-signup-border);
         }
         .btn-login-submit:hover {
-            background-image: var(--btn-login-hover-bg);
+            background-image: var(--btn-signup-hover-bg);
             transform: translateY(-2px);
         }
-        
-        /* Loading state for button */
         .btn-login-submit:disabled {
-            opacity: 0.7;
+            background-image: none;
+            background-color: #999;
+            border-color: #888;
             cursor: not-allowed;
+            transform: none;
         }
-
-        /* Message box for errors */
-        .message-box {
-            display: none; /* Hidden by default */
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-        .message-box.error {
-            background-color: #ffebee;
-            color: #c62828;
-            border: 1px solid #ef9a9a;
-            display: block;
-        }
-        .message-box.success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #a5d6a7;
-            display: block;
-        }
-        .dark-mode .message-box.error {
-            background-color: #4a1c1c;
-            color: #ffcdd2;
-            border: 1px solid #c62828;
-        }
-        .dark-mode .message-box.success {
-            background-color: #1c3b1e;
-            color: #c8e6c9;
-            border: 1px solid #2e7d32;
-        }
-
-        /* Link to signup page */
-        .signup-link {
-            text-align: center;
+        
+        /* --- Message Area --- */
+        #message-box {
             margin-top: 1.5rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-weight: 500;
+            display: none; /* Hidden by default */
         }
-        .signup-link a {
+        
+        #message-box.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        #message-box.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        /* --- Back Link --- */
+        .back-link {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
             color: var(--primary-blue);
             text-decoration: none;
-            font-weight: 500;
+            display: inline-block;
         }
-        .signup-link a:hover {
+        .back-link:hover {
             text-decoration: underline;
-        }
-
-        /* --- Footer --- */
-        .footer {
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.9rem;
-            margin-top: auto; /* Pushes footer to bottom */
-            transition: background-color 0.3s ease, color 0.3s ease;
-            width: 100%;
-        }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 1200px) {
-            .header {
-                padding: 1rem 2rem;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .hamburger-menu {
-                display: block; 
-            }
-            .header-center, .nav-links {
-                display: none; 
-            }
-            .header-left {
-                flex: none;
-            }
-            .header-right {
-                flex: 1;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header {
-                flex-wrap: nowrap; 
-                padding: 1rem;
-            }
-            .header-left {
-                flex: 1;
-                justify-content: flex-start;
-            }
-            .header-right {
-                flex: none; 
-            }
-            .user-controls {
-                gap: 0.25rem;
-            }
-            .btn {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.8rem;
-            }
-            .logo {
-                margin-right: 0.5rem;
-                font-size: 1.5rem;
-            }
-            
-            .login-container {
-                padding: 2rem 1rem;
-            }
-            .login-box {
-                padding: 2rem 1.5rem;
-            }
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Mobile Menu Container -->
-    <div class="mobile-menu" id="mobile-menu">
-        <i class="fas fa-times mobile-menu-close" id="mobile-menu-close"></i>
+    <div class="login-container">
+        <a href="../index.html" class="logo">Liketube</a>
+        <h2>Log in to your account</h2>
+
+        <form class="login-form" id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type-="text" id="username" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-input" required>
+            </div>
+            
+            <button type="submit" class="btn btn-login-submit" id="login-button">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
         
-        <!-- Search Bar -->
-        <div class="mobile-search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
-        </div>
-
-        <!-- Nav Links -->
-        <nav class="mobile-nav-links">
-            <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home">Home</a>
-            <a href="#" data-key="nav_posts">Posts</a>
-            <a href="#" data-key="nav_ping">Ping</a>
-            <a href="Download" data-key="nav_download">Download</a>
-        </nav>
+        <div id="message-box"></div>
+        
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
     </div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="header-left">
-            <!-- Hamburger Menu (Mobile Only) -->
-            <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
-            <a href="https://twindev-official.github.io/Liketube-Pages/" class="logo">Liketube</a>
-            <nav class="nav-links">
-                <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home">Home</a>
-                <a href="#" data-key="nav_posts">Posts</a>
-                <a href="#" data-key="nav_ping">Ping</a>
-                <a href="Download" data-key="nav_download">Download</a>
-            </nav>
-        </div>
-
-        <div class="header-center">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
-            </div>
-        </div>
-
-        <div class="header-right">
-            <div class="user-controls">
-                <!-- Theme Toggler Dropdown -->
-                <div class="dropdown">
-                    <button class="dropdown-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
-                        <i class="fas fa-sun" id="theme-icon"></i>
-                    </button>
-                    <div class="dropdown-menu" id="theme-menu">
-                        <a href="#" data-theme="light" data-key="theme_light"><i class="fas fa-sun fa-fw"></i> Light</a>
-                        <a href="#" data-theme="dark" data-key="theme_dark"><i class="fas fa-moon fa-fw"></i> Dark</a>
-                        <a href="#" data-theme="auto" data-key="theme_auto"><i class="fas fa-magic fa-fw"></i> Automatic</a>
-                    </div>
-                </div>
-                
-                <!-- Language Toggler Dropdown -->
-                <div class="dropdown">
-                    <button class="dropdown-toggle lang-toggle" id="lang-toggle-btn" aria-label="Toggle language">
-                        EN
-                    </button>
-                    <div class="dropdown-menu" id="lang-menu">
-                        <a href="#" data-lang="en" data-key="lang_en">English</a>
-                        <a href="#" data-lang="ar" data-key="lang_ar">Arabic</a>
-                    </div>
-                </div>
-
-                <!-- MODIFIED: Link points to login.html -->
-                <a href="login.html" class="btn btn-login active-nav-link" data-key="btn_login">Login</a>
-                <a href="signup.html" class="btn btn-signup" data-key="btn_signup">Signup</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="login-container">
-        <div class="login-box">
-            <h1 data-key="btn_login">Login</h1>
-            
-            <!-- This message box will show errors -->
-            <div id="message-box" class="message-box"></div>
-            
-            <form id="login-form" class="login-form">
-                <div class="form-group">
-                    <label for="username" data-key="login_username">Username</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password" data-key="login_password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                
-                <button type="submit" id="login-button" class="btn btn-login-submit" data-key="btn_login">Login</button>
-            </form>
-
-            <div class="signup-link">
-                <a href="signup.html" data-key="login_create_account">Create new account</a>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p data-key="footer_text">© 2025 Liketube. Developed by Twindev. All rights reserved.</p>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Translations ---
-            const translations = {
-                en: {
-                    nav_home: "Home",
-                    nav_posts: "Posts",
-                    nav_ping: "Ping",
-                    nav_download: "Download",
-                    search_placeholder: "Search for people, posts, groups...",
-                    theme_light: "Light",
-                    theme_dark: "Dark",
-                    theme_auto: "Automatic",
-                    lang_en: "English",
-                    lang_ar: "Arabic",
-                    btn_login: "Login",
-                    btn_signup: "Signup",
-                    login_username: "Username",
-                    login_password: "Password",
-                    login_create_account: "Create new account",
-                    login_incorrect: "Incorrect username or password.",
-                    login_loading: "Logging in...",
-                    login_success: "Login successful! Redirecting...",
-                    login_error: "Could not fetch accounts. Please try again.",
-                    footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved."
-                },
-                ar: {
-                    nav_home: "الرئيسية",
-                    nav_posts: "المنشورات",
-                    nav_ping: "بينغ",
-                    nav_download: "تحميل",
-                    search_placeholder: "ابحث عن أشخاص، منشورات، مجموعات...",
-                    theme_light: "فاتح",
-                    theme_dark: "داكن",
-                    theme_auto: "تلقائي",
-                    lang_en: "الإنجليزية",
-                    lang_ar: "العربية",
-                    btn_login: "تسجيل الدخول",
-                    btn_signup: "إنشاء حساب",
-                    login_username: "اسم المستخدم",
-                    login_password: "كلمة المرور",
-                    login_create_account: "إنشاء حساب جديد",
-                    login_incorrect: "اسم المستخدم أو كلمة المرور غير صحيحة.",
-                    login_loading: "جاري تسجيل الدخول...",
-                    login_success: "تم تسجيل الدخول بنجاح! جاري إعادة التوجيه...",
-                    login_error: "لم نتمكن من جلب الحسابات. الرجاء المحاولة مرة أخرى.",
-                    footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة."
-                }
-            };
-
-            // --- Language Toggler ---
-            const langMenu = document.getElementById('lang-menu');
-            const langToggleBtn = document.getElementById('lang-toggle-btn');
-            let currentLang = localStorage.getItem('language') || 'en';
-
-            function setLanguage(lang) {
-                if (!translations[lang]) lang = 'en';
-                currentLang = lang; // Update global current language
-
-                document.documentElement.lang = lang;
-                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
-                document.querySelectorAll('[data-key]').forEach(el => {
-                    const key = el.getAttribute('data-key');
-                    if (translations[lang][key]) {
-                        if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
-                            el.placeholder = translations[lang][key];
-                        } else {
-                            // Handle button text
-                            if(el.tagName === 'BUTTON' || el.id === 'login-button') {
-                                el.innerHTML = translations[lang][key];
-                            } else {
-                                el.innerText = translations[lang][key];
-                            }
-                        }
-                    }
-                });
-
-                if (langToggleBtn) {
-                  langToggleBtn.textContent = lang.toUpperCase();
-                }
-                
-                document.querySelectorAll('#lang-menu a').forEach(a => a.classList.remove('active'));
-                const activeLangLink = document.querySelector(`#lang-menu a[data-lang="${lang}"]`);
-                if (activeLangLink) {
-                    activeLangLink.classList.add('active');
-                }
-
-                localStorage.setItem('language', lang);
-            }
-
-            // Set language on load
-            setLanguage(currentLang);
             
-            if(langMenu) {
-                langMenu.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const target = e.target.closest('a[data-lang]');
-                    if (!target) return;
-
-                    const newLang = target.getAttribute('data-lang');
-                    setLanguage(newLang);
-                    target.closest('.dropdown-menu').classList.remove('show'); 
-                });
-            }
-
-            // --- Theme Toggler (Minimized) ---
-            const themeMenu = document.getElementById('theme-menu');
-            const themeIcon = document.getElementById('theme-icon');
+            // --- Theme detection from main page ---
+            // Simple theme detection to match. Assumes 'auto' is default.
+            const savedTheme = localStorage.getItem('theme') || 'auto';
             const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
             function applyTheme(theme) {
                 if (theme === 'dark') {
                     document.body.classList.add('dark-mode');
-                } else { 
+                } else { // 'light'
                     document.body.classList.remove('dark-mode');
                 }
             }
 
-            function updateThemeIcon(selectedTheme) {
-                if (selectedTheme === 'auto') {
-                    themeIcon.className = 'fas fa-magic';
-                } else if (selectedTheme === 'dark') {
-                    themeIcon.className = 'fas fa-moon';
-                } else {
-                    themeIcon.className = 'fas fa-sun';
-                }
-            }
-
-            function applyAutomaticTheme() {
+            if (savedTheme === 'auto') {
                 if (osDarkScheme.matches) {
                     applyTheme('dark');
                 } else {
                     applyTheme('light');
                 }
-            }
-            
-            const savedTheme = localStorage.getItem('theme') || 'auto';
-            
-            document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
-            const activeThemeLink = document.querySelector(`#theme-menu a[data-theme="${savedTheme}"]`);
-            if (activeThemeLink) {
-                activeThemeLink.classList.add('active');
-            }
-
-            updateThemeIcon(savedTheme);
-            
-            if (savedTheme === 'auto') {
-                applyAutomaticTheme();
             } else {
                 applyTheme(savedTheme);
             }
-
-            if (themeMenu) {
-                themeMenu.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const target = e.target.closest('a[data-theme]');
-                    if (!target) return;
-                    
-                    document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
-                    target.classList.add('active');
-                    
-                    const newTheme = target.getAttribute('data-theme');
-                    localStorage.setItem('theme', newTheme);
-                    updateThemeIcon(newTheme);
-                    
-                    if (newTheme === 'auto') {
-                        applyAutomaticTheme();
-                    } else {
-                        applyTheme(newTheme);
-                    }
-                    target.closest('.dropdown-menu').classList.remove('show'); 
-                });
-            }
-
-            osDarkScheme.addEventListener('change', () => {
-                if (localStorage.getItem('theme') === 'auto') {
-                    applyAutomaticTheme();
-                }
-            });
-
-            // --- Mobile Menu Toggler (Minimized) ---
-            const hamburgerMenu = document.getElementById('hamburger-menu');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileMenuClose = document.getElementById('mobile-menu-close');
-
-            if (hamburgerMenu) {
-                hamburgerMenu.addEventListener('click', () => {
-                    mobileMenu.classList.add('open');
-                    document.body.style.overflow = 'hidden';
-                });
-            }
-
-            if (mobileMenuClose) {
-                mobileMenuClose.addEventListener('click', () => {
-                    mobileMenu.classList.remove('open');
-                    document.body.style.overflow = '';
-                });
-            }
-
-            document.querySelectorAll('.mobile-nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if(link.getAttribute('href') !== '#') {
-                        mobileMenu.classList.remove('open');
-                        document.body.style.overflow = '';
-                    }
-                });
-            });
             
-            // --- CLICK-TO-TOGGLE Dropdown Logic ---
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', (e) => {
-                    e.stopPropagation(); 
-                    const menu = toggle.nextElementSibling;
-                    
-                    document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
-                        if (openMenu !== menu) {
-                            openMenu.classList.remove('show');
-                        }
-                    });
-                    
-                    menu.classList.toggle('show');
-                });
-            });
-
-            window.addEventListener('click', () => {
-                document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
-                    openMenu.classList.remove('show');
-                });
-            });
+            // --- Language detection from main page ---
+            const savedLang = localStorage.getItem('language') || 'en';
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
             
-            
-            // --- UPDATED Login Form Handler ---
+            // --- Login Logic ---
             const loginForm = document.getElementById('login-form');
-            const messageBox = document.getElementById('message-box');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
             const loginButton = document.getElementById('login-button');
+            const messageBox = document.getElementById('message-box');
             
-            // This is the URL from your GitHub Action file.
-            // WARNING: This is NOT a secure way to handle logins.
-            // Anyone can open the browser console and see this URL,
-            // download the file, and see ALL user passwords.
-            const accountsUrl = "https://api.github.com/repos/Bob-2015/Liketube-Official/contents/Login/accounts.txt";
-
-            if (loginForm) {
-                loginForm.addEventListener('submit', async (e) => {
-                    e.preventDefault(); 
-                    
-                    const username = document.getElementById('username').value;
-                    const password = document.getElementById('password').value;
-                    
-                    if (!username || !password) {
-                        messageBox.className = 'message-box error';
-                        messageBox.textContent = translations[currentLang].login_incorrect;
-                        return;
+            // This is the path to the JSON file created by the GitHub Action
+            // It's relative to this login/index.html file
+            const ACCOUNTS_JSON_PATH = '../_data/Login/accounts.json';
+            
+            // A simple cache for the decoded accounts list
+            let decodedAccountsList = null;
+            
+            /**
+             * Fetches and decodes the accounts list from the server.
+             * Caches the result to avoid re-fetching on multiple login attempts.
+             */
+            async function getDecodedAccounts() {
+                if (decodedAccountsList) {
+                    return decodedAccountsList;
+                }
+                
+                try {
+                    const response = await fetch(ACCOUNTS_JSON_PATH);
+                    if (!response.ok) {
+                        throw new Error(`Could not fetch accounts file. Status: ${response.status}`);
                     }
                     
-                    // --- This is the logic you requested ---
+                    const data = await response.json();
                     
-                    // 1. Show loading state
-                    loginButton.disabled = true;
-                    loginButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLang].login_loading}`;
-                    messageBox.style.display = 'none';
-
-                    try {
-                        // 2. Fetch the accounts file from GitHub
-                        const response = await fetch(accountsUrl, {
-                            headers: {
-                                // Use a personal access token if the repo is private
-                                // "Authorization": "Bearer YOUR_GITHUB_TOKEN",
-                                "Accept": "application/vnd.github.v3+json"
-                            }
-                        });
-
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-
-                        const data = await response.json();
-                        
-                        // 3. The content is Base64 encoded. Decode it.
-                        // atob() decodes Base64
-                        const decodedContent = atob(data.content);
-                        
-                        // 4. Create the string to check, as per your request
-                        // btoa() encodes to Base64
-                        const userInputString = `${username}:${password}`;
-                        const userInputB64 = btoa(userInputString);
-                        
-                        // 5. Check if the decoded file content includes the user's B64 string
-                        if (decodedContent.includes(userInputB64)) {
-                            // SUCCESS
-                            messageBox.className = 'message-box success';
-                            messageBox.textContent = translations[currentLang].login_success;
-                            // You would redirect the user here, e.g.:
-                            // setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
-                        } else {
-                            // FAILURE
-                            messageBox.className = 'message-box error';
-                            messageBox.textContent = translations[currentLang].login_incorrect;
-                        }
-
-                    } catch (error) {
-                        console.error('Login Error:', error);
-                        messageBox.className = 'message-box error';
-                        messageBox.textContent = translations[currentLang].login_error;
-                    } finally {
-                        // 6. Restore button
-                        loginButton.disabled = false;
-                        loginButton.innerHTML = translations[currentLang].btn_login;
+                    // data.content is the Base64-encoded *content* of accounts.txt
+                    if (!data.content) {
+                        throw new Error('Invalid accounts file format: "content" field missing.');
                     }
-                });
+                    
+                    // Decode the Base64 string to get the plain text content
+                    // atob() is the native browser function to decode Base64
+                    const decodedText = atob(data.content);
+                    decodedAccountsList = decodedText; // Cache it
+                    return decodedAccountsList;
+                    
+                } catch (error) {
+                    console.error('Error fetching or decoding accounts:', error);
+                    showMessage('error', 'Login system error. Please try again later.');
+                    return null; // Indicate failure
+                }
             }
+            
+            /**
+             * Handles the form submission
+             */
+            async function handleLogin(event) {
+                event.preventDefault(); // Stop the form from submitting normally
+                setLoading(true);
+                
+                const username = usernameInput.value;
+                const password = password.value;
+                
+                if (!username || !password) {
+                    showMessage('error', 'Please enter both username and password.');
+                    setLoading(false);
+                    return;
+                }
+                
+                // 1. Get the decoded content of accounts.txt
+                const accountsContent = await getDecodedAccounts();
+                if (!accountsContent) {
+                    // Error message was already shown by getDecodedAccounts()
+                    setLoading(false);
+                    return;
+                }
+                
+                // 2. Create the plain text string from user input
+                // Assuming the format in the file is "username:password"
+                const userPlainText = `${username}:${password}`;
+                
+                // 3. Encode the user's plain text string to Base64
+                // btoa() is the native browser function to encode to Base64
+                const userBase64 = btoa(userPlainText);
+                
+                // 4. Check if the user's Base64 string exists in the accounts file
+                // We check if the decoded file content (which is a big string,
+                // possibly with multiple lines) includes the user's Base64 string.
+                if (accountsContent.includes(userBase64)) {
+                    // SUCCESS
+                    showMessage('success', 'Login successful! Redirecting...');
+                    // Redirect to the main page after a short delay
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 1500);
+                } else {
+                    // FAILURE
+                    showMessage('error', 'Invalid username or password.');
+                    setLoading(false);
+                }
+            }
+            
+            /**
+             * Displays a message to the user
+             * @param {'success' | 'error'} type - The type of message
+             * @param {string} text - The message text
+             */
+            function showMessage(type, text) {
+                messageBox.className = type;
+                messageBox.textContent = text;
+            }
+            
+            /**
+             * Toggles the loading state of the login button
+             * @param {boolean} isLoading - Whether to show loading state
+             */
+            function setLoading(isLoading) {
+                loginButton.disabled = isLoading;
+                if (isLoading) {
+                    loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+                } else {
+                    loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                }
+            }
+            
+            // Attach the submit event listener to the form
+            loginForm.addEventListener('submit', handleLogin);
+            
+            // Pre-fetch the accounts file on page load for a faster login
+            getDecodedAccounts();
 
         });
     </script>

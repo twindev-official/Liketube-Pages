@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liketube</title>
+    <title>Login - Liketube</title>
     <!-- Using Tahoma font for a more classic web feel -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
     <!-- FIX: Added Google Font "Tajawal" for better Arabic support -->
@@ -13,6 +13,7 @@
     <!-- Icon for the website -->
     <link rel="icon" href="icon.png">
     
+    <!-- Using the same styles from index.html -->
     <style>
         :root {
             /* Light Mode (Default) - Classic Theme */
@@ -91,11 +92,10 @@
             padding: 0;
         }
         
-        /* --- FIX: Ensure full width and no horizontal scroll --- */
         html, body {
             width: 100%;
             min-width: 100%;
-            overflow-x: clip; /* More robust than hidden */
+            overflow-x: clip; 
         }
 
         body {
@@ -103,24 +103,19 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
-            /* overflow-x: hidden; <-- Removed, now on html,body */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         
-        /* --- FIX: Added specific font for Arabic readability --- */
         [dir="rtl"] body, 
         [dir="rtl"] .btn, 
         [dir="rtl"] input,
         [dir="rtl"] .mobile-search-bar input {
             font-family: 'Tajawal', 'Tahoma', sans-serif;
-            /* Adjust line-height for Arabic which tends to be taller */
             line-height: 1.7; 
         }
         
-        [dir="rtl"] .text-content p {
-            /* Give Arabic paragraphs a bit more breathing room */
-            line-height: 1.8; 
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -131,29 +126,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-        .fade-slide-up {
-            animation: fadeAndSlideUp 0.8s ease-out forwards;
-        }
-        .slide-in-left {
-            animation: slideInLeft 0.8s ease-out forwards;
-        }
-        .slide-in-right {
-            animation: slideInRight 0.8s ease-out forwards;
-        }
-
         /* --- Header --- */
         .header {
             background-image: var(--header-bg);
@@ -161,11 +133,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--header-border); /* Updated border */
-            transition: background-image 0.3s ease; /* Transition background */
+            border-bottom: 1px solid var(--header-border); 
+            transition: background-image 0.3s ease; 
             position: sticky;
             top: 0;
             z-index: 1000;
+            width: 100%;
         }
 
         .header-left, .header-center, .header-right {
@@ -190,42 +163,32 @@
         .logo {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--header-text); /* Header text color */
+            color: var(--header-text); 
             text-decoration: none;
             margin-right: 2.5rem;
-            animation: fadeAndSlideUp 0.6s ease-out;
         }
 
-        /* --- Nav Links FIX: Added display: flex to nav-links container --- */
         .nav-links {
-            display: flex; /* CRITICAL FIX: Make the container a flex container */
-            align-items: center; /* Vertically align links */
-            gap: 1.2rem; /* Use gap for spacing instead of margins on links */
+            display: flex; 
+            align-items: center; 
+            gap: 1.2rem; 
         }
         
         .nav-links a {
-            /* Removed margin as we are using gap on the container */
-            color: var(--header-text); /* Header text color */
+            color: var(--header-text); 
             text-decoration: none;
             font-weight: 500;
             position: relative;
             transition: color 0.2s ease;
-            opacity: 0;
-            animation: fadeAndSlideUp 0.6s ease-out forwards;
-            padding: 0 0 5px 0; /* Only apply bottom padding for underline positioning */
+            padding: 0 0 5px 0; 
         }
-        .nav-links a:nth-child(1) { animation-delay: 0.1s; }
-        .nav-links a:nth-child(2) { animation-delay: 0.2s; }
-        .nav-links a:nth-child(3) { animation-delay: 0.3s; }
-        /* ADDED: Animation delay for new link */
-        .nav-links a:nth-child(4) { animation-delay: 0.4s; }
 
         .nav-links a::after {
             content: '';
             position: absolute;
             width: 0;
             height: 2px;
-            background-color: var(--header-text); /* Line color */
+            background-color: var(--header-text); 
             left: 50%;
             transform: translateX(-50%);
             bottom: -5px;
@@ -233,20 +196,19 @@
         }
 
         .nav-links a:hover {
-            color: var(--header-text-secondary); /* Lighter hover */
+            color: var(--header-text-secondary); 
         }
         .nav-links a:hover::after {
             width: 100%;
         }
         
-        /* --- NEW: Active Nav Link Style (Copied from download page) --- */
         .nav-links a.active-nav-link,
         .mobile-nav-links a.active-nav-link {
-            color: var(--header-text-secondary); /* Make it look "selected" */
+            color: var(--header-text-secondary); 
             font-weight: 700;
         }
         .nav-links a.active-nav-link::after {
-            width: 100%; /* Show underline */
+            width: 100%; 
         }
          .mobile-nav-links a.active-nav-link {
             color: var(--primary-blue);
@@ -255,7 +217,6 @@
          .dark-mode .mobile-nav-links a.active-nav-link {
             color: var(--primary-blue);
          }
-        /* --- End Active Nav Link Style --- */
 
         .search-bar {
             width: 100%;
@@ -264,15 +225,12 @@
             align-items: center;
             background-color: var(--search-bg);
             border: 1px solid var(--search-border);
-            border-radius: 4px; /* Reduced for classic look */
+            border-radius: 4px; 
             padding: 0.5rem 1rem;
             transition: background-color 0.3s, border-color 0.3s;
-            opacity: 0;
-            animation: fadeAndSlideUp 0.6s ease-out forwards;
-            animation-delay: 0.2s;
         }
         
-        .mobile-search-bar { /* Used in the mobile menu */
+        .mobile-search-bar { 
             width: 100%;
             display: flex;
             align-items: center;
@@ -310,30 +268,21 @@
             background: transparent;
             outline: none;
             width: 100%;
-            color: #000; /* Text color inside search bar */
+            color: #000; 
             font-family: 'Tahoma', sans-serif;
             font-size: 0.9rem;
         }
         .dark-mode .search-bar input {
-            color: var(--text-color); /* Dark mode text */
+            color: var(--text-color); 
         }
 
         /* --- Togglers & Buttons --- */
         .user-controls {
             display: flex;
             align-items: center;
-            gap: 0.75rem; /* Space between togglers and buttons */
+            gap: 0.75rem; 
         }
         
-        .user-controls > * {
-            opacity: 0;
-            animation: fadeAndSlideUp 0.6s ease-out forwards;
-        }
-        .user-controls > *:nth-child(1) { animation-delay: 0.4s; }
-        .user-controls > *:nth-child(2) { animation-delay: 0.5s; }
-        .user-controls > *:nth-child(3) { animation-delay: 0.6s; }
-        .user-controls > *:nth-child(4) { animation-delay: 0.7s; }
-
         .dropdown {
             position: relative;
         }
@@ -342,8 +291,8 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: var(--header-text); /* Header text color */
-            font-size: 1.2rem; /* Icon size */
+            color: var(--header-text); 
+            font-size: 1.2rem; 
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -359,12 +308,12 @@
         }
 
         .dropdown-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.1); /* Subtle hover for gradient */
+            background-color: rgba(255, 255, 255, 0.1); 
             color: var(--header-text);
         }
 
         .dropdown-menu {
-            display: none; /* Hidden by default */
+            display: none; 
             position: absolute;
             right: 0;
             top: 50px;
@@ -372,16 +321,14 @@
             min-width: 140px;
             box-shadow: var(--dropdown-shadow);
             z-index: 1;
-            border-radius: 4px; /* Reduced for classic look */
+            border-radius: 4px; 
             overflow: hidden;
-            /* Animations for click toggle */
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
             transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
         }
         
-        /* This class will be toggled by JS */
         .dropdown-menu.show {
             display: block;
             opacity: 1;
@@ -411,15 +358,13 @@
             background-color: var(--primary-blue);
             color: white;
         }
-        
-        /* REMOVED hover logic */
 
         .btn {
             border: none;
             padding: 0.6rem 1.2rem;
-            border-radius: 4px; /* Reduced for classic look */
+            border-radius: 4px; 
             cursor: pointer;
-            font-weight: 700; /* Bolder for classic feel */
+            font-weight: 700; 
             font-family: 'Tahoma', sans-serif;
             text-decoration: none;
             font-size: 0.9rem;
@@ -445,12 +390,11 @@
             background-image: var(--btn-signup-hover-bg);
             border-color: var(--btn-signup-border);
             transform: translateY(-2px);
-            /* Removed modern shadow */
         }
 
         /* --- Mobile Menu Styling --- */
         .hamburger-menu {
-            display: none; /* Hide by default, show on mobile */
+            display: none; 
             font-size: 1.5rem;
             color: var(--header-text);
             cursor: pointer;
@@ -465,15 +409,15 @@
         .mobile-menu {
             position: fixed;
             top: 0;
-            left: -100%; /* Start off-screen to the left */
-            width: 80%; /* Takes 80% of screen width */
+            left: -100%; 
+            width: 80%; 
             height: 100%;
             background-color: var(--mobile-menu-bg);
             color: var(--mobile-menu-text);
             z-index: 1050;
             padding: 2rem;
-            transform: translateX(0); /* We will transition left property */
-            transition: left 0.3s ease-out; /* Transition 'left' */
+            transform: translateX(0); 
+            transition: left 0.3s ease-out; 
             box-shadow: 2px 0 5px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
@@ -482,17 +426,17 @@
 
         [dir="rtl"] .mobile-menu {
             left: auto;
-            right: -100%; /* Start off-screen to the right for RTL */
-            transition: right 0.3s ease-out; /* Transition 'right' for RTL */
+            right: -100%; 
+            transition: right 0.3s ease-out; 
         }
         
         .mobile-menu.open {
-            left: 0; /* Slide in from left */
+            left: 0; 
         }
         
         [dir="rtl"] .mobile-menu.open {
             left: auto;
-            right: 0; /* Slide in from right for RTL */
+            right: 0; 
         }
 
         .mobile-menu-close {
@@ -526,82 +470,117 @@
             background-color: rgba(0,0,0,0.05);
         }
 
-        /* --- Main Content Sections --- */
-        .content-section {
+        /* --- Main Content (Login Form) --- */
+        .login-container {
+            flex-grow: 1; /* Allows footer to be pushed down */
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Aligned to left */
-            gap: 5rem; /* Added gap */
-            padding: 6rem 5rem;
-            min-height: 80vh;
-        }
-        [dir="rtl"] .content-section, [dir="rtl"] .content-section.reverse {
-            text-align: right;
-            justify-content: flex-start; /* RTL starts from the right */
-        }
-        
-        /* Reverse order for the Dawaa section */
-        .content-section.reverse {
-            flex-direction: row-reverse;
-        }
-        [dir="rtl"] .content-section.reverse {
-            flex-direction: row; /* Un-reverse for RTL */
-        }
-
-        .text-content {
-            flex: 1;
-            max-width: 600px;
-        }
-        
-        .text-content h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            color: var(--text-color);
-            opacity: 0;
-        }
-        
-        .text-content h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            color: var(--text-color);
-            opacity: 0;
-        }
-
-        .text-content p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: var(--text-color-secondary);
-            max-width: 500px;
-            opacity: 0;
-        }
-        [dir="rtl"] .text-content p {
-            margin: 0 0 0 auto;
-        }
-
-        .image-content {
-            flex: 1;
-            max-width: 550px; /* Give image a bit more space */
             justify-content: center;
-            align-items: center;
-            opacity: 0;
+            padding: 4rem 1rem;
+        }
+
+        .login-box {
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--search-border);
+            border-radius: 8px; /* Slightly more rounded */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            animation: fadeAndSlideUp 0.6s ease-out;
         }
         
-        .image-content img {
-            max-width: 100%;
-            height: auto;
-            max-height: 450px;
-            object-fit: contain;
-            /* Removed modern shadow */
-            transition: transform 0.4s ease;
+        .dark-mode .login-box {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .login-box h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-weight: 700;
         }
         
-        .image-content img:hover {
-            transform: scale(1.05);
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
         }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color-secondary);
+        }
+        
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-family: 'Tahoma', sans-serif;
+            border: 1px solid var(--search-border);
+            border-radius: 4px;
+            background-color: var(--search-bg);
+            color: var(--text-color);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .login-form input[type="text"]:focus,
+        .login-form input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(59, 89, 152, 0.2);
+        }
+        
+        /* Login button, full width */
+        .btn-login-submit {
+            background-image: var(--btn-signup-bg); /* Using signup green for primary action */
+            color: var(--btn-signup-text);
+            border: 1px solid var(--btn-signup-border);
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 0.8rem 1.2rem;
+            margin-top: 0.5rem;
+        }
+        .btn-login-submit:hover {
+            background-image: var(--btn-signup-hover-bg);
+            border-color: var(--btn-signup-border);
+            transform: translateY(-2px);
+        }
+        
+        /* Message box for errors */
+        .message-box {
+            display: none; /* Hidden by default */
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .message-box.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+            display: block;
+        }
+        .message-box.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+            display: block;
+        }
+        .dark-mode .message-box.error {
+            background-color: #4a1c1c;
+            color: #ffcdd2;
+            border: 1px solid #c62828;
+        }
+        .dark-mode .message-box.success {
+            background-color: #1c3b1e;
+            color: #c8e6c9;
+            border: 1px solid #2e7d32;
+        }
+
 
         /* --- Footer --- */
         .footer {
@@ -610,8 +589,9 @@
             text-align: center;
             padding: 2rem;
             font-size: 0.9rem;
-            margin-top: 3rem;
+            margin-top: auto; /* Pushes footer to bottom */
             transition: background-color 0.3s ease, color 0.3s ease;
+            width: 100%;
         }
 
         /* --- Responsive Design --- */
@@ -619,19 +599,14 @@
             .header {
                 padding: 1rem 2rem;
             }
-            .content-section {
-                padding: 4rem 3rem;
-            }
-            .text-content h1 { font-size: 2.5rem; }
-            .text-content h2 { font-size: 2.2rem; }
         }
 
         @media (max-width: 992px) {
             .hamburger-menu {
-                display: block; /* Show hamburger on tablet/mobile */
+                display: block; 
             }
             .header-center, .nav-links {
-                display: none; /* Hide search bar and desktop nav links */
+                display: none; 
             }
             .header-left {
                 flex: none;
@@ -639,33 +614,11 @@
             .header-right {
                 flex: 1;
             }
-            .content-section, .content-section.reverse {
-                flex-direction: column;
-                text-align: center;
-                padding: 3rem 2rem;
-                min-height: auto;
-                gap: 2rem; /* Reduce gap on mobile */
-            }
-            .text-content p {
-                margin: 0 auto;
-            }
-            [dir="rtl"] .content-section, [dir="rtl"] .content-section.reverse {
-                text-align: center;
-            }
-            [dir="rtl"] .content-section.reverse {
-                flex-direction: column; /* Keep column for RTL mobile */
-            }
-            [dir="rtl"] .text-content p {
-                margin: 0 auto;
-            }
-            .image-content {
-                margin-top: 2rem;
-            }
         }
         
         @media (max-width: 768px) {
             .header {
-                flex-wrap: nowrap; /* Keep header elements in a single row */
+                flex-wrap: nowrap; 
                 padding: 1rem;
             }
             .header-left {
@@ -673,7 +626,7 @@
                 justify-content: flex-start;
             }
             .header-right {
-                flex: none; /* Let user controls shrink */
+                flex: none; 
             }
             .user-controls {
                 gap: 0.25rem;
@@ -686,17 +639,12 @@
                 margin-right: 0.5rem;
                 font-size: 1.5rem;
             }
-            .content-section {
-                padding: 3rem 1rem;
-            }
-            .text-content h1 { font-size: 2rem; }
-            .text-content h2 { font-size: 1.8rem; }
-            .text-content p { font-size: 1rem; }
             
-            /* --- FIX: Improve Arabic readability on mobile --- */
-            [dir="rtl"] .text-content p {
-                font-size: 1.05rem; /* Slightly larger for Arabic */
-                line-height: 1.8; /* More spacing */
+            .login-container {
+                padding: 2rem 1rem;
+            }
+            .login-box {
+                padding: 2rem 1.5rem;
             }
         }
 
@@ -716,8 +664,7 @@
 
         <!-- Nav Links -->
         <nav class="mobile-nav-links">
-            <!-- MODIFIED: Added active-nav-link class -->
-            <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home" class="active-nav-link">Home</a>
+            <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home">Home</a>
             <a href="#" data-key="nav_posts">Posts</a>
             <a href="#" data-key="nav_ping">Ping</a>
             <a href="Download" data-key="nav_download">Download</a>
@@ -730,10 +677,10 @@
             <!-- Hamburger Menu (Mobile Only) -->
             <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
             <!-- MODIFIED: href set to # for homepage -->
-            <a href="#" class="logo">Liketube</a>
+            <a href="https://twindev-official.github.io/Liketube-Pages/" class="logo">Liketube</a>
             <nav class="nav-links">
                 <!-- MODIFIED: Added active-nav-link class and set href -->
-                <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home" class="active-nav-link">Home</a>
+                <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home">Home</a>
                 <a href="#" data-key="nav_posts">Posts</a>
                 <a href="#" data-key="nav_ping">Ping</a>
                 <!-- MODIFIED: Download Link href updated -->
@@ -773,40 +720,39 @@
                     </div>
                 </div>
 
-                <a href="login/index.html" class="btn btn-login" data-key="btn_login">Login</a>
+                <!-- MODIFIED: Link points to login.html -->
+                <a href="login.html" class="btn btn-login active-nav-link" data-key="btn_login">Login</a>
                 <a href="#" class="btn btn-signup" data-key="btn_signup">Signup</a>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="content-section">
-            <div class="text-content">
-                <h1 class="slide-in-left" data-key="hero_title">Welcome to Liketube</h1>
-                <p class="slide-in-left" style="animation-delay: 0.2s;" data-key="hero_desc">
-                    Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.
-                </p>
-            </div>
-            <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <img src="arab-countries.png" alt="Illustration of the Arab Countries">
-            </div>
-        </section>
-
-        <!-- Dawaa Section (Reversed) -->
-        <section class="content-section reverse">
-            <div class="text-content">
-                <h2 class="slide-in-right" data-key="dawaa_title">Your Daawaa Continues Here</h2>
-                <p class="slide-in-right" style="animation-delay: 0.2s;" data-key="dawaa_desc">
-                    Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.
-                </p>
-            </div>
-            <div class="image-content fade-in" style="animation-delay: 0.3s;">
-                <!-- Placeholder image for Dawaa illustration -->
-                <img src="muslim-daawaa.png" alt="Illustration for Muslim Dawaa">
-            </div>
-        </section>
+    <main class="login-container">
+        <div class="login-box">
+            <h1 data-key="btn_login">Login</h1>
+            
+            <!-- This message box will show errors -->
+            <div id="message-box" class="message-box"></div>
+            
+            <!-- 
+              This form action is a placeholder.
+              In a real app, this should point to your server-side login script.
+              Example: action="https://your-server.com/api/login"
+            -->
+            <form id="login-form" class="login-form" action="#" method="POST">
+                <div class="form-group">
+                    <label for="username" data-key="login_username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" data-key="login_password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-login-submit" data-key="btn_login">Login</button>
+            </form>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -815,27 +761,44 @@
     </footer>
 
     <script>
+        // --- Base64 Encoding/Decoding (for demonstration) ---
+        // You would NOT use this for login. This is just to show you
+        // how btoa (to Base64) and atob (from Base64) work.
+        
+        // btoa: Text to Base64
+        // const simpleText = "my_secret_password";
+        // const base64Text = btoa(simpleText);
+        // console.log(base64Text); // "bXlfc2VjcmV0X3Bhc3N3b3Jk"
+        
+        // atob: Base64 to Text
+        // const decodedText = atob(base64Text);
+        // console.log(decodedText); // "my_secret_password"
+        
+        // As you can see, it's not secure at all!
+        
         document.addEventListener('DOMContentLoaded', () => {
             // --- Mobile Menu Toggler ---
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuClose = document.getElementById('mobile-menu-close');
 
-            hamburgerMenu.addEventListener('click', () => {
-                mobileMenu.classList.add('open');
-                // Optional: Prevent background scrolling when menu is open
-                document.body.style.overflow = 'hidden';
-            });
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', () => {
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
 
-            mobileMenuClose.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-            });
+            if (mobileMenuClose) {
+                mobileMenuClose.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            }
 
             // Close mobile menu if a link is clicked
             document.querySelectorAll('.mobile-nav-links a').forEach(link => {
                 link.addEventListener('click', () => {
-                    // Only close if it's not a jump link on the same page
                     if(link.getAttribute('href') !== '#') {
                         mobileMenu.classList.remove('open');
                         document.body.style.overflow = '';
@@ -849,7 +812,7 @@
                     nav_home: "Home",
                     nav_posts: "Posts",
                     nav_ping: "Ping",
-                    nav_download: "Download", // ADDED
+                    nav_download: "Download",
                     search_placeholder: "Search for people, posts, groups...",
                     theme_light: "Light",
                     theme_dark: "Dark",
@@ -858,17 +821,15 @@
                     lang_ar: "Arabic",
                     btn_login: "Login",
                     btn_signup: "Signup",
-                    hero_title: "Welcome to Liketube",
-                    hero_desc: "Liketube is a brand-new, entirely free social media platform with a nostalgic theme, created exclusively for the Muslim community. Downloadable clients are available for Android and Windows.",
-                    dawaa_title: "Your Daawaa Continues Here",
-                    dawaa_desc: "Work in daawaa and got recently banned from Facebook? You can continue the Electronic Daawaa Here with no coasts at all.",
+                    login_username: "Username",
+                    login_password: "Password",
                     footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved."
                 },
                 ar: {
                     nav_home: "الرئيسية",
                     nav_posts: "المنشورات",
                     nav_ping: "بينغ",
-                    nav_download: "تحميل", // ADDED
+                    nav_download: "تحميل",
                     search_placeholder: "ابحث عن أشخاص، منشورات، مجموعات...",
                     theme_light: "فاتح",
                     theme_dark: "داكن",
@@ -877,10 +838,8 @@
                     lang_ar: "العربية",
                     btn_login: "تسجيل الدخول",
                     btn_signup: "إنشاء حساب",
-                    hero_title: "أهلاً بك في لايك تيوب",
-                    hero_desc: "لايك تيوب هي منصة تواصل اجتماعي جديدة ومجانية بالكامل ذات طابع كلاسيكي، تم إنشاؤها خصيصًا للمجتمع المسلم. تتوفر برامج للتحميل لأنظمة أندرويد وويندوز.",
-                    dawaa_title: "دعوتك مستمرة هنا",
-                    dawaa_desc: "هل تعمل في الدعوة وتم حظرك مؤخرًا من فيسبوك؟ يمكنك متابعة الدعوة الإلكترونية هنا بدون أي تكاليف على الإطلاق.",
+                    login_username: "اسم المستخدم",
+                    login_password: "كلمة المرور",
                     footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة."
                 }
             };
@@ -890,16 +849,14 @@
             const themeIcon = document.getElementById('theme-icon');
             const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-            // Function to apply the theme
             function applyTheme(theme) {
                 if (theme === 'dark') {
                     document.body.classList.add('dark-mode');
-                } else { // 'light'
+                } else { 
                     document.body.classList.remove('dark-mode');
                 }
             }
 
-            // Function to update the icon based on *selection*
             function updateThemeIcon(selectedTheme) {
                 if (selectedTheme === 'auto') {
                     themeIcon.className = 'fas fa-magic';
@@ -910,7 +867,6 @@
                 }
             }
 
-            // Function to handle automatic theme
             function applyAutomaticTheme() {
                 if (osDarkScheme.matches) {
                     applyTheme('dark');
@@ -919,53 +875,46 @@
                 }
             }
             
-            // Set theme on load
             const savedTheme = localStorage.getItem('theme') || 'auto';
             
-            // 1. Set the active class in the menu
             document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
             const activeThemeLink = document.querySelector(`#theme-menu a[data-theme="${savedTheme}"]`);
             if (activeThemeLink) {
                 activeThemeLink.classList.add('active');
             }
 
-            // 2. Set the correct icon
             updateThemeIcon(savedTheme);
             
-            // 3. Apply the correct theme
             if (savedTheme === 'auto') {
                 applyAutomaticTheme();
             } else {
                 applyTheme(savedTheme);
             }
 
-            // Listen for theme changes from the dropdown
-            themeMenu.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = e.target.closest('a[data-theme]');
-                if (!target) return;
-                
-                // Update active class
-                document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
-                target.classList.add('active');
-                
-                const newTheme = target.getAttribute('data-theme');
-                localStorage.setItem('theme', newTheme);
-                
-                // 1. Update the icon
-                updateThemeIcon(newTheme);
-                
-                // 2. Apply the theme
-                if (newTheme === 'auto') {
-                    applyAutomaticTheme();
-                } else {
-                    applyTheme(newTheme);
-                }
-                
-                target.closest('.dropdown-menu').classList.remove('show'); // Close menu
-            });
+            if (themeMenu) {
+                themeMenu.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = e.target.closest('a[data-theme]');
+                    if (!target) return;
+                    
+                    document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
+                    target.classList.add('active');
+                    
+                    const newTheme = target.getAttribute('data-theme');
+                    localStorage.setItem('theme', newTheme);
+                    
+                    updateThemeIcon(newTheme);
+                    
+                    if (newTheme === 'auto') {
+                        applyAutomaticTheme();
+                    } else {
+                        applyTheme(newTheme);
+                    }
+                    
+                    target.closest('.dropdown-menu').classList.remove('show'); 
+                });
+            }
 
-            // Listen for OS theme changes
             osDarkScheme.addEventListener('change', () => {
                 if (localStorage.getItem('theme') === 'auto') {
                     applyAutomaticTheme();
@@ -975,22 +924,16 @@
             // --- Language Toggler ---
             const langMenu = document.getElementById('lang-menu');
             const langToggleBtn = document.getElementById('lang-toggle-btn');
-            const searchInput = document.querySelector('.search-bar input[data-key="search_placeholder"]');
-            const mobileSearchInput = document.querySelector('.mobile-search-bar input[data-key="search_placeholder"]');
-
 
             function setLanguage(lang) {
                 if (!translations[lang]) lang = 'en';
 
-                // Set HTML lang and dir
                 document.documentElement.lang = lang;
                 document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-                // Translate all [data-key] elements
                 document.querySelectorAll('[data-key]').forEach(el => {
                     const key = el.getAttribute('data-key');
                     if (translations[lang][key]) {
-                        // Handle placeholders separately
                         if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
                             el.placeholder = translations[lang][key];
                         } else {
@@ -999,40 +942,33 @@
                     }
                 });
 
-                // Since mobile search bar is a new element, ensure its placeholder is updated
-                if (mobileSearchInput && translations[lang]['search_placeholder']) {
-                    mobileSearchInput.placeholder = translations[lang]['search_placeholder'];
+                if (langToggleBtn) {
+                  langToggleBtn.textContent = lang.toUpperCase();
                 }
-
-
-                // Update lang button text
-                langToggleBtn.textContent = lang.toUpperCase();
                 
-                // Update active class in dropdown
                 document.querySelectorAll('#lang-menu a').forEach(a => a.classList.remove('active'));
                 const activeLangLink = document.querySelector(`#lang-menu a[data-lang="${lang}"]`);
                 if (activeLangLink) {
                     activeLangLink.classList.add('active');
                 }
 
-                // Save preference
                 localStorage.setItem('language', lang);
             }
 
-            // Set language on load
             const savedLang = localStorage.getItem('language') || 'en';
             setLanguage(savedLang);
             
-            // Listen for language changes from dropdown
-            langMenu.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = e.target.closest('a[data-lang]');
-                if (!target) return;
+            if(langMenu) {
+                langMenu.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = e.target.closest('a[data-lang]');
+                    if (!target) return;
 
-                const newLang = target.getAttribute('data-lang');
-                setLanguage(newLang);
-                target.closest('.dropdown-menu').classList.remove('show'); // Close menu on select
-            });
+                    const newLang = target.getAttribute('data-lang');
+                    setLanguage(newLang);
+                    target.closest('.dropdown-menu').classList.remove('show'); 
+                });
+            }
             
             
             // --- CLICK-TO-TOGGLE Dropdown Logic ---
@@ -1040,27 +976,55 @@
 
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent window click from firing
+                    e.stopPropagation(); 
                     const menu = toggle.nextElementSibling;
                     
-                    // Close all other open menus
                     document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
                         if (openMenu !== menu) {
                             openMenu.classList.remove('show');
                         }
                     });
                     
-                    // Toggle the current menu
                     menu.classList.toggle('show');
                 });
             });
 
-            // Close dropdowns if clicking outside
             window.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
                     openMenu.classList.remove('show');
                 });
             });
+            
+            
+            // --- Login Form Handler (Placeholder) ---
+            const loginForm = document.getElementById('login-form');
+            const messageBox = document.getElementById('message-box');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // Stop the form from submitting
+                    
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    
+                    // --- THIS IS A PLACEHOLDER ---
+                    // In a real app, you would send 'username' and 'password'
+                    // to your server here using fetch()
+                    
+                    // For now, just show a message.
+                    if (!username || !password) {
+                        messageBox.className = 'message-box error';
+                        messageBox.textContent = 'Please enter both username and password.';
+                    } else {
+                        messageBox.className = 'message-box error';
+                        messageBox.textContent = 'Login functionality is not connected to a server yet. This is a demo page.';
+                        
+                        // Example of what a successful message would look like
+                        // messageBox.className = 'message-box success';
+                        // messageBox.textContent = 'Login successful! Redirecting...';
+                    }
+                });
+            }
 
         });
     </script>

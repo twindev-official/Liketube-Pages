@@ -10,7 +10,6 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-    # ...and the rest of your file continues from here...
 jobs:
   # This is the name of the "job"
   fetch-data:
@@ -30,22 +29,23 @@ jobs:
       # Step 2: Create the directory to store the data, if it doesn't exist
       # We'll use a folder named `_data` to keep things tidy
       - name: Create data directory
-        # <--- FIX 1: Create the 'login' subdirectory as well
         run: mkdir -p ./_data/login
 
-# Step 3: Fetch the API JSON for a file from another repository
+      # Step 3: Fetch the API JSON for a file from another repository
       - name: Fetch specific file API data
         run: |
           # Define the repository and file you want to fetch
+          # !!! IMPORTANT: This path is case-sensitive. Check your private repo.
           TARGET_OWNER="Bob-2015"
           TARGET_REPO="Liketube-Official"
           TARGET_FILE_PATH="login/accounts.txt"
 
+          # This command now uses the variables, making it correct
           curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/Bob-2015/Liketube-Official/contents/Login/accounts.txt" \
+            "https://api.github.com/repos/${TARGET_OWNER}/${TARGET_REPO}/contents/${TARGET_FILE_PATH}" \
             > ./_data/login/accounts.json
             
       # Step 4: Commit the new file (or changes) back to your repository
@@ -55,13 +55,10 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "github-action-bot@users.noreply.github.com"
           
-          # <--- FIX 3: Point to the correct file path you created in Step 3
+          # This path correctly matches the one from Step 2 and 3
           git add ./_data/login/accounts.json
           
-          # Check if there are any changes to commit.
-          # If there are no changes, the 'git commit' command will fail.
-          # The '|| exit 0' part makes sure the workflow continues
-          # successfully even if there's nothing to commit.
+          # Check if there are any changes to commit
           git diff --staged --quiet || git commit -m "Automated: Update GitHub file data"
           
           # Push the changes back to your repository

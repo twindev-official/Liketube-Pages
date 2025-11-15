@@ -8,25 +8,19 @@ on:
 jobs:
   fetch-and-use-data:
     runs-on: ubuntu-latest
-    # No 'contents: write' permission needed, as we are not pushing to the repo.
     
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Fetch, Decode, and Load Data as Environment Variable
+      - name: Fetch, Decode, and Load Data
         env:
-          # Pass the GitHub Token to this step's environment
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          # Define the repository and file
           TARGET_OWNER="Bob-2015"
           TARGET_REPO="Liketube-Official"
           TARGET_FILE_PATH="Login/accounts.txt"
 
-          # 1. Fetch the data from the GitHub API
-          # 2. Use 'jq -r .content' to extract the raw base64 content
-          # 3. Pipe to 'base64 --decode' to get the original plain text
           DECODED_CONTENT=$(curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GH_TOKEN" \
@@ -34,12 +28,6 @@ jobs:
             "https://api.github.com/repos/${TARGET_OWNER}/${TARGET_REPO}/contents/${TARGET_FILE_PATH}" \
             | jq -r .content | base64 --decode)
 
-          echo "Decoded content fetched successfully." # This is a safe log message
-
-          # 4. Save the decoded content to $GITHUB_ENV
-          # This makes it available as an env variable ($ACCOUNTS_DATA)
-          # in all subsequent steps in this job.
-          # We use a 'heredoc' to safely handle multi-line file content.
           echo "ACCOUNTS_DATA<<EOF" >> $GITHUB_ENV
           echo "$DECODED_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
@@ -48,23 +36,14 @@ jobs:
         run: |
           echo "Using the secret accounts data now..."
           
-          # -----------------------------------------------------------------
-          # ⚠️ CRITICAL SECURITY WARNING ⚠️
-          # Do NOT run 'echo "$ACCOUNTS_DATA"'
-          # This will print your secret data to the public workflow logs!
-          # -----------------------------------------------------------------
-
-          # SAFE WAY TO USE THE DATA:
-          # Write it to a temporary file on the runner
+          # SAFE WAY: Write to a temporary file
+          # Do NOT use 'echo "$ACCOUNTS_DATA"' as it will leak your secret.
           echo "$ACCOUNTS_DATA" > ./temp_accounts.txt
           
-          # Now your scripts or tools can use './temp_accounts.txt'
-          # For example, let's just count the lines in the file:
+          # Now your script can use ./temp_accounts.txt
           LINE_COUNT=$(wc -l < ./temp_accounts.txt)
           echo "The accounts file contains $LINE_COUNT lines."
 
-          # Example: ./my-script.sh --file ./temp_accounts.txt
-
-          # Clean up the temporary file immediately after use
+          # Clean up
           rm ./temp_accounts.txt
           echo "Temporary accounts file removed."

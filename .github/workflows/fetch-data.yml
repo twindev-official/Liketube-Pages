@@ -4,6 +4,20 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
+      inputs:
+          logLevel:
+            description: 'Log level'
+            required: true
+            default: 'warning'
+            type: choice
+            options:
+            - info
+            - warning
+            - debug
+          environment:
+            description: 'Environment to deploy to'
+            required: true
+            type: environment
 
 jobs:
   fetch-and-use-data:

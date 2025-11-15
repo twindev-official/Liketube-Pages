@@ -6,8 +6,8 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  fetch-and-use-data:
-      runs-on: ubuntu-latest
+ fetch-and-use-data:
+     runs-on: ubuntu-latest
     
     steps:
       - name: Check out repository

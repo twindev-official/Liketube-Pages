@@ -46,7 +46,7 @@ jobs:
           echo "$DECODED_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Example Step: Use the Decoded Data
+      - name: Example Step - Use the Decoded Data
         run: |
           echo "Using the secret accounts data now..."
           

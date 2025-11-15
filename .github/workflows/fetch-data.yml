@@ -1,4 +1,4 @@
-name: Fetch GitHub Data
+name: Fetch and Use GitHub Data Securely
 
 on:
   workflow_dispatch:
@@ -6,44 +6,65 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  fetch-data:
+  fetch-and-use-data:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      
+    # No 'contents: write' permission needed, as we are not pushing to the repo.
+    
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # FIX 1: Path now uses 'Login'
-      - name: Create data directory
-        run: mkdir -p ./_data/Login
-
-      # FIX 2: Path now uses 'Login'
-      - name: Fetch specific file API data
+      - name: Fetch, Decode, and Load Data as Environment Variable
+        env:
+          # Pass the GitHub Token to this step's environment
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          # Define the repository and file you want to fetch
+          # Define the repository and file
           TARGET_OWNER="Bob-2015"
           TARGET_REPO="Liketube-Official"
-          
-          # Corrected to use the capitalized path
           TARGET_FILE_PATH="Login/accounts.txt"
 
-          curl -L \
+          # 1. Fetch the data from the GitHub API
+          # 2. Use 'jq -r .content' to extract the raw base64 content
+          # 3. Pipe to 'base64 --decode' to get the original plain text
+          DECODED_CONTENT=$(curl -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.ACCESS_TOKEN }}" \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "https://api.github.com/repos/${TARGET_OWNER}/${TARGET_REPO}/contents/${TARGET_FILE_PATH}" \
-            > ./_data/Login/accounts.json
-            
-      # FIX 3: Path now uses 'Login'
-      - name: Commit and push if data changed
+            | jq -r .content | base64 --decode)
+
+          echo "Decoded content fetched successfully." # This is a safe log message
+
+          # 4. Save the decoded content to $GITHUB_ENV
+          # This makes it available as an env variable ($ACCOUNTS_DATA)
+          # in all subsequent steps in this job.
+          # We use a 'heredoc' to safely handle multi-line file content.
+          echo "ACCOUNTS_DATA<<EOF" >> $GITHUB_ENV
+          echo "$DECODED_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Example Step: Use the Decoded Data
         run: |
-          git config --global user.name "GitHub Action Bot"
-          git config --global user.email "github-action-bot@users.noreply.github.com"
+          echo "Using the secret accounts data now..."
           
-          # Corrected to add the file from the capitalized path
-          git add ./_data/Login/accounts.json
+          # -----------------------------------------------------------------
+          # ⚠️ CRITICAL SECURITY WARNING ⚠️
+          # Do NOT run 'echo "$ACCOUNTS_DATA"'
+          # This will print your secret data to the public workflow logs!
+          # -----------------------------------------------------------------
+
+          # SAFE WAY TO USE THE DATA:
+          # Write it to a temporary file on the runner
+          echo "$ACCOUNTS_DATA" > ./temp_accounts.txt
           
-          git diff --staged --quiet || git commit -m "Automated: Update GitHub file data"
-          git push
+          # Now your scripts or tools can use './temp_accounts.txt'
+          # For example, let's just count the lines in the file:
+          LINE_COUNT=$(wc -l < ./temp_accounts.txt)
+          echo "The accounts file contains $LINE_COUNT lines."
+
+          # Example: ./my-script.sh --file ./temp_accounts.txt
+
+          # Clean up the temporary file immediately after use
+          rm ./temp_accounts.txt
+          echo "Temporary accounts file removed."

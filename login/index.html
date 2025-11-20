@@ -4,83 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Liketube</title>
-    <!-- Fonts from main page -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Icon from main page (assuming path relative to root) -->
     <link rel="icon" href="../icon.png">
     
     <style>
-        /* Copied theme variables from index.html for consistency */
+        /* --- PASTE YOUR ORIGINAL CSS VARIABLES HERE (Exact match from main page) --- */
         :root {
-            /* Light Mode (Default) - Classic Theme */
-            --bg-color: #e6f0ff; /* Light blue background */
-            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998); /* Blue gradient header */
+            --bg-color: #e6f0ff;
+            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
             --header-border: #365899;
             --header-text: #ffffff;
+            --header-text-secondary: #d0d8e8;
             --text-color: #000000;
             --text-color-secondary: #333;
-            --primary-blue: #3b5998; /* Classic Facebook blue */
-            --primary-blue-hover: #365899;
+            --primary-blue: #3b5998;
             --search-bg: #ffffff;
             --search-border: #ddd;
-            
-            /* Button Gradients */
+            --footer-bg: #343a40;
+            --footer-text: #f8f9fa;
+            --dropdown-bg: #ffffff;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            --dropdown-hover: #f1f1f1;
             --btn-login-bg: linear-gradient(to bottom, #f0f8ff, #d6e8ff);
             --btn-login-hover-bg: linear-gradient(to bottom, #d6e8ff, #c0d9ff);
             --btn-login-border: var(--primary-blue);
             --btn-login-text: var(--primary-blue);
-            
             --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
             --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
-
-            /* Card styles */
+            --mobile-menu-bg: #f0f2f5;
+            --mobile-menu-text: #000000;
+            
+            /* specific for login card */
             --card-bg: #ffffff;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            --card-border: #ddd;
+            --input-border: #ccc;
         }
 
         .dark-mode {
-            /* Dark Mode - Classic Theme */
-            --bg-color: #1a2233; /* Dark blue background */
-            --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a); /* Dark blue gradient header */
+            --bg-color: #1a2233;
+            --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a);
             --header-border: #243f7a;
             --header-text: #e0e0e0;
+            --header-text-secondary: #a0a8b8;
             --text-color: #e0e0e0;
             --text-color-secondary: #aaaaaa;
-            --primary-blue: #5890ff; /* Brighter blue for dark mode */
-            --primary-blue-hover: #4267B2;
+            --primary-blue: #5890ff;
             --search-bg: #2c2c2c;
             --search-border: #444;
-            
-            /* Dark Mode Button Gradients */
+            --footer-bg: #1c1c1c;
+            --footer-text: #aaaaaa;
+            --dropdown-bg: #2c2c2c;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+            --dropdown-hover: #3a3a3a;
             --btn-login-bg: linear-gradient(to bottom, #2c3a5e, #24304d);
             --btn-login-hover-bg: linear-gradient(to bottom, #24304d, #1e2840);
             --btn-login-border: var(--primary-blue);
             --btn-login-text: var(--primary-blue);
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
+            --btn-signup-border: #1e7e34;
+            --btn-signup-text: #ffffff;
+            --mobile-menu-bg: #2c2c2c;
+            --mobile-menu-text: #e0e0e0;
 
-            /* Card styles */
+            /* specific for login card */
             --card-bg: #2c2c2c;
-            --card-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            --card-border: #444;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            --input-border: #555;
         }
 
-        /* --- Base --- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
-        }
-
+        /* --- Base Styles (Same as Index) --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; min-width: 100%; overflow-x: clip; height: 100%; }
         body {
             font-family: 'Tahoma', sans-serif;
             background-color: var(--bg-color);
@@ -88,333 +87,362 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; /* Align to top */
-            padding-top: 5rem;
         }
+        [dir="rtl"] body { font-family: 'Tajawal', 'Tahoma', sans-serif; }
         
-        [dir="rtl"] body {
-            font-family: 'Tajawal', 'Tahoma', sans-serif;
+        /* --- Header Styles (Minified from Index) --- */
+        .header { background-image: var(--header-bg); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--header-border); }
+        .logo { font-size: 1.75rem; font-weight: 700; color: var(--header-text); text-decoration: none; margin-right: 2.5rem; }
+        .nav-links { display: flex; gap: 1.2rem; }
+        .nav-links a { color: var(--header-text); text-decoration: none; font-weight: 500; position: relative; transition: color 0.2s ease; }
+        .nav-links a:hover { color: var(--header-text-secondary); }
+        
+        /* --- LOGIN PAGE SPECIFIC STYLES --- */
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
         }
 
-        /* --- Login Container --- */
-        .login-container {
-            width: 100%;
-            max-width: 420px;
-            padding: 2rem;
+        .login-card {
             background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
+            padding: 2.5rem;
             border-radius: 8px;
             box-shadow: var(--card-shadow);
+            width: 100%;
+            max-width: 400px;
             text-align: center;
+            transition: background-color 0.3s ease;
         }
-        
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: inline-block;
+
+        .login-card h2 {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
-        
-        .login-container h2 {
-            font-size: 1.25rem;
-            color: var(--text-color-secondary);
-            font-weight: 400;
-            margin-bottom: 2rem;
-        }
-        
-        /* --- Form --- */
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
+
         .form-group {
+            margin-bottom: 1.2rem;
             text-align: left;
         }
-        
-        .form-group label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-color-secondary);
-        }
-        
-        .form-input {
+        [dir="rtl"] .form-group { text-align: right; }
+
+        .form-control {
             width: 100%;
-            padding: 0.8rem 1rem;
-            font-size: 1rem;
-            font-family: 'Tahoma', sans-serif;
+            padding: 0.8rem;
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            background-color: var(--bg-color);
             color: var(--text-color);
-            background-color: var(--search-bg);
-            border: 1px solid var(--search-border);
-            border-radius: 4px;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        
-        .form-input:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(59, 89, 152, 0.2);
-        }
-        
-        .btn {
-            border: none;
-            padding: 0.8rem 1.2rem;
-            border-radius: 4px; /* Reduced for classic look */
-            cursor: pointer;
-            font-weight: 700; /* Bolder for classic feel */
-            font-family: 'Tahoma', sans-serif;
-            text-decoration: none;
+            font-family: inherit;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .btn-full {
             width: 100%;
-        }
-        
-        .btn-login-submit {
-            background-image: var(--btn-signup-bg); /* Using signup green for primary action */
-            color: var(--btn-signup-text);
-            border: 1px solid var(--btn-signup-border);
-        }
-        .btn-login-submit:hover {
-            background-image: var(--btn-signup-hover-bg);
-            transform: translateY(-2px);
-        }
-        .btn-login-submit:disabled {
-            background-image: none;
-            background-color: #999;
-            border-color: #888;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        /* --- Message Area --- */
-        #message-box {
-            margin-top: 1.5rem;
-            padding: 0.75rem;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            font-weight: bold;
+            cursor: pointer;
             border-radius: 4px;
-            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit-login {
+            background-image: var(--btn-login-bg);
+            border: 1px solid var(--btn-login-border);
+            color: var(--btn-login-text);
+        }
+        .btn-submit-login:hover { background-image: var(--btn-login-hover-bg); }
+
+        .btn-submit-signup {
+            background-image: var(--btn-signup-bg);
+            color: white;
+            border: 1px solid var(--btn-signup-border);
             display: none; /* Hidden by default */
         }
-        
-        #message-box.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-        }
-        
-        #message-box.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-        
-        /* --- Back Link --- */
-        .back-link {
+        .btn-submit-signup:hover { background-image: var(--btn-signup-hover-bg); }
+
+        .auth-toggle-text {
             margin-top: 1.5rem;
             font-size: 0.9rem;
-            color: var(--primary-blue);
-            text-decoration: none;
-            display: inline-block;
+            color: var(--text-color-secondary);
         }
-        .back-link:hover {
+
+        .auth-toggle-link {
+            color: var(--primary-blue);
+            cursor: pointer;
+            font-weight: bold;
             text-decoration: underline;
+        }
+
+        .error-msg {
+            color: #dc3545;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .success-msg {
+            color: #28a745;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Footer (Same as Index) */
+        .footer { background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 2rem; margin-top: auto; }
+
+        /* Dropdown styles needed for header */
+        .user-controls { display: flex; align-items: center; gap: 0.75rem; }
+        .dropdown { position: relative; }
+        .dropdown-toggle { background: none; border: none; cursor: pointer; color: var(--header-text); font-size: 1.2rem; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 50px; background-color: var(--dropdown-bg); min-width: 140px; box-shadow: var(--dropdown-shadow); border-radius: 4px; overflow: hidden; z-index: 100; }
+        .dropdown-menu.show { display: block; }
+        .dropdown-menu a { color: var(--text-color); padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.9rem; }
+        .dropdown-menu a:hover { background-color: var(--dropdown-hover); }
+        .dropdown-menu a.active { background-color: var(--primary-blue); color: white; }
+
+        /* Mobile tweaks */
+        @media (max-width: 768px) {
+            .header { padding: 1rem; }
+            .nav-links { display: none; }
+            .header-left { flex: 1; }
+            .login-card { padding: 1.5rem; }
         }
 
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <a href="../index.html" class="logo">Liketube</a>
-        <h2>Log in to your account</h2>
+    <header class="header">
+        <div class="header-left">
+            <a href="../index.html" class="logo">Liketube</a>
+            <nav class="nav-links">
+                <a href="../index.html" data-key="nav_home">Home</a>
+                <a href="#" data-key="nav_posts">Posts</a>
+                <a href="#" data-key="nav_ping">Ping</a>
+                <a href="#" data-key="nav_download">Download</a>
+            </nav>
+        </div>
 
-        <form class="login-form" id="login-form">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type-="text" id="username" class="form-input" required>
+        <div class="header-right">
+            <div class="user-controls">
+                <div class="dropdown">
+                    <button class="dropdown-toggle" id="theme-toggle-btn"><i class="fas fa-sun" id="theme-icon"></i></button>
+                    <div class="dropdown-menu" id="theme-menu">
+                        <a href="#" data-theme="light" data-key="theme_light"><i class="fas fa-sun fa-fw"></i> Light</a>
+                        <a href="#" data-theme="dark" data-key="theme_dark"><i class="fas fa-moon fa-fw"></i> Dark</a>
+                        <a href="#" data-theme="auto" data-key="theme_auto"><i class="fas fa-magic fa-fw"></i> Automatic</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropdown-toggle" id="lang-toggle-btn" style="font-size:0.9rem; font-weight:bold;">EN</button>
+                    <div class="dropdown-menu" id="lang-menu">
+                        <a href="#" data-lang="en" data-key="lang_en">English</a>
+                        <a href="#" data-lang="ar" data-key="lang_ar">Arabic</a>
+                    </div>
+                </div>
             </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="login-card">
+            <h2 id="form-title" data-key="login_title">Login</h2>
+            
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" class="form-input" required>
+                <input type="email" id="email" class="form-control" placeholder="Email Address" required>
             </div>
             
-            <button type="submit" class="btn btn-login-submit" id="login-button">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-        </form>
-        
-        <div id="message-box"></div>
-        
-        <a href="../index.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Home
-        </a>
-    </div>
+            <div class="form-group">
+                <input type="password" id="password" class="form-control" placeholder="Password" required>
+            </div>
+
+            <button id="btn-login" class="btn-full btn-submit-login" data-key="btn_login">Login</button>
+            <button id="btn-signup" class="btn-full btn-submit-signup" data-key="btn_signup_action">Create Account</button>
+
+            <p class="error-msg" id="error-msg"></p>
+            <p class="success-msg" id="success-msg"></p>
+
+            <div class="auth-toggle-text">
+                <span id="toggle-text" data-key="no_account_text">Don't have an account?</span>
+                <span id="toggle-btn" class="auth-toggle-link" data-key="toggle_signup">Signup</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p data-key="footer_text">© 2025 Liketube. Developed by Twindev. All rights reserved.</p>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- Theme detection from main page ---
-            // Simple theme detection to match. Assumes 'auto' is default.
-            const savedTheme = localStorage.getItem('theme') || 'auto';
-            const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            // --- UI LOGIC: Toggle Login vs Signup ---
+            const formTitle = document.getElementById('form-title');
+            const btnLogin = document.getElementById('btn-login');
+            const btnSignup = document.getElementById('btn-signup');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleBtn = document.getElementById('toggle-btn');
+            const errorMsg = document.getElementById('error-msg');
+            const successMsg = document.getElementById('success-msg');
+            let isLoginMode = true;
 
-            function applyTheme(theme) {
-                if (theme === 'dark') {
-                    document.body.classList.add('dark-mode');
-                } else { // 'light'
-                    document.body.classList.remove('dark-mode');
-                }
-            }
+            toggleBtn.addEventListener('click', () => {
+                isLoginMode = !isLoginMode;
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'none';
 
-            if (savedTheme === 'auto') {
-                if (osDarkScheme.matches) {
-                    applyTheme('dark');
+                const currentLang = localStorage.getItem('language') || 'en';
+
+                if (isLoginMode) {
+                    // Switch to Login UI
+                    updateTextContent('login_title', 'Login');
+                    btnLogin.style.display = 'block';
+                    btnSignup.style.display = 'none';
+                    updateTextContent('no_account_text', "Don't have an account?");
+                    updateTextContent('toggle_signup', "Signup");
                 } else {
-                    applyTheme('light');
+                    // Switch to Signup UI
+                    updateTextContent('login_title', 'Create Account');
+                    btnLogin.style.display = 'none';
+                    btnSignup.style.display = 'block';
+                    updateTextContent('have_account_text', "Already have an account?");
+                    updateTextContent('toggle_login', "Login");
                 }
-            } else {
-                applyTheme(savedTheme);
+                // Refresh translation for the new state
+                setLanguage(currentLang); 
+            });
+
+            // --- TRANSLATIONS ---
+            const translations = {
+                en: {
+                    nav_home: "Home", nav_posts: "Posts", nav_ping: "Ping", nav_download: "Download",
+                    theme_light: "Light", theme_dark: "Dark", theme_auto: "Automatic",
+                    lang_en: "English", lang_ar: "Arabic",
+                    footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved.",
+                    // Login Specific
+                    login_title: "Login",
+                    create_account_title: "Create Account",
+                    btn_login: "Login",
+                    btn_signup_action: "Create Account",
+                    no_account_text: "Don't have an account?",
+                    have_account_text: "Already have an account?",
+                    toggle_signup: "Signup",
+                    toggle_login: "Login"
+                },
+                ar: {
+                    nav_home: "الرئيسية", nav_posts: "المنشورات", nav_ping: "بينغ", nav_download: "تحميل",
+                    theme_light: "فاتح", theme_dark: "داكن", theme_auto: "تلقائي",
+                    lang_en: "الإنجليزية", lang_ar: "العربية",
+                    footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة.",
+                    // Login Specific
+                    login_title: "تسجيل الدخول",
+                    create_account_title: "إنشاء حساب",
+                    btn_login: "تسجيل الدخول",
+                    btn_signup_action: "إنشاء حساب",
+                    no_account_text: "ليس لديك حساب؟",
+                    have_account_text: "لديك حساب بالفعل؟",
+                    toggle_signup: "إنشاء حساب",
+                    toggle_login: "دخول"
+                }
+            };
+
+            // Helper to handle dynamic text updates based on mode
+            function updateTextContent(key, defaultText) {
+                const el = document.querySelector(`[data-key="${key}"]`);
+                if(el) el.setAttribute('data-key', key); // Ensure key is set
+                // Actual translation happens in setLanguage
             }
-            
-            // --- Language detection from main page ---
+
+            // --- Language & Theme Logic (Copied & Simplified from Index) ---
+            const langMenu = document.getElementById('lang-menu');
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+
+            function setLanguage(lang) {
+                if (!translations[lang]) lang = 'en';
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+                // Handle dynamic Toggle Button Keys
+                if(isLoginMode) {
+                   toggleText.setAttribute('data-key', 'no_account_text');
+                   toggleBtn.setAttribute('data-key', 'toggle_signup');
+                   formTitle.setAttribute('data-key', 'login_title');
+                } else {
+                   toggleText.setAttribute('data-key', 'have_account_text');
+                   toggleBtn.setAttribute('data-key', 'toggle_login');
+                   formTitle.setAttribute('data-key', 'create_account_title');
+                }
+
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (translations[lang][key]) {
+                        el.innerText = translations[lang][key];
+                    }
+                });
+                langToggleBtn.textContent = lang.toUpperCase();
+                localStorage.setItem('language', lang);
+            }
             const savedLang = localStorage.getItem('language') || 'en';
-            document.documentElement.lang = savedLang;
-            document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
-            
-            // --- Login Logic ---
-            const loginForm = document.getElementById('login-form');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const loginButton = document.getElementById('login-button');
-            const messageBox = document.getElementById('message-box');
-            
-            // This is the path to the JSON file created by the GitHub Action
-            // It's relative to this login/index.html file
-            const ACCOUNTS_JSON_PATH = '../_data/Login/accounts.json';
-            
-            // A simple cache for the decoded accounts list
-            let decodedAccountsList = null;
-            
-            /**
-             * Fetches and decodes the accounts list from the server.
-             * Caches the result to avoid re-fetching on multiple login attempts.
-             */
-            async function getDecodedAccounts() {
-                if (decodedAccountsList) {
-                    return decodedAccountsList;
-                }
-                
-                try {
-                    const response = await fetch(ACCOUNTS_JSON_PATH);
-                    if (!response.ok) {
-                        throw new Error(`Could not fetch accounts file. Status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    
-                    // data.content is the Base64-encoded *content* of accounts.txt
-                    if (!data.content) {
-                        throw new Error('Invalid accounts file format: "content" field missing.');
-                    }
-                    
-                    // Decode the Base64 string to get the plain text content
-                    // atob() is the native browser function to decode Base64
-                    const decodedText = atob(data.content);
-                    decodedAccountsList = decodedText; // Cache it
-                    return decodedAccountsList;
-                    
-                } catch (error) {
-                    console.error('Error fetching or decoding accounts:', error);
-                    showMessage('error', 'Login system error. Please try again later.');
-                    return null; // Indicate failure
-                }
-            }
-            
-            /**
-             * Handles the form submission
-             */
-            async function handleLogin(event) {
-                event.preventDefault(); // Stop the form from submitting normally
-                setLoading(true);
-                
-                const username = usernameInput.value;
-                const password = password.value;
-                
-                if (!username || !password) {
-                    showMessage('error', 'Please enter both username and password.');
-                    setLoading(false);
-                    return;
-                }
-                
-                // 1. Get the decoded content of accounts.txt
-                const accountsContent = await getDecodedAccounts();
-                if (!accountsContent) {
-                    // Error message was already shown by getDecodedAccounts()
-                    setLoading(false);
-                    return;
-                }
-                
-                // 2. Create the plain text string from user input
-                // Assuming the format in the file is "username:password"
-                const userPlainText = `${username}:${password}`;
-                
-                // 3. Encode the user's plain text string to Base64
-                // btoa() is the native browser function to encode to Base64
-                const userBase64 = btoa(userPlainText);
-                
-                // 4. Check if the user's Base64 string exists in the accounts file
-                // We check if the decoded file content (which is a big string,
-                // possibly with multiple lines) includes the user's Base64 string.
-                if (accountsContent.includes(userBase64)) {
-                    // SUCCESS
-                    showMessage('success', 'Login successful! Redirecting...');
-                    // Redirect to the main page after a short delay
-                    setTimeout(() => {
-                        window.location.href = '../index.html';
-                    }, 1500);
-                } else {
-                    // FAILURE
-                    showMessage('error', 'Invalid username or password.');
-                    setLoading(false);
-                }
-            }
-            
-            /**
-             * Displays a message to the user
-             * @param {'success' | 'error'} type - The type of message
-             * @param {string} text - The message text
-             */
-            function showMessage(type, text) {
-                messageBox.className = type;
-                messageBox.textContent = text;
-            }
-            
-            /**
-             * Toggles the loading state of the login button
-             * @param {boolean} isLoading - Whether to show loading state
-             */
-            function setLoading(isLoading) {
-                loginButton.disabled = isLoading;
-                if (isLoading) {
-                    loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-                } else {
-                    loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-                }
-            }
-            
-            // Attach the submit event listener to the form
-            loginForm.addEventListener('submit', handleLogin);
-            
-            // Pre-fetch the accounts file on page load for a faster login
-            getDecodedAccounts();
+            setLanguage(savedLang);
 
+            langMenu.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('a[data-lang]');
+                if (target) {
+                   setLanguage(target.getAttribute('data-lang'));
+                   target.closest('.dropdown-menu').classList.remove('show');
+                }
+            });
+
+            // Theme Logic
+            const themeMenu = document.getElementById('theme-menu');
+            const themeIcon = document.getElementById('theme-icon');
+            const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            function applyTheme(theme) {
+                if (theme === 'dark') document.body.classList.add('dark-mode');
+                else document.body.classList.remove('dark-mode');
+            }
+            function updateIcon(theme) {
+                themeIcon.className = theme === 'auto' ? 'fas fa-magic' : (theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun');
+            }
+            function handleTheme(theme) {
+                if(theme === 'auto') osDarkScheme.matches ? applyTheme('dark') : applyTheme('light');
+                else applyTheme(theme);
+                updateIcon(theme);
+                localStorage.setItem('theme', theme);
+            }
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            handleTheme(savedTheme);
+
+            themeMenu.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('a[data-theme]');
+                if(target) {
+                    handleTheme(target.getAttribute('data-theme'));
+                    target.closest('.dropdown-menu').classList.remove('show');
+                }
+            });
+
+            // Dropdowns
+            document.querySelectorAll('.dropdown-toggle').forEach(t => t.addEventListener('click', (e) => {
+                e.stopPropagation();
+                t.nextElementSibling.classList.toggle('show');
+            }));
+            window.addEventListener('click', () => document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show')));
         });
     </script>
+
+    <script type="module" src="app.js"></script>
+
 </body>
 </html>

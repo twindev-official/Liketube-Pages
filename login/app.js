@@ -1,13 +1,6 @@
-// 1. Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { 
-    getAuth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// 2. Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyB3sD90sRQcKyDGa3YSdzacO2Ixxu9SgGI",
   authDomain: "liketube-database.firebaseapp.com",
@@ -15,58 +8,105 @@ const firebaseConfig = {
   storageBucket: "liketube-database.firebasestorage.app",
   messagingSenderId: "328915578966",
   appId: "1:328915578966:web:ea47dbe233d55add864bf7",
-  measurementId: "G-ERJRG1YDFC"
 };
-
-// 3. Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// --- DOM Elements ---
-const txtLoginEmail = document.getElementById('login-email');
-const txtLoginPass = document.getElementById('login-password');
+// DOM Elements
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
 const btnLogin = document.getElementById('btn-login');
-
-const txtSignupEmail = document.getElementById('signup-email');
-const txtSignupPass = document.getElementById('signup-password');
 const btnSignup = document.getElementById('btn-signup');
-const msg = document.getElementById('status-message');
+const errorMsg = document.getElementById('error-msg');
+const successMsg = document.getElementById('success-msg');
 
-// --- Sign Up Function ---
-btnSignup.addEventListener('click', async () => {
-    const email = txtSignupEmail.value;
-    const pass = txtSignupPass.value;
+// Helper to clear messages
+function clearMessages() {
+    errorMsg.style.display = 'none';
+    successMsg.style.display = 'none';
+    errorMsg.innerText = '';
+    successMsg.innerText = '';
+}
 
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-        msg.innerText = "Account created for: " + userCredential.user.email;
-    } catch (error) {
-        msg.innerText = "Error: " + error.message;
-    }
-});
-
-// --- Login Function ---
+// --- LOGIN ACTION ---
 btnLogin.addEventListener('click', async () => {
-    const email = txtLoginEmail.value;
-    const pass = txtLoginPass.value;
+    clearMessages();
+    const email = emailInput.value;
+    const pass = passwordInput.value;
+
+    if(!email || !pass) {
+        errorMsg.innerText = "Please fill in all fields.";
+        errorMsg.style.display = 'block';
+        return;
+    }
+
+    btnLogin.innerText = "Loading...";
 
     try {
-        await signInWithEmailAndPassword(auth, email, pass);
-        msg.innerText = "Logged in successfully!";
-        // Redirect to your main social media page
-        // window.location.href = "feed.html"; 
+        const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+        successMsg.innerText = "Login Successful! Redirecting...";
+        successMsg.style.display = 'block';
+        
+        // Redirect to Home Page after 1 second
+        setTimeout(() => {
+            window.location.href = "../index.html";
+        }, 1000);
+
     } catch (error) {
-        msg.innerText = "Login Failed: " + error.message;
+        console.error(error);
+        let message = error.message;
+        if(error.code === 'auth/invalid-credential') message = "Incorrect email or password.";
+        if(error.code === 'auth/too-many-requests') message = "Too many attempts. Try again later.";
+        
+        errorMsg.innerText = message;
+        errorMsg.style.display = 'block';
+    } finally {
+        // Reset button text based on current language
+        const lang = localStorage.getItem('language') || 'en';
+        btnLogin.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
     }
 });
 
-// --- Monitor Authentication State ---
-// This runs automatically when the page loads to see if user is already logged in
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("User is signed in:", user.email);
-        // You can hide the login form here if you want
-    } else {
-        console.log("No user is signed in.");
+// --- SIGNUP ACTION ---
+btnSignup.addEventListener('click', async () => {
+    clearMessages();
+    const email = emailInput.value;
+    const pass = passwordInput.value;
+
+    if(!email || !pass) {
+        errorMsg.innerText = "Please fill in all fields.";
+        errorMsg.style.display = 'block';
+        return;
+    }
+    
+    if(pass.length < 6) {
+        errorMsg.innerText = "Password must be at least 6 characters.";
+        errorMsg.style.display = 'block';
+        return;
+    }
+
+    btnSignup.innerText = "Creating...";
+
+    try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+        successMsg.innerText = "Account Created! You are now logged in.";
+        successMsg.style.display = 'block';
+        
+        // Redirect to Home Page
+        setTimeout(() => {
+            window.location.href = "../index.html";
+        }, 1500);
+
+    } catch (error) {
+        console.error(error);
+        let message = error.message;
+        if(error.code === 'auth/email-already-in-use') message = "This email is already registered.";
+        
+        errorMsg.innerText = message;
+        errorMsg.style.display = 'block';
+    } finally {
+        // Reset button text based on current language
+        const lang = localStorage.getItem('language') || 'en';
+        btnSignup.innerText = lang === 'ar' ? "إنشاء حساب" : "Create Account";
     }
 });

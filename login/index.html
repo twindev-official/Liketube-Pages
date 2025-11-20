@@ -7,11 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Pointing to icon in the parent folder -->
     <link rel="icon" href="../icon.png">
     
     <style>
-        /* --- EXACT CSS FROM YOUR MAIN INDEX.HTML --- */
+        /* --- VARIABLES (Matches Main Page) --- */
         :root {
             --bg-color: #e6f0ff;
             --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
@@ -28,8 +27,9 @@
             --dropdown-bg: #ffffff;
             --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
             --dropdown-hover: #f1f1f1;
+            --mobile-menu-bg: #f0f2f5;
+            --mobile-menu-text: #000000;
             
-            /* Button Gradients */
             --btn-login-bg: linear-gradient(to bottom, #f0f8ff, #d6e8ff);
             --btn-login-hover-bg: linear-gradient(to bottom, #d6e8ff, #c0d9ff);
             --btn-login-border: var(--primary-blue);
@@ -62,6 +62,8 @@
             --dropdown-bg: #2c2c2c;
             --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
             --dropdown-hover: #3a3a3a;
+            --mobile-menu-bg: #2c2c2c;
+            --mobile-menu-text: #e0e0e0;
             
             --btn-login-bg: linear-gradient(to bottom, #2c3a5e, #24304d);
             --btn-login-hover-bg: linear-gradient(to bottom, #24304d, #1e2840);
@@ -78,7 +80,6 @@
             --input-border: #555;
         }
 
-        /* Base Setup */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { width: 100%; min-width: 100%; overflow-x: clip; height: 100%; }
         body {
@@ -91,7 +92,7 @@
         }
         [dir="rtl"] body { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
 
-        /* --- Header Styles (Identical to Index) --- */
+        /* --- HEADER STYLES --- */
         .header {
             background-image: var(--header-bg);
             padding: 1rem 3rem;
@@ -99,6 +100,8 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--header-border);
+            position: relative;
+            z-index: 100;
         }
         .header-left, .header-center, .header-right { display: flex; align-items: center; }
         .header-left { flex: 1; justify-content: flex-start; }
@@ -110,7 +113,6 @@
         .nav-links a { color: var(--header-text); text-decoration: none; font-weight: 500; position: relative; padding-bottom: 5px; }
         .nav-links a:hover { color: var(--header-text-secondary); }
 
-        /* Search Bar */
         .search-bar {
             width: 100%; max-width: 450px; display: flex; align-items: center;
             background-color: var(--search-bg); border: 1px solid var(--search-border);
@@ -119,22 +121,23 @@
         .search-bar i { color: #888; margin-right: 0.5rem; }
         .search-bar input { border: none; background: transparent; outline: none; width: 100%; font-family: 'Tahoma', sans-serif; font-size: 0.9rem; color: var(--text-color); }
 
-        /* User Controls */
         .user-controls { display: flex; align-items: center; gap: 0.75rem; }
+        
+        /* --- BUTTONS --- */
         .btn {
             border: none; padding: 0.6rem 1.2rem; border-radius: 4px;
             cursor: pointer; font-weight: 700; font-family: 'Tahoma', sans-serif;
             text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease;
         }
 
-        /* --- SPECIAL: Grey Button Style for Current Page --- */
+        /* Greyed out "Login" button in header */
         .btn-disabled-style {
             background: #b0b3b8 !important;
             background-image: none !important;
             border: 1px solid #999 !important;
             color: #444 !important;
             cursor: default;
-            pointer-events: none; /* Make it unclickable */
+            pointer-events: none; 
         }
         .dark-mode .btn-disabled-style {
             background: #4a4a4a !important;
@@ -148,10 +151,49 @@
         }
         .btn-signup:hover { background-image: var(--btn-signup-hover-bg); }
 
-        /* --- Login Card Styles --- */
-        .main-container {
-            flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem;
+        /* --- MOBILE MENU (Copied from Main) --- */
+        .hamburger-menu {
+            display: none; /* Hide by default */
+            font-size: 1.5rem; color: var(--header-text);
+            cursor: pointer; margin-right: 1rem;
         }
+        [dir="rtl"] .hamburger-menu { margin-right: 0; margin-left: 1rem; }
+
+        .mobile-menu {
+            position: fixed; top: 0; left: -100%; width: 80%; height: 100%;
+            background-color: var(--mobile-menu-bg); color: var(--mobile-menu-text);
+            z-index: 1050; padding: 2rem;
+            transition: left 0.3s ease-out;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; gap: 1.5rem;
+        }
+        [dir="rtl"] .mobile-menu { left: auto; right: -100%; transition: right 0.3s ease-out; }
+        
+        .mobile-menu.open { left: 0; }
+        [dir="rtl"] .mobile-menu.open { left: auto; right: 0; }
+
+        .mobile-menu-close {
+            position: absolute; top: 1rem; right: 1rem;
+            font-size: 1.5rem; cursor: pointer; color: var(--text-color);
+        }
+        [dir="rtl"] .mobile-menu-close { right: auto; left: 1rem; }
+
+        .mobile-search-bar {
+            width: 100%; display: flex; align-items: center;
+            background-color: var(--search-bg); border: 1px solid var(--search-border);
+            border-radius: 4px; padding: 0.5rem 1rem;
+        }
+        .mobile-search-bar input { border: none; background: transparent; width: 100%; outline: none; color: var(--text-color); }
+
+        .mobile-nav-links a {
+            display: block; padding: 0.75rem 0; text-decoration: none;
+            color: var(--mobile-menu-text); font-weight: 700;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .dark-mode .mobile-nav-links a { border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+        /* --- LOGIN CARD --- */
+        .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; }
         .login-card {
             background-color: var(--card-bg); padding: 2.5rem;
             border-radius: 8px; box-shadow: var(--card-shadow);
@@ -180,26 +222,13 @@
             display: none; 
         }
 
-        /* --- Feedback Messages --- */
-        .msg-box {
-            margin-top: 1rem; padding: 10px; border-radius: 4px;
-            font-size: 0.9rem; display: none; font-weight: bold;
-        }
-        .error-msg {
-            background-color: rgba(220, 53, 69, 0.1);
-            border: 1px solid #dc3545; color: #dc3545;
-        }
-        .success-msg {
-            background-color: rgba(40, 167, 69, 0.1);
-            border: 1px solid #28a745; color: #28a745;
-        }
+        .msg-box { margin-top: 1rem; padding: 10px; border-radius: 4px; font-size: 0.9rem; display: none; font-weight: bold; }
+        .error-msg { background-color: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #dc3545; }
+        .success-msg { background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745; }
 
         .auth-toggle-text { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-color-secondary); }
-        .auth-toggle-link {
-            color: var(--primary-blue); font-weight: bold; text-decoration: underline;
-        }
+        .auth-toggle-link { color: var(--primary-blue); font-weight: bold; text-decoration: underline; cursor: pointer; }
 
-        /* Footer */
         .footer { background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 2rem; margin-top: auto; }
 
         /* Dropdowns */
@@ -210,16 +239,39 @@
         .dropdown-menu a { color: var(--text-color); padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.9rem; }
 
         @media (max-width: 992px) {
+            .hamburger-menu { display: block; }
             .header-center, .nav-links { display: none; }
+            .header-left { flex: none; }
+            .header-right { flex: 1; }
+        }
+        @media (max-width: 768px) {
+            .header { padding: 1rem; }
+            .user-controls { gap: 0.25rem; }
+            .logo { margin-right: 0.5rem; font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header (Identical structure to Index) -->
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-times mobile-menu-close" id="mobile-menu-close"></i>
+        <div class="mobile-search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." data-key="search_placeholder">
+        </div>
+        <nav class="mobile-nav-links">
+            <a href="../index.html" data-key="nav_home">Home</a>
+            <a href="#" data-key="nav_posts">Posts</a>
+            <a href="#" data-key="nav_ping">Ping</a>
+            <a href="#" data-key="nav_download">Download</a>
+        </nav>
+    </div>
+
+    <!-- HEADER -->
     <header class="header">
         <div class="header-left">
-            <!-- Link back to main page -->
+            <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
             <a href="../index.html" class="logo">Liketube</a>
             <nav class="nav-links">
                 <a href="../index.html" data-key="nav_home">Home</a>
@@ -238,7 +290,6 @@
 
         <div class="header-right">
             <div class="user-controls">
-                <!-- Theme Toggler -->
                 <div class="dropdown">
                     <button class="dropdown-toggle" id="theme-toggle-btn"><i class="fas fa-sun" id="theme-icon"></i></button>
                     <div class="dropdown-menu" id="theme-menu">
@@ -247,7 +298,6 @@
                         <a href="#" data-theme="auto" data-key="theme_auto"><i class="fas fa-magic fa-fw"></i> Automatic</a>
                     </div>
                 </div>
-                <!-- Language Toggler -->
                 <div class="dropdown">
                     <button class="dropdown-toggle" id="lang-toggle-btn" style="font-size:0.9rem; font-weight:bold;">EN</button>
                     <div class="dropdown-menu" id="lang-menu">
@@ -256,41 +306,35 @@
                     </div>
                 </div>
 
-                <!-- LOGIN BUTTON: Greyed out (Selected) -->
                 <a href="#" class="btn btn-disabled-style" data-key="btn_login">Login</a>
-                
-                <!-- SIGNUP BUTTON: Points to Signup Mode -->
-                <a href="?mode=signup" class="btn btn-signup" data-key="btn_signup">Signup</a>
+                <!-- Signup HREF is now #, triggers JS -->
+                <a href="#" id="header-btn-signup" class="btn btn-signup" data-key="btn_signup">Signup</a>
             </div>
         </div>
     </header>
 
-    <!-- Login/Signup Card -->
+    <!-- MAIN LOGIN/SIGNUP CARD -->
     <main class="main-container">
         <div class="login-card">
             <h2 id="form-title" data-key="login_title">Login</h2>
             
-            <!-- Added form tag for "Enter" key support -->
-            <form id="auth-form" onsubmit="return false;">
+            <!-- IMPORTANT: Form has no inline action, handled by app.js -->
+            <form id="auth-form">
                 <div class="form-group">
                     <input type="email" id="email" class="form-control" placeholder="Email Address" required>
                 </div>
-                
                 <div class="form-group">
                     <input type="password" id="password" class="form-control" placeholder="Password" required>
                 </div>
-
                 <button type="submit" id="btn-submit" class="btn-full btn-submit-login" data-key="btn_login">Login</button>
             </form>
 
-            <!-- Feedback Messages -->
             <div id="error-msg" class="msg-box error-msg"></div>
             <div id="success-msg" class="msg-box success-msg"></div>
 
             <div class="auth-toggle-text">
                 <span id="toggle-text" data-key="no_account_text">Don't have an account?</span>
-                <!-- Made this a real link using query params -->
-                <a href="?mode=signup" id="toggle-link" class="auth-toggle-link" data-key="toggle_signup">Signup</a>
+                <span id="toggle-link" class="auth-toggle-link" data-key="toggle_signup">Signup</span>
             </div>
         </div>
     </main>
@@ -299,41 +343,84 @@
         <p data-key="footer_text">© 2025 Liketube. Developed by Twindev. All rights reserved.</p>
     </footer>
 
-    <!-- UI Logic (Theme/Lang/Mode Switch) -->
+    <!-- UI INTERACTION SCRIPT -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- 1. DETECT MODE (Login vs Signup) ---
-            const urlParams = new URLSearchParams(window.location.search);
-            const mode = urlParams.get('mode'); // Check if ?mode=signup exists
-            const isSignup = mode === 'signup';
+            
+            // --- 1. MOBILE MENU LOGIC ---
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
 
+            hamburgerMenu.addEventListener('click', () => {
+                mobileMenu.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            });
+
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+
+            // --- 2. MODE SWITCHING (Login vs Signup) ---
             // Elements
             const formTitle = document.getElementById('form-title');
             const btnSubmit = document.getElementById('btn-submit');
             const toggleText = document.getElementById('toggle-text');
             const toggleLink = document.getElementById('toggle-link');
+            const headerBtnSignup = document.getElementById('header-btn-signup');
+            const errorMsg = document.getElementById('error-msg');
+            const successMsg = document.getElementById('success-msg');
 
-            // Update UI based on mode
-            if (isSignup) {
-                formTitle.setAttribute('data-key', 'create_account_title');
-                btnSubmit.className = 'btn-full btn-submit-signup'; // Green button
-                btnSubmit.setAttribute('data-key', 'btn_signup_action');
+            // State
+            let isSignupMode = false;
+
+            function updateAuthUI() {
+                // Clear messages on switch
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'none';
+
+                if (isSignupMode) {
+                    // Signup UI
+                    formTitle.setAttribute('data-key', 'create_account_title');
+                    btnSubmit.className = 'btn-full btn-submit-signup';
+                    btnSubmit.setAttribute('data-key', 'btn_signup_action');
+                    
+                    toggleText.setAttribute('data-key', 'have_account_text');
+                    toggleLink.setAttribute('data-key', 'toggle_login');
+                } else {
+                    // Login UI
+                    formTitle.setAttribute('data-key', 'login_title');
+                    btnSubmit.className = 'btn-full btn-submit-login';
+                    btnSubmit.setAttribute('data-key', 'btn_login');
+
+                    toggleText.setAttribute('data-key', 'no_account_text');
+                    toggleLink.setAttribute('data-key', 'toggle_signup');
+                }
                 
-                toggleText.setAttribute('data-key', 'have_account_text');
-                toggleLink.setAttribute('data-key', 'toggle_login');
-                toggleLink.href = "?mode=login"; // Link back to login
-            } else {
-                // Default Login
-                formTitle.setAttribute('data-key', 'login_title');
-                btnSubmit.className = 'btn-full btn-submit-login'; // Blue button
-                btnSubmit.setAttribute('data-key', 'btn_login');
-
-                toggleText.setAttribute('data-key', 'no_account_text');
-                toggleLink.setAttribute('data-key', 'toggle_signup');
-                toggleLink.href = "?mode=signup"; // Link to signup
+                // Refresh translations for current language
+                const lang = localStorage.getItem('language') || 'en';
+                setLanguage(lang);
             }
 
-            // --- 2. TRANSLATIONS & THEME (Standard) ---
+            // Link at bottom of card
+            toggleLink.addEventListener('click', () => {
+                isSignupMode = !isSignupMode;
+                updateAuthUI();
+            });
+
+            // Signup button in Header
+            headerBtnSignup.addEventListener('click', (e) => {
+                e.preventDefault();
+                isSignupMode = true; // Force signup mode
+                updateAuthUI();
+            });
+
+            // Expose mode to global scope for app.js to read
+            window.getAuthMode = () => isSignupMode ? 'signup' : 'login';
+
+
+            // --- 3. TRANSLATIONS & THEME (Standard) ---
             const translations = {
                 en: {
                     nav_home: "Home", nav_posts: "Posts", nav_ping: "Ping", nav_download: "Download",
@@ -355,7 +442,6 @@
                 }
             };
 
-            // Language Logic
             const langMenu = document.getElementById('lang-menu');
             const langToggleBtn = document.getElementById('lang-toggle-btn');
             function setLanguage(lang) {
@@ -382,7 +468,6 @@
                 }
             });
 
-            // Theme Logic
             const themeMenu = document.getElementById('theme-menu');
             const themeIcon = document.getElementById('theme-icon');
             function applyTheme(theme) {
@@ -401,7 +486,6 @@
                 }
             });
 
-            // Dropdowns
             document.querySelectorAll('.dropdown-toggle').forEach(t => t.addEventListener('click', (e) => {
                 e.stopPropagation(); t.nextElementSibling.classList.toggle('show');
             }));

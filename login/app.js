@@ -1,112 +1,109 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
+// --- UPDATE THIS CONFIGURATION ---
+// Go to Firebase Console -> Project Settings -> General -> Scroll down to "Your apps"
 const firebaseConfig = {
   apiKey: "AIzaSyB3sD90sRQcKyDGa3YSdzacO2Ixxu9SgGI",
   authDomain: "liketube-database.firebaseapp.com",
   projectId: "liketube-database",
   storageBucket: "liketube-database.firebasestorage.app",
   messagingSenderId: "328915578966",
-  appId: "1:328915578966:web:ea47dbe233d55add864bf7",
+  appId: "1:328915578966:web:ea47dbe233d55add864bf7"
 };
+
+// --- IMPORTS (No Node.js required) ---
+import { initializeApp } from "[https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js](https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js)";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "[https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js](https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js)";
+
+// Initialize
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+console.log("Firebase Initialized"); // Debug check
+
 // DOM Elements
+const btnSubmit = document.getElementById('btn-submit');
 const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const btnLogin = document.getElementById('btn-login');
-const btnSignup = document.getElementById('btn-signup');
+const passInput = document.getElementById('password');
 const errorMsg = document.getElementById('error-msg');
 const successMsg = document.getElementById('success-msg');
+const authForm = document.getElementById('auth-form');
 
-// Helper to clear messages
-function clearMessages() {
+// Detect Mode
+const urlParams = new URLSearchParams(window.location.search);
+const isSignup = urlParams.get('mode') === 'signup';
+
+function showMessage(type, text) {
+    // Hide both first
     errorMsg.style.display = 'none';
     successMsg.style.display = 'none';
-    errorMsg.innerText = '';
-    successMsg.innerText = '';
+
+    if(type === 'error') {
+        errorMsg.innerText = text;
+        errorMsg.style.display = 'block'; // Force block display
+    } else {
+        successMsg.innerText = text;
+        successMsg.style.display = 'block'; // Force block display
+    }
 }
 
-// --- LOGIN ACTION ---
-btnLogin.addEventListener('click', async () => {
-    clearMessages();
+// MAIN FUNCTION
+async function handleAuth() {
     const email = emailInput.value;
-    const pass = passwordInput.value;
+    const password = passInput.value;
 
-    if(!email || !pass) {
-        errorMsg.innerText = "Please fill in all fields.";
-        errorMsg.style.display = 'block';
+    // Basic validation
+    if (!email || !password) {
+        showMessage('error', "Please fill in all fields.");
         return;
     }
 
-    btnLogin.innerText = "Loading...";
+    // UI Loading State
+    const originalText = btnSubmit.innerText;
+    btnSubmit.innerText = "Processing...";
+    btnSubmit.disabled = true;
 
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-        successMsg.innerText = "Login Successful! Redirecting...";
-        successMsg.style.display = 'block';
-        
-        // Redirect to Home Page after 1 second
-        setTimeout(() => {
-            window.location.href = "../index.html";
-        }, 1000);
-
+        if (isSignup) {
+            // --- SIGN UP ---
+            await createUserWithEmailAndPassword(auth, email, password);
+            showMessage('success', "Account created! Redirecting...");
+            setTimeout(() => { window.location.href = "../index.html"; }, 1500);
+        } else {
+            // --- LOGIN ---
+            await signInWithEmailAndPassword(auth, email, password);
+            showMessage('success', "Login successful! Redirecting...");
+            setTimeout(() => { window.location.href = "../index.html"; }, 1000);
+        }
     } catch (error) {
-        console.error(error);
-        let message = error.message;
-        if(error.code === 'auth/invalid-credential') message = "Incorrect email or password.";
-        if(error.code === 'auth/too-many-requests') message = "Too many attempts. Try again later.";
+        console.error("Auth Error:", error); // Log to console for debugging
         
-        errorMsg.innerText = message;
-        errorMsg.style.display = 'block';
-    } finally {
-        // Reset button text based on current language
-        const lang = localStorage.getItem('language') || 'en';
-        btnLogin.innerText = lang === 'ar' ? "تسجيل الدخول" : "Login";
+        // User Friendly Error Messages
+        let message = error.message;
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+            message = "Incorrect email or password.";
+        } else if (error.code === 'auth/email-already-in-use') {
+            message = "This email is already registered.";
+        } else if (error.code === 'auth/weak-password') {
+            message = "Password should be at least 6 characters.";
+        } else if (error.code === 'auth/too-many-requests') {
+            message = "Too many failed attempts. Please try again later.";
+        }
+
+        showMessage('error', message);
+        
+        // Reset button
+        btnSubmit.innerText = originalText;
+        btnSubmit.disabled = false;
     }
+}
+
+// Trigger on Button Click
+btnSubmit.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent form refresh
+    handleAuth();
 });
 
-// --- SIGNUP ACTION ---
-btnSignup.addEventListener('click', async () => {
-    clearMessages();
-    const email = emailInput.value;
-    const pass = passwordInput.value;
-
-    if(!email || !pass) {
-        errorMsg.innerText = "Please fill in all fields.";
-        errorMsg.style.display = 'block';
-        return;
-    }
-    
-    if(pass.length < 6) {
-        errorMsg.innerText = "Password must be at least 6 characters.";
-        errorMsg.style.display = 'block';
-        return;
-    }
-
-    btnSignup.innerText = "Creating...";
-
-    try {
-        await createUserWithEmailAndPassword(auth, email, pass);
-        successMsg.innerText = "Account Created! You are now logged in.";
-        successMsg.style.display = 'block';
-        
-        // Redirect to Home Page
-        setTimeout(() => {
-            window.location.href = "../index.html";
-        }, 1500);
-
-    } catch (error) {
-        console.error(error);
-        let message = error.message;
-        if(error.code === 'auth/email-already-in-use') message = "This email is already registered.";
-        
-        errorMsg.innerText = message;
-        errorMsg.style.display = 'block';
-    } finally {
-        // Reset button text based on current language
-        const lang = localStorage.getItem('language') || 'en';
-        btnSignup.innerText = lang === 'ar' ? "إنشاء حساب" : "Create Account";
-    }
+// Trigger on Enter Key (via form submit event)
+authForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevent form refresh
+    handleAuth();
 });

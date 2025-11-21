@@ -10,8 +10,9 @@
     <link rel="icon" href="../icon.png">
     
     <style>
-        /* --- VARIABLES (Matches Main Page) --- */
+        /* --- VARIABLES (Synced with index.html) --- */
         :root {
+            /* Light Mode (Default) - Classic Theme */
             --bg-color: #e6f0ff;
             --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
             --header-border: #365899;
@@ -20,6 +21,7 @@
             --text-color: #000000;
             --text-color-secondary: #333;
             --primary-blue: #3b5998;
+            --primary-blue-hover: #365899;
             --search-bg: #ffffff;
             --search-border: #ddd;
             --footer-bg: #343a40;
@@ -27,9 +29,8 @@
             --dropdown-bg: #ffffff;
             --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
             --dropdown-hover: #f1f1f1;
-            --mobile-menu-bg: #f0f2f5;
-            --mobile-menu-text: #000000;
             
+            /* Button Gradients */
             --btn-login-bg: linear-gradient(to bottom, #f0f8ff, #d6e8ff);
             --btn-login-hover-bg: linear-gradient(to bottom, #d6e8ff, #c0d9ff);
             --btn-login-border: var(--primary-blue);
@@ -40,6 +41,10 @@
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
 
+            /* Mobile Menu */
+            --mobile-menu-bg: #f0f2f5;
+            --mobile-menu-text: #000000;
+
             /* Login Card Specifics */
             --card-bg: #ffffff;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -47,6 +52,7 @@
         }
 
         .dark-mode {
+            /* Dark Mode - Classic Theme */
             --bg-color: #1a2233;
             --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a);
             --header-border: #243f7a;
@@ -55,6 +61,7 @@
             --text-color: #e0e0e0;
             --text-color-secondary: #aaaaaa;
             --primary-blue: #5890ff;
+            --primary-blue-hover: #4267B2;
             --search-bg: #2c2c2c;
             --search-border: #444;
             --footer-bg: #1c1c1c;
@@ -62,9 +69,8 @@
             --dropdown-bg: #2c2c2c;
             --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
             --dropdown-hover: #3a3a3a;
-            --mobile-menu-bg: #2c2c2c;
-            --mobile-menu-text: #e0e0e0;
             
+            /* Dark Mode Button Gradients */
             --btn-login-bg: linear-gradient(to bottom, #2c3a5e, #24304d);
             --btn-login-hover-bg: linear-gradient(to bottom, #24304d, #1e2840);
             --btn-login-border: var(--primary-blue);
@@ -75,13 +81,29 @@
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
 
+            /* Mobile Menu */
+            --mobile-menu-bg: #2c2c2c;
+            --mobile-menu-text: #e0e0e0;
+
             --card-bg: #2c2c2c;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.4);
             --input-border: #555;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { width: 100%; min-width: 100%; overflow-x: clip; height: 100%; }
+        /* --- Base & Animations --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            width: 100%;
+            min-width: 100%;
+            overflow-x: clip;
+            height: 100%;
+        }
+
         body {
             font-family: 'Tahoma', sans-serif;
             background-color: var(--bg-color);
@@ -90,9 +112,21 @@
             display: flex;
             flex-direction: column;
         }
-        [dir="rtl"] body { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
+        
+        [dir="rtl"] body, 
+        [dir="rtl"] .btn, 
+        [dir="rtl"] input,
+        [dir="rtl"] .mobile-search-bar input {
+            font-family: 'Tajawal', 'Tahoma', sans-serif;
+            line-height: 1.7; 
+        }
 
-        /* --- HEADER STYLES --- */
+        @keyframes fadeAndSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Header (Exact copy of structure from index.html) --- */
         .header {
             background-image: var(--header-bg);
             padding: 1rem 3rem;
@@ -100,37 +134,201 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--header-border);
-            position: relative;
-            z-index: 100;
+            transition: background-image 0.3s ease;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .header-left, .header-center, .header-right { display: flex; align-items: center; }
-        .header-left { flex: 1; justify-content: flex-start; }
-        .header-center { flex: 2; justify-content: center; }
-        .header-right { flex: 1; justify-content: flex-end; }
 
-        .logo { font-size: 1.75rem; font-weight: 700; color: var(--header-text); text-decoration: none; margin-right: 2.5rem; }
-        .nav-links { display: flex; gap: 1.2rem; }
-        .nav-links a { color: var(--header-text); text-decoration: none; font-weight: 500; position: relative; padding-bottom: 5px; }
-        .nav-links a:hover { color: var(--header-text-secondary); }
-
-        .search-bar {
-            width: 100%; max-width: 450px; display: flex; align-items: center;
-            background-color: var(--search-bg); border: 1px solid var(--search-border);
-            border-radius: 4px; padding: 0.5rem 1rem;
+        .header-left, .header-center, .header-right {
+            display: flex;
+            align-items: center;
         }
-        .search-bar i { color: #888; margin-right: 0.5rem; }
-        .search-bar input { border: none; background: transparent; outline: none; width: 100%; font-family: 'Tahoma', sans-serif; font-size: 0.9rem; color: var(--text-color); }
 
-        .user-controls { display: flex; align-items: center; gap: 0.75rem; }
+        .header-left {
+            flex: 1;
+            justify-content: flex-start;
+            align-items: center; 
+        }
+        .header-center {
+            flex: 2;
+            justify-content: center;
+        }
+        .header-right {
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--header-text);
+            text-decoration: none;
+            margin-right: 2.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
         
-        /* --- BUTTONS --- */
-        .btn {
-            border: none; padding: 0.6rem 1.2rem; border-radius: 4px;
-            cursor: pointer; font-weight: 700; font-family: 'Tahoma', sans-serif;
-            text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease;
+        .nav-links a {
+            color: var(--header-text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.2s ease;
+            padding: 0 0 5px 0;
         }
 
-        /* Greyed out "Login" button in header */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--header-text);
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--header-text-secondary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Search Bar */
+        .search-bar {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            align-items: center;
+            background-color: var(--search-bg);
+            border: 1px solid var(--search-border);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .search-bar i {
+            color: #888;
+            margin-right: 0.5rem;
+        }
+        [dir="rtl"] .search-bar i {
+            margin-right: 0;
+            margin-left: 0.5rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            color: var(--text-color); /* Fixed input color */
+            font-family: 'Tahoma', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        /* User Controls */
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--header-text);
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        
+        .lang-toggle {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--header-text);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background-color: var(--dropdown-bg);
+            min-width: 140px;
+            box-shadow: var(--dropdown-shadow);
+            z-index: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        [dir="rtl"] .dropdown-menu {
+            right: auto;
+            left: 0;
+        }
+
+        .dropdown-menu a {
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--dropdown-hover);
+        }
+        
+        .dropdown-menu a.active {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .btn {
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Tahoma', sans-serif;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Greyed out "Login" button style */
         .btn-disabled-style {
             background: #b0b3b8 !important;
             background-image: none !important;
@@ -146,51 +344,117 @@
         }
 
         .btn-signup {
-            background-image: var(--btn-signup-bg); color: var(--btn-signup-text);
+            background-image: var(--btn-signup-bg);
+            color: var(--btn-signup-text);
             border: 1px solid var(--btn-signup-border);
         }
-        .btn-signup:hover { background-image: var(--btn-signup-hover-bg); }
-
-        /* --- MOBILE MENU (Copied from Main) --- */
-        .hamburger-menu {
-            display: none; /* Hide by default */
-            font-size: 1.5rem; color: var(--header-text);
-            cursor: pointer; margin-right: 1rem;
+        .btn-signup:hover {
+            background-image: var(--btn-signup-hover-bg);
+            border-color: var(--btn-signup-border);
+            transform: translateY(-2px);
         }
-        [dir="rtl"] .hamburger-menu { margin-right: 0; margin-left: 1rem; }
+
+        /* --- Mobile Menu Styling (Copied) --- */
+        .hamburger-menu {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--header-text);
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+        
+        [dir="rtl"] .hamburger-menu {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
 
         .mobile-menu {
-            position: fixed; top: 0; left: -100%; width: 80%; height: 100%;
-            background-color: var(--mobile-menu-bg); color: var(--mobile-menu-text);
-            z-index: 1050; padding: 2rem;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100%;
+            background-color: var(--mobile-menu-bg);
+            color: var(--mobile-menu-text);
+            z-index: 1050;
+            padding: 2rem;
+            transform: translateX(0);
             transition: left 0.3s ease-out;
             box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; gap: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
-        [dir="rtl"] .mobile-menu { left: auto; right: -100%; transition: right 0.3s ease-out; }
+
+        [dir="rtl"] .mobile-menu {
+            left: auto;
+            right: -100%;
+            transition: right 0.3s ease-out;
+        }
         
-        .mobile-menu.open { left: 0; }
-        [dir="rtl"] .mobile-menu.open { left: auto; right: 0; }
+        .mobile-menu.open {
+            left: 0;
+        }
+        
+        [dir="rtl"] .mobile-menu.open {
+            left: auto;
+            right: 0;
+        }
 
         .mobile-menu-close {
-            position: absolute; top: 1rem; right: 1rem;
-            font-size: 1.5rem; cursor: pointer; color: var(--text-color);
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
         }
-        [dir="rtl"] .mobile-menu-close { right: auto; left: 1rem; }
+        
+        [dir="rtl"] .mobile-menu-close {
+            right: auto;
+            left: 1rem;
+        }
 
         .mobile-search-bar {
-            width: 100%; display: flex; align-items: center;
-            background-color: var(--search-bg); border: 1px solid var(--search-border);
-            border-radius: 4px; padding: 0.5rem 1rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: var(--search-bg);
+            border: 1px solid var(--search-border);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s, border-color 0.3s;
         }
-        .mobile-search-bar input { border: none; background: transparent; width: 100%; outline: none; color: var(--text-color); }
-
+        .mobile-search-bar i {
+            color: #888;
+            margin-right: 0.5rem;
+        }
+        .mobile-search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            color: var(--text-color);
+            font-family: 'Tahoma', sans-serif;
+            font-size: 0.9rem;
+        }
+        
         .mobile-nav-links a {
-            display: block; padding: 0.75rem 0; text-decoration: none;
-            color: var(--mobile-menu-text); font-weight: 700;
+            display: block;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            color: var(--mobile-menu-text);
+            font-weight: 700;
             border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
         }
-        .dark-mode .mobile-nav-links a { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .dark-mode .mobile-nav-links a {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mobile-nav-links a:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
 
         /* --- LOGIN CARD --- */
         .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; }
@@ -198,6 +462,7 @@
             background-color: var(--card-bg); padding: 2.5rem;
             border-radius: 8px; box-shadow: var(--card-shadow);
             width: 100%; max-width: 420px; text-align: center;
+            animation: fadeAndSlideUp 0.6s ease-out;
         }
         .login-card h2 { margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--text-color); }
         
@@ -224,19 +489,26 @@
 
         .msg-box { margin-top: 1rem; padding: 10px; border-radius: 4px; font-size: 0.9rem; display: none; font-weight: bold; }
         .error-msg { background-color: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #dc3545; }
-        .success-msg { background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745; }
+        /* Success Msg removed from CSS necessity but kept for error if needed */
 
         .auth-toggle-text { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-color-secondary); }
         .auth-toggle-link { color: var(--primary-blue); font-weight: bold; text-decoration: underline; cursor: pointer; }
 
-        .footer { background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 2rem; margin-top: auto; }
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-        /* Dropdowns */
-        .dropdown { position: relative; }
-        .dropdown-toggle { background: none; border: none; cursor: pointer; color: var(--header-text); font-size: 1.2rem; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .dropdown-menu { display: none; position: absolute; right: 0; top: 50px; background-color: var(--dropdown-bg); min-width: 140px; box-shadow: var(--dropdown-shadow); border-radius: 4px; overflow: hidden; z-index: 100; }
-        .dropdown-menu.show { display: block; }
-        .dropdown-menu a { color: var(--text-color); padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.9rem; }
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .header { padding: 1rem 2rem; }
+        }
 
         @media (max-width: 992px) {
             .hamburger-menu { display: block; }
@@ -245,22 +517,34 @@
             .header-right { flex: 1; }
         }
         @media (max-width: 768px) {
-            .header { padding: 1rem; }
+            .header {
+                flex-wrap: nowrap;
+                padding: 1rem;
+            }
+            .header-left { flex: 1; justify-content: flex-start; }
+            .header-right { flex: none; }
             .user-controls { gap: 0.25rem; }
             .logo { margin-right: 0.5rem; font-size: 1.5rem; }
+            .btn { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
         }
+
     </style>
 </head>
 <body>
 
-    <!-- MOBILE MENU -->
+    <!-- Mobile Menu Container (Synced with index.html structure) -->
     <div class="mobile-menu" id="mobile-menu">
         <i class="fas fa-times mobile-menu-close" id="mobile-menu-close"></i>
+        
+        <!-- Search Bar -->
         <div class="mobile-search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search..." data-key="search_placeholder">
+            <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
         </div>
+
+        <!-- Nav Links -->
         <nav class="mobile-nav-links">
+            <!-- Updated Link Paths to ../index.html -->
             <a href="../index.html" data-key="nav_home">Home</a>
             <a href="#" data-key="nav_posts">Posts</a>
             <a href="#" data-key="nav_ping">Ping</a>
@@ -268,12 +552,15 @@
         </nav>
     </div>
 
-    <!-- HEADER -->
+    <!-- Header (Synced with index.html structure) -->
     <header class="header">
         <div class="header-left">
+            <!-- Hamburger Menu (Mobile Only) -->
             <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
+            <!-- Logo points back to home -->
             <a href="../index.html" class="logo">Liketube</a>
             <nav class="nav-links">
+                <!-- Links point back to main index -->
                 <a href="../index.html" data-key="nav_home">Home</a>
                 <a href="#" data-key="nav_posts">Posts</a>
                 <a href="#" data-key="nav_ping">Ping</a>
@@ -284,30 +571,38 @@
         <div class="header-center">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search..." data-key="search_placeholder">
+                <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
             </div>
         </div>
 
         <div class="header-right">
             <div class="user-controls">
+                <!-- Theme Toggler Dropdown -->
                 <div class="dropdown">
-                    <button class="dropdown-toggle" id="theme-toggle-btn"><i class="fas fa-sun" id="theme-icon"></i></button>
+                    <button class="dropdown-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
+                        <i class="fas fa-sun" id="theme-icon"></i>
+                    </button>
                     <div class="dropdown-menu" id="theme-menu">
                         <a href="#" data-theme="light" data-key="theme_light"><i class="fas fa-sun fa-fw"></i> Light</a>
                         <a href="#" data-theme="dark" data-key="theme_dark"><i class="fas fa-moon fa-fw"></i> Dark</a>
                         <a href="#" data-theme="auto" data-key="theme_auto"><i class="fas fa-magic fa-fw"></i> Automatic</a>
                     </div>
                 </div>
+                
+                <!-- Language Toggler Dropdown -->
                 <div class="dropdown">
-                    <button class="dropdown-toggle" id="lang-toggle-btn" style="font-size:0.9rem; font-weight:bold;">EN</button>
+                    <button class="dropdown-toggle lang-toggle" id="lang-toggle-btn" aria-label="Toggle language">
+                        EN
+                    </button>
                     <div class="dropdown-menu" id="lang-menu">
                         <a href="#" data-lang="en" data-key="lang_en">English</a>
                         <a href="#" data-lang="ar" data-key="lang_ar">Arabic</a>
                     </div>
                 </div>
 
+                <!-- Login Button (Greyed Out) -->
                 <a href="#" class="btn btn-disabled-style" data-key="btn_login">Login</a>
-                <!-- Signup HREF is now #, triggers JS -->
+                <!-- Signup Button (Triggers Switch) -->
                 <a href="#" id="header-btn-signup" class="btn btn-signup" data-key="btn_signup">Signup</a>
             </div>
         </div>
@@ -330,7 +625,7 @@
             </form>
 
             <div id="error-msg" class="msg-box error-msg"></div>
-            <div id="success-msg" class="msg-box success-msg"></div>
+            <!-- Removed Success Message Container -->
 
             <div class="auth-toggle-text">
                 <span id="toggle-text" data-key="no_account_text">Don't have an account?</span>
@@ -362,6 +657,17 @@
                 document.body.style.overflow = '';
             });
 
+            // Close mobile menu if a link is clicked (except the switch toggles)
+            document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    // Only close if it's not a jump link on the same page that keeps menu open
+                    if(link.getAttribute('href') !== '#') {
+                        mobileMenu.classList.remove('open');
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+
             // --- 2. MODE SWITCHING (Login vs Signup) ---
             // Elements
             const formTitle = document.getElementById('form-title');
@@ -370,20 +676,19 @@
             const toggleLink = document.getElementById('toggle-link');
             const headerBtnSignup = document.getElementById('header-btn-signup');
             const errorMsg = document.getElementById('error-msg');
-            const successMsg = document.getElementById('success-msg');
 
             // State
             let isSignupMode = false;
 
             function updateAuthUI() {
                 // Clear messages on switch
-                errorMsg.style.display = 'none';
-                successMsg.style.display = 'none';
+                if(errorMsg) errorMsg.style.display = 'none';
 
                 if (isSignupMode) {
                     // Signup UI
                     formTitle.setAttribute('data-key', 'create_account_title');
                     btnSubmit.className = 'btn-full btn-submit-signup';
+                    btnSubmit.style.display = 'block'; // Ensure visible
                     btnSubmit.setAttribute('data-key', 'btn_signup_action');
                     
                     toggleText.setAttribute('data-key', 'have_account_text');
@@ -424,7 +729,7 @@
             const translations = {
                 en: {
                     nav_home: "Home", nav_posts: "Posts", nav_ping: "Ping", nav_download: "Download",
-                    search_placeholder: "Search...", theme_light: "Light", theme_dark: "Dark", theme_auto: "Automatic",
+                    search_placeholder: "Search for people, posts, groups...", theme_light: "Light", theme_dark: "Dark", theme_auto: "Automatic",
                     lang_en: "English", lang_ar: "Arabic", footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved.",
                     login_title: "Login", create_account_title: "Create Account",
                     btn_login: "Login", btn_signup: "Signup", btn_signup_action: "Create Account",
@@ -433,7 +738,7 @@
                 },
                 ar: {
                     nav_home: "الرئيسية", nav_posts: "المنشورات", nav_ping: "بينغ", nav_download: "تحميل",
-                    search_placeholder: "بحث...", theme_light: "فاتح", theme_dark: "داكن", theme_auto: "تلقائي",
+                    search_placeholder: "ابحث عن أشخاص، منشورات، مجموعات...", theme_light: "فاتح", theme_dark: "داكن", theme_auto: "تلقائي",
                     lang_en: "الإنجليزية", lang_ar: "العربية", footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة.",
                     login_title: "تسجيل الدخول", create_account_title: "إنشاء حساب",
                     btn_login: "تسجيل الدخول", btn_signup: "إنشاء حساب", btn_signup_action: "إنشاء حساب",
@@ -456,11 +761,20 @@
                     }
                 });
                 langToggleBtn.textContent = lang.toUpperCase();
+                
+                 // Update active class in dropdown
+                document.querySelectorAll('#lang-menu a').forEach(a => a.classList.remove('active'));
+                const activeLangLink = document.querySelector(`#lang-menu a[data-lang="${lang}"]`);
+                if (activeLangLink) {
+                    activeLangLink.classList.add('active');
+                }
+                
                 localStorage.setItem('language', lang);
             }
             setLanguage(localStorage.getItem('language') || 'en');
 
             langMenu.addEventListener('click', (e) => {
+                e.preventDefault();
                 const target = e.target.closest('a[data-lang]');
                 if (target) {
                     setLanguage(target.getAttribute('data-lang'));
@@ -468,28 +782,84 @@
                 }
             });
 
+            // --- Theme Logic ---
             const themeMenu = document.getElementById('theme-menu');
             const themeIcon = document.getElementById('theme-icon');
+            const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
             function applyTheme(theme) {
-                const dark = theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                document.body.className = dark ? 'dark-mode' : '';
-                themeIcon.className = theme === 'auto' ? 'fas fa-magic' : (theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun');
-                localStorage.setItem('theme', theme);
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
             }
-            applyTheme(localStorage.getItem('theme') || 'auto');
+
+            function updateThemeIcon(selectedTheme) {
+                if (selectedTheme === 'auto') {
+                    themeIcon.className = 'fas fa-magic';
+                } else if (selectedTheme === 'dark') {
+                    themeIcon.className = 'fas fa-moon';
+                } else {
+                    themeIcon.className = 'fas fa-sun';
+                }
+            }
+
+            function applyAutomaticTheme() {
+                if (osDarkScheme.matches) {
+                    applyTheme('dark');
+                } else {
+                    applyTheme('light');
+                }
+            }
+            
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            
+            document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
+            const activeThemeLink = document.querySelector(`#theme-menu a[data-theme="${savedTheme}"]`);
+            if (activeThemeLink) activeThemeLink.classList.add('active');
+
+            updateThemeIcon(savedTheme);
+            
+            if (savedTheme === 'auto') applyAutomaticTheme();
+            else applyTheme(savedTheme);
             
             themeMenu.addEventListener('click', (e) => {
+                e.preventDefault();
                 const target = e.target.closest('a[data-theme]');
-                if(target) {
-                    applyTheme(target.getAttribute('data-theme'));
-                    target.closest('.dropdown-menu').classList.remove('show');
-                }
+                if (!target) return;
+                
+                document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
+                target.classList.add('active');
+                
+                const newTheme = target.getAttribute('data-theme');
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+                
+                if (newTheme === 'auto') applyAutomaticTheme();
+                else applyTheme(newTheme);
+                
+                target.closest('.dropdown-menu').classList.remove('show');
             });
 
-            document.querySelectorAll('.dropdown-toggle').forEach(t => t.addEventListener('click', (e) => {
-                e.stopPropagation(); t.nextElementSibling.classList.toggle('show');
-            }));
-            window.addEventListener('click', () => document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show')));
+            osDarkScheme.addEventListener('change', () => {
+                if (localStorage.getItem('theme') === 'auto') applyAutomaticTheme();
+            });
+
+            // --- Dropdown Toggles ---
+            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = toggle.nextElementSibling;
+                    document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== menu) openMenu.classList.remove('show');
+                    });
+                    menu.classList.toggle('show');
+                });
+            });
+            window.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+            });
         });
     </script>
     

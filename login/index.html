@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Liketube</title>
+    <!-- Using Tahoma font for a more classic web feel -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FIX: Added Google Font "Tajawal" for better Arabic support -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Fallback icon if generic one is missing -->
+    
+    <!-- EMOJI FAVICON -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📺</text></svg>">
     
     <style>
-        /* --- VARIABLES (Synced with index.html) --- */
         :root {
             /* Light Mode (Default) - Classic Theme */
-            --bg-color: #e6f0ff;
-            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
+            --bg-color: #e6f0ff; /* Light blue background */
+            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998); /* Blue gradient header */
             --header-border: #365899;
             --header-text: #ffffff;
-            --header-text-secondary: #d0d8e8;
+            --header-text-secondary: #d0d8e8; /* Lighter text for hover */
             --text-color: #000000;
             --text-color-secondary: #333;
-            --primary-blue: #3b5998;
+            --primary-blue: #3b5998; /* Classic Facebook blue */
             --primary-blue-hover: #365899;
             --search-bg: #ffffff;
             --search-border: #ddd;
@@ -54,14 +57,14 @@
 
         .dark-mode {
             /* Dark Mode - Classic Theme */
-            --bg-color: #1a2233;
-            --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a);
+            --bg-color: #1a2233; /* Dark blue background */
+            --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a); /* Dark blue gradient header */
             --header-border: #243f7a;
             --header-text: #e0e0e0;
             --header-text-secondary: #a0a8b8;
             --text-color: #e0e0e0;
             --text-color-secondary: #aaaaaa;
-            --primary-blue: #5890ff;
+            --primary-blue: #5890ff; /* Brighter blue for dark mode */
             --primary-blue-hover: #4267B2;
             --search-bg: #2c2c2c;
             --search-border: #444;
@@ -77,7 +80,7 @@
             --btn-login-border: var(--primary-blue);
             --btn-login-text: var(--primary-blue);
             
-            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838); /* Green remains the same */
             --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
             --btn-signup-border: #1e7e34;
             --btn-signup-text: #ffffff;
@@ -85,7 +88,7 @@
             /* Mobile Menu */
             --mobile-menu-bg: #2c2c2c;
             --mobile-menu-text: #e0e0e0;
-
+            
             --card-bg: #2c2c2c;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.4);
             --input-border: #555;
@@ -98,11 +101,12 @@
             padding: 0;
         }
         
+        /* --- FIX: Ensure full width and no horizontal scroll --- */
         html, body {
             width: 100%;
             min-width: 100%;
-            overflow-x: clip;
-            height: 100%;
+            overflow-x: clip; /* More robust than hidden */
+            height: 100%; /* For centering login */
         }
 
         body {
@@ -114,11 +118,13 @@
             flex-direction: column;
         }
         
+        /* --- FIX: Added specific font for Arabic readability --- */
         [dir="rtl"] body, 
         [dir="rtl"] .btn, 
         [dir="rtl"] input,
         [dir="rtl"] .mobile-search-bar input {
             font-family: 'Tajawal', 'Tahoma', sans-serif;
+            /* Adjust line-height for Arabic which tends to be taller */
             line-height: 1.7; 
         }
 
@@ -127,15 +133,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Header --- */
+        /* --- Header (COPIED EXACTLY FROM HOME FILE) --- */
         .header {
             background-image: var(--header-bg);
             padding: 1rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--header-border);
-            transition: background-image 0.3s ease;
+            border-bottom: 1px solid var(--header-border); /* Updated border */
+            transition: background-image 0.3s ease; /* Transition background */
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -163,32 +169,42 @@
         .logo {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--header-text);
+            color: var(--header-text); /* Header text color */
             text-decoration: none;
             margin-right: 2.5rem;
+            animation: fadeAndSlideUp 0.6s ease-out;
         }
 
+        /* --- Nav Links FIX: Added display: flex to nav-links container --- */
         .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
+            display: flex; /* CRITICAL FIX: Make the container a flex container */
+            align-items: center; /* Vertically align links */
+            gap: 1.2rem; /* Use gap for spacing instead of margins on links */
         }
         
         .nav-links a {
-            color: var(--header-text);
+            /* Removed margin as we are using gap on the container */
+            color: var(--header-text); /* Header text color */
             text-decoration: none;
             font-weight: 500;
             position: relative;
             transition: color 0.2s ease;
-            padding: 0 0 5px 0;
+            opacity: 0;
+            animation: fadeAndSlideUp 0.6s ease-out forwards;
+            padding: 0 0 5px 0; /* Only apply bottom padding for underline positioning */
         }
+        .nav-links a:nth-child(1) { animation-delay: 0.1s; }
+        .nav-links a:nth-child(2) { animation-delay: 0.2s; }
+        .nav-links a:nth-child(3) { animation-delay: 0.3s; }
+        /* ADDED: Animation delay for new link */
+        .nav-links a:nth-child(4) { animation-delay: 0.4s; }
 
         .nav-links a::after {
             content: '';
             position: absolute;
             width: 0;
             height: 2px;
-            background-color: var(--header-text);
+            background-color: var(--header-text); /* Line color */
             left: 50%;
             transform: translateX(-50%);
             bottom: -5px;
@@ -196,13 +212,29 @@
         }
 
         .nav-links a:hover {
-            color: var(--header-text-secondary);
+            color: var(--header-text-secondary); /* Lighter hover */
         }
         .nav-links a:hover::after {
             width: 100%;
         }
         
-        /* Search Bar */
+        /* --- Active Nav Link Style --- */
+        .nav-links a.active-nav-link,
+        .mobile-nav-links a.active-nav-link {
+            color: var(--header-text-secondary); /* Make it look "selected" */
+            font-weight: 700;
+        }
+        .nav-links a.active-nav-link::after {
+            width: 100%; /* Show underline */
+        }
+         .mobile-nav-links a.active-nav-link {
+            color: var(--primary-blue);
+            background-color: rgba(0,0,0,0.05);
+         }
+         .dark-mode .mobile-nav-links a.active-nav-link {
+            color: var(--primary-blue);
+         }
+
         .search-bar {
             width: 100%;
             max-width: 450px;
@@ -210,9 +242,12 @@
             align-items: center;
             background-color: var(--search-bg);
             border: 1px solid var(--search-border);
-            border-radius: 4px;
+            border-radius: 4px; /* Reduced for classic look */
             padding: 0.5rem 1rem;
             transition: background-color 0.3s, border-color 0.3s;
+            opacity: 0;
+            animation: fadeAndSlideUp 0.6s ease-out forwards;
+            animation-delay: 0.2s;
         }
         
         .search-bar i {
@@ -229,17 +264,29 @@
             background: transparent;
             outline: none;
             width: 100%;
-            color: var(--text-color);
+            color: #000; /* Text color inside search bar */
             font-family: 'Tahoma', sans-serif;
             font-size: 0.9rem;
         }
+        .dark-mode .search-bar input {
+            color: var(--text-color); /* Dark mode text */
+        }
 
-        /* User Controls */
+        /* --- Togglers & Buttons --- */
         .user-controls {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.75rem; /* Space between togglers and buttons */
         }
+        
+        .user-controls > * {
+            opacity: 0;
+            animation: fadeAndSlideUp 0.6s ease-out forwards;
+        }
+        .user-controls > *:nth-child(1) { animation-delay: 0.4s; }
+        .user-controls > *:nth-child(2) { animation-delay: 0.5s; }
+        .user-controls > *:nth-child(3) { animation-delay: 0.6s; }
+        .user-controls > *:nth-child(4) { animation-delay: 0.7s; }
 
         .dropdown {
             position: relative;
@@ -249,8 +296,8 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: var(--header-text);
-            font-size: 1.2rem;
+            color: var(--header-text); /* Header text color */
+            font-size: 1.2rem; /* Icon size */
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -266,12 +313,12 @@
         }
 
         .dropdown-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.1); /* Subtle hover for gradient */
             color: var(--header-text);
         }
 
         .dropdown-menu {
-            display: none;
+            display: none; /* Hidden by default */
             position: absolute;
             right: 0;
             top: 50px;
@@ -279,8 +326,9 @@
             min-width: 140px;
             box-shadow: var(--dropdown-shadow);
             z-index: 1;
-            border-radius: 4px;
+            border-radius: 4px; /* Reduced for classic look */
             overflow: hidden;
+            /* Animations for click toggle */
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
@@ -320,16 +368,16 @@
         .btn {
             border: none;
             padding: 0.6rem 1.2rem;
-            border-radius: 4px;
+            border-radius: 4px; /* Reduced for classic look */
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 700; /* Bolder for classic feel */
             font-family: 'Tahoma', sans-serif;
             text-decoration: none;
             font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
-        /* Greyed out "Login" button style */
+        /* --- Custom for this page: Disabled Login Button Style --- */
         .btn-disabled-style {
             background: #b0b3b8 !important;
             background-image: none !important;
@@ -357,7 +405,7 @@
 
         /* --- Mobile Menu Styling --- */
         .hamburger-menu {
-            display: none;
+            display: none; /* Hide by default, show on mobile */
             font-size: 1.5rem;
             color: var(--header-text);
             cursor: pointer;
@@ -372,15 +420,15 @@
         .mobile-menu {
             position: fixed;
             top: 0;
-            left: -100%;
-            width: 80%;
+            left: -100%; /* Start off-screen to the left */
+            width: 80%; /* Takes 80% of screen width */
             height: 100%;
             background-color: var(--mobile-menu-bg);
             color: var(--mobile-menu-text);
             z-index: 1050;
             padding: 2rem;
-            transform: translateX(0);
-            transition: left 0.3s ease-out;
+            transform: translateX(0); /* We will transition left property */
+            transition: left 0.3s ease-out; /* Transition 'left' */
             box-shadow: 2px 0 5px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
@@ -389,17 +437,17 @@
 
         [dir="rtl"] .mobile-menu {
             left: auto;
-            right: -100%;
-            transition: right 0.3s ease-out;
+            right: -100%; /* Start off-screen to the right for RTL */
+            transition: right 0.3s ease-out; /* Transition 'right' for RTL */
         }
         
         .mobile-menu.open {
-            left: 0;
+            left: 0; /* Slide in from left */
         }
         
         [dir="rtl"] .mobile-menu.open {
             left: auto;
-            right: 0;
+            right: 0; /* Slide in from right for RTL */
         }
 
         .mobile-menu-close {
@@ -415,8 +463,25 @@
             right: auto;
             left: 1rem;
         }
+        
+        .mobile-nav-links a {
+            display: block;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            color: var(--mobile-menu-text);
+            font-weight: 700;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+        }
+        .dark-mode .mobile-nav-links a {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
 
-        .mobile-search-bar {
+        .mobile-nav-links a:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        
+        .mobile-search-bar { /* Used in the mobile menu */
             width: 100%;
             display: flex;
             align-items: center;
@@ -439,25 +504,8 @@
             font-family: 'Tahoma', sans-serif;
             font-size: 0.9rem;
         }
-        
-        .mobile-nav-links a {
-            display: block;
-            padding: 0.75rem 0;
-            text-decoration: none;
-            color: var(--mobile-menu-text);
-            font-weight: 700;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            transition: background-color 0.2s;
-        }
-        .dark-mode .mobile-nav-links a {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
 
-        .mobile-nav-links a:hover {
-            background-color: rgba(0,0,0,0.05);
-        }
-
-        /* --- LOGIN CARD --- */
+        /* --- LOGIN CARD SPECIFIC STYLES --- */
         .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; }
         .login-card {
             background-color: var(--card-bg); padding: 2.5rem;
@@ -553,7 +601,7 @@
         </nav>
     </div>
 
-    <!-- Header -->
+    <!-- Header (COPIED EXACTLY FROM HOME FILE) -->
     <header class="header">
         <div class="header-left">
             <!-- Hamburger Menu (Mobile Only) -->
@@ -600,7 +648,7 @@
                     </div>
                 </div>
 
-                <!-- Login Button (Greyed Out) -->
+                <!-- Login Button (Selected/Greyed Out) -->
                 <a href="#" class="btn btn-disabled-style" data-key="btn_login">Login</a>
                 <!-- Signup Button (Triggers Switch) -->
                 <a href="#" id="header-btn-signup" class="btn btn-signup" data-key="btn_signup">Signup</a>
@@ -628,7 +676,7 @@
 
             <div class="auth-toggle-text">
                 <span id="toggle-text" data-key="no_account_text">Don't have an account?</span>
-                <!-- CHANGED TO A HREF AS REQUESTED, JAVASCRIPT LOGIC REMOVED SO IT'S NON-FUNCTIONAL -->
+                <!-- NON-FUNCTIONAL HREF # AS REQUESTED -->
                 <a href="#" id="toggle-link" class="auth-toggle-link" data-key="toggle_signup">Signup</a>
             </div>
         </div>
@@ -659,16 +707,10 @@
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
         // --- AUTH STATE & LOGIC ---
-        
-        // Initial silent auth for system access if needed
         (async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    // Don't auto-sign in anonymously on a login page, it confuses user state
-                    // logic. But we need to be initialized.
-                    // We simply wait for user action here.
                 }
             } catch (e) {
                 console.error("Auth init error:", e);
@@ -677,7 +719,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- 1. MOBILE MENU LOGIC ---
+            // --- 1. MOBILE MENU LOGIC (From Home File) ---
             const hamburgerMenu = document.getElementById('hamburger-menu');
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuClose = document.getElementById('mobile-menu-close');
@@ -701,7 +743,7 @@
                 });
             });
 
-            // --- 2. MODE SWITCHING (Login vs Signup) ---
+            // --- 2. AUTH LOGIC (INTEGRATED) ---
             const formTitle = document.getElementById('form-title');
             const btnSubmit = document.getElementById('btn-submit');
             const toggleText = document.getElementById('toggle-text');
@@ -712,88 +754,86 @@
             const authForm = document.getElementById('auth-form');
 
             let isSignupMode = false;
+            
+            // Expose for debugging if needed
+            window.getAuthMode = () => isSignupMode ? 'signup' : 'login';
 
             function updateAuthUI() {
-                // Clear messages on switch
                 if(errorMsg) errorMsg.style.display = 'none';
                 if(successMsg) successMsg.style.display = 'none';
                 authForm.reset();
 
                 if (isSignupMode) {
-                    // Signup UI
                     formTitle.setAttribute('data-key', 'create_account_title');
                     btnSubmit.className = 'btn-full btn-submit-signup';
                     btnSubmit.style.display = 'block';
                     btnSubmit.setAttribute('data-key', 'btn_signup_action');
-                    
                     toggleText.setAttribute('data-key', 'have_account_text');
                     toggleLink.setAttribute('data-key', 'toggle_login');
                 } else {
-                    // Login UI
                     formTitle.setAttribute('data-key', 'login_title');
                     btnSubmit.className = 'btn-full btn-submit-login';
                     btnSubmit.setAttribute('data-key', 'btn_login');
-
                     toggleText.setAttribute('data-key', 'no_account_text');
                     toggleLink.setAttribute('data-key', 'toggle_signup');
                 }
                 
-                // Refresh translations
                 const lang = localStorage.getItem('language') || 'en';
                 setLanguage(lang);
             }
 
-            // [REMOVED] Toggle Link Event Listener removed as requested
-            // It is now just an <a href="#"> that does nothing (except scroll to top by browser default)
-
+            // Toggle by Header Signup Button
             headerBtnSignup.addEventListener('click', (e) => {
                 e.preventDefault();
                 isSignupMode = true; 
                 updateAuthUI();
             });
+            
+            // Toggle by Bottom Link
+            toggleLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                isSignupMode = !isSignupMode;
+                updateAuthUI();
+            });
 
-            // --- 3. AUTH FORM HANDLING ---
+            // Handle Submit (Replaces app.js logic)
             authForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
+                const originalBtnText = btnSubmit.innerText;
                 
-                // Reset Messages
                 errorMsg.style.display = 'none';
                 successMsg.style.display = 'none';
                 btnSubmit.disabled = true;
-                btnSubmit.style.opacity = '0.7';
+                btnSubmit.innerText = "Processing...";
 
                 try {
                     if (isSignupMode) {
-                        // --- SIGN UP LOGIC ---
+                        // --- SIGN UP ---
                         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                         const user = userCredential.user;
                         
-                        // Create User Doc in Firestore
                         try {
                             await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'info'), {
                                 email: email,
                                 createdAt: new Date().toISOString(),
                                 role: 'user'
                             });
-                        } catch (docError) {
-                            console.error("Profile creation failed (non-fatal):", docError);
-                        }
+                        } catch (docError) { console.error("Profile creation failed:", docError); }
 
                         successMsg.textContent = "Account created successfully!";
                         successMsg.style.display = 'block';
                         
                     } else {
-                        // --- LOGIN LOGIC ---
+                        // --- LOGIN ---
                         await signInWithEmailAndPassword(auth, email, password);
                         successMsg.textContent = "Login successful!";
                         successMsg.style.display = 'block';
                     }
                     
-                    // Simulate Redirect or UI Update
                     setTimeout(() => {
-                        // In a real app: window.location.href = 'feed.html';
+                        // In real app: window.location.href = 'index.html';
                         formTitle.textContent = isSignupMode ? "Welcome New User!" : "Welcome Back!";
                         authForm.style.display = 'none';
                         toggleLink.parentElement.style.display = 'none';
@@ -803,7 +843,6 @@
                     console.error(error);
                     errorMsg.style.display = 'block';
                     
-                    // User-friendly error mapping
                     let message = error.message;
                     if(error.code === 'auth/invalid-email') message = "Invalid email address.";
                     if(error.code === 'auth/user-not-found') message = "No account found with this email.";
@@ -813,12 +852,16 @@
                     
                     errorMsg.textContent = message;
                     btnSubmit.disabled = false;
-                    btnSubmit.style.opacity = '1';
+                    btnSubmit.innerText = originalBtnText; // Restore text (Login/Signup)
+                    // We need to re-translate the button text as innerText overwrites data-key binding momentarily
+                    const lang = localStorage.getItem('language') || 'en';
+                    const key = btnSubmit.getAttribute('data-key');
+                    if(translations[lang][key]) btnSubmit.innerText = translations[lang][key];
                 }
             });
 
 
-            // --- 4. TRANSLATIONS & THEME ---
+            // --- 3. TRANSLATIONS & THEME (From Home File) ---
             const translations = {
                 en: {
                     nav_home: "Home", nav_posts: "Posts", nav_ping: "Ping", nav_download: "Download",

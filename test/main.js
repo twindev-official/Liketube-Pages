@@ -14,24 +14,30 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// Your Site Key from reCAPTCHA Console
+self.FIREBASE_APPCHECK_DEBUG_TOKEN = true; 
+
 const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('6LfD-BYsAAAAAF3AH9TXZkG9t2NG6nuiT7p6xYIl'),
+  provider: new ReCaptchaV3Provider('YOUR_SITE_KEY'),
   isTokenAutoRefreshEnabled: true
 });
 
 const db = getFirestore(app);
 
-// Test function - Call this to see if it works!
 window.testDatabase = async function() {
+    console.log("1. Starting test..."); // Debug Log
     try {
+        console.log("2. Sending request..."); // Debug Log
+        
+        // This is likely where it was getting stuck
         await addDoc(collection(db, "test_posts"), {
-            message: "Hello from GitHub Pages!",
+            message: "Hello from Localhost!",
             time: Date.now()
         });
-        alert("Success! Data sent to Firebase safely.");
+        
+        console.log("3. Success!"); // Debug Log
+        alert("Success! Data sent to Firebase.");
     } catch (e) {
+        console.error("ERROR:", e);
         alert("Error: " + e.message);
-        console.error(e);
     }
 }

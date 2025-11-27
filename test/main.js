@@ -1,10 +1,16 @@
-// --- IMPORTS (Use Version 11.0.2 for everything to match) ---
+// ==========================================
+// 1. IMPORTS (Standardized to v11.0.2)
+// ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app-check.js";
 
-// --- CONFIGURATION ---
+console.log("Modules loaded successfully"); // Check console for this
+
+// ==========================================
+// 2. CONFIGURATION
+// ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyB3sD90sRQcKyDGa3YSdzacO2Ixxu9SgGI",
   authDomain: "liketube-database.firebaseapp.com",
@@ -14,21 +20,29 @@ const firebaseConfig = {
   appId: "1:328915578966:web:ea47dbe233d55add864bf7",
 };
 
-// --- INITIALIZE FIREBASE ---
+// ==========================================
+// 3. INITIALIZATION
+// ==========================================
 const app = initializeApp(firebaseConfig);
 
-// --- 🛑 START APP CHECK (THIS WAS MISSING!) 🛑 ---
-// Paste your reCAPTCHA Site Key inside the quotes below
+// Initialize Database
+const db = getFirestore(app);
+
+// Initialize Auth
+const auth = getAuth(app);
+
+// Initialize App Check (Security)
+// ⚠️ REPLACE 'YOUR_SITE_KEY' WITH YOUR REAL RECAPTCHA KEY (Starts with 6L...)
 const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider('6LfD-BYsAAAAAF3AH9TXZkG9t2NG6nuiT7p6xYIl'), 
   isTokenAutoRefreshEnabled: true
 });
 
-// --- INITIALIZE SERVICES ---
-const auth = getAuth(app);
-const db = getFirestore(app); // Added this back so you can use the database later
+console.log("Firebase initialized");
 
-// --- DOM ELEMENTS ---
+// ==========================================
+// 4. AUTHENTICATION LOGIC
+// ==========================================
 const btnSubmit = document.getElementById('btn-submit');
 const emailInput = document.getElementById('email');
 const passInput = document.getElementById('password');
@@ -36,7 +50,6 @@ const errorMsg = document.getElementById('error-msg');
 const successMsg = document.getElementById('success-msg');
 const authForm = document.getElementById('auth-form');
 
-// --- HELPER FUNCTION ---
 function showMessage(type, text) {
     if(errorMsg) errorMsg.style.display = 'none';
     if(successMsg) successMsg.style.display = 'none';
@@ -50,11 +63,11 @@ function showMessage(type, text) {
     }
 }
 
-// --- MAIN AUTH FUNCTION ---
 async function handleAuth() {
+    if (!emailInput || !passInput) return; // Guard clause
+
     const email = emailInput.value;
     const password = passInput.value;
-    
     const isSignup = window.getAuthMode && window.getAuthMode() === 'signup';
 
     if (!email || !password) {
@@ -62,48 +75,31 @@ async function handleAuth() {
         return;
     }
 
-    // UI Loading State
     if(btnSubmit) {
-        var originalText = btnSubmit.innerText;
         btnSubmit.innerText = "Processing...";
         btnSubmit.disabled = true;
     }
 
     try {
         if (isSignup) {
-            // SIGN UP
             await createUserWithEmailAndPassword(auth, email, password);
             showMessage('success', "Account created! Redirecting...");
             setTimeout(() => { window.location.href = "../index.html"; }, 1500);
         } else {
-            // LOGIN
             await signInWithEmailAndPassword(auth, email, password);
             showMessage('success', "Login successful! Redirecting...");
             setTimeout(() => { window.location.href = "../index.html"; }, 1000);
         }
     } catch (error) {
-        console.error("Auth Error:", error); 
-        
-        let message = error.message;
-        if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-            message = "Incorrect email or password.";
-        } else if (error.code === 'auth/email-already-in-use') {
-            message = "This email is already registered.";
-        } else if (error.code === 'auth/weak-password') {
-            message = "Password should be at least 6 characters.";
-        }
-
-        showMessage('error', message);
-        
-        // Reset button
+        console.error("Auth Error:", error);
+        showMessage('error', error.message);
         if(btnSubmit) {
-            btnSubmit.innerText = originalText;
+            btnSubmit.innerText = "Submit";
             btnSubmit.disabled = false;
         }
     }
 }
 
-// --- EVENT LISTENER ---
 if(authForm) {
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -111,21 +107,20 @@ if(authForm) {
     });
 }
 
-// Test Function to check Database + App Check connection
+// ==========================================
+// 5. TEST FUNCTION (The one you are looking for)
+// ==========================================
 window.testDatabase = async function() {
-    console.log("Starting DB Connection Test...");
+    console.log("🚀 Starting Connection Test...");
     try {
-        // We use the 'db' variable defined at the top of this file
         await addDoc(collection(db, "test_connection"), {
-            message: "App Check is working!",
-            user: "TestUser",
-            timestamp: Date.now()
+            msg: "App Check works!",
+            time: Date.now()
         });
-        
-        console.log("WRITE SUCCESS!");
-        alert("✅ SUCCESS! Firebase Database is connected and App Check is verifying you.");
+        console.log("✅ WRITE SUCCESS!");
+        alert("✅ SUCCESS! Database Connected & Secured.");
     } catch (e) {
-        console.error("WRITE FAILED:", e);
-        alert("❌ ERROR: " + e.message + "\n(Check Console for details)");
+        console.error("❌ FAILED:", e);
+        alert("❌ ERROR: " + e.message);
     }
-}
+};

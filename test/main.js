@@ -34,7 +34,7 @@ const auth = getAuth(app);
 // Initialize App Check (Security)
 // ⚠️ REPLACE 'YOUR_SITE_KEY' WITH YOUR REAL RECAPTCHA KEY (Starts with 6L...)
 const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('6LfD-BYsAAAAAF3AH9TXZkG9t2NG6nuiT7p6xYIl'), 
+  provider: new ReCaptchaV3Provider('6LeaIhosAAAAAEVskUAHLp8hJpVkfS3BW0UFKppV'), 
   isTokenAutoRefreshEnabled: true
 });
 

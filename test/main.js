@@ -110,3 +110,22 @@ if(authForm) {
         handleAuth();
     });
 }
+
+// Test Function to check Database + App Check connection
+window.testDatabase = async function() {
+    console.log("Starting DB Connection Test...");
+    try {
+        // We use the 'db' variable defined at the top of this file
+        await addDoc(collection(db, "test_connection"), {
+            message: "App Check is working!",
+            user: "TestUser",
+            timestamp: Date.now()
+        });
+        
+        console.log("WRITE SUCCESS!");
+        alert("✅ SUCCESS! Firebase Database is connected and App Check is verifying you.");
+    } catch (e) {
+        console.error("WRITE FAILED:", e);
+        alert("❌ ERROR: " + e.message + "\n(Check Console for details)");
+    }
+}

@@ -1,16 +1,8 @@
-// ==========================================
-// 1. IMPORTS (Standardized to v11.0.2)
-// ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, setLogLevel, initializeFirestore } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js"; 
-import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app-check.js";
 
-console.log("Modules loaded successfully"); // Check console for this
-
-// ==========================================
-// 2. CONFIGURATION
-// ==========================================
+// --- CONFIGURATION ---
 const firebaseConfig = {
   apiKey: "AIzaSyB3sD90sRQcKyDGa3YSdzacO2Ixxu9SgGI",
   authDomain: "liketube-database.firebaseapp.com",
@@ -20,112 +12,39 @@ const firebaseConfig = {
   appId: "1:328915578966:web:ea47dbe233d55add864bf7",
 };
 
-// ==========================================
-// 3. INITIALIZATION (Fixed for "Hanging" Connections)
-// ==========================================
-
 const app = initializeApp(firebaseConfig);
 
-// ---------------------------------------------------------
-// FIX: Force Long Polling to prevent the "Infinite Pending"
-// ---------------------------------------------------------
+// --- DB SETUP ---
 const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true, // <--- THIS IS THE MAGIC FIX
+    experimentalForceLongPolling: true, 
 });
 
 const auth = getAuth(app);
 
-// Keep App Check as is
-const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider('6LeaIhosAAAAAEVskUAHLp8hJpVkfS3BW0UFKppV'), 
-  isTokenAutoRefreshEnabled: true
-});
+// --- APP CHECK IS DISABLED FOR THIS TEST ---
+// We must confirm the database works without security first.
+// console.log("App Check is temporarily disabled for testing");
 
-// Enable logs so we can see the switch
 setLogLevel('debug'); 
-console.log("Firebase initialized with Long Polling");
 
-// ==========================================
-// 4. AUTHENTICATION LOGIC
-// ==========================================
-const btnSubmit = document.getElementById('btn-submit');
-const emailInput = document.getElementById('email');
-const passInput = document.getElementById('password');
-const errorMsg = document.getElementById('error-msg');
-const successMsg = document.getElementById('success-msg');
-const authForm = document.getElementById('auth-form');
-
-function showMessage(type, text) {
-    if(errorMsg) errorMsg.style.display = 'none';
-    if(successMsg) successMsg.style.display = 'none';
-
-    if(type === 'error' && errorMsg) {
-        errorMsg.innerText = text;
-        errorMsg.style.display = 'block';
-    } else if (successMsg) {
-        successMsg.innerText = text;
-        successMsg.style.display = 'block';
-    }
-}
-
-async function handleAuth() {
-    if (!emailInput || !passInput) return; // Guard clause
-
-    const email = emailInput.value;
-    const password = passInput.value;
-    const isSignup = window.getAuthMode && window.getAuthMode() === 'signup';
-
-    if (!email || !password) {
-        showMessage('error', "Please fill in all fields.");
-        return;
-    }
-
-    if(btnSubmit) {
-        btnSubmit.innerText = "Processing...";
-        btnSubmit.disabled = true;
-    }
-
-    try {
-        if (isSignup) {
-            await createUserWithEmailAndPassword(auth, email, password);
-            showMessage('success', "Account created! Redirecting...");
-            setTimeout(() => { window.location.href = "../index.html"; }, 1500);
-        } else {
-            await signInWithEmailAndPassword(auth, email, password);
-            showMessage('success', "Login successful! Redirecting...");
-            setTimeout(() => { window.location.href = "../index.html"; }, 1000);
-        }
-    } catch (error) {
-        console.error("Auth Error:", error);
-        showMessage('error', error.message);
-        if(btnSubmit) {
-            btnSubmit.innerText = "Submit";
-            btnSubmit.disabled = false;
-        }
-    }
-}
-
-if(authForm) {
-    authForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        handleAuth();
-    });
-}
-
-// ==========================================
-// 5. TEST FUNCTION (The one you are looking for)
-// ==========================================
+// --- TEST FUNCTION ---
 window.testDatabase = async function() {
-    console.log("🚀 Starting Connection Test...");
+    console.log("🚀 Starting Connection Test on GitHub Pages...");
     try {
         await addDoc(collection(db, "test_connection"), {
-            msg: "App Check works!",
+            msg: "Verifying API Status",
+            url: window.location.href,
             time: Date.now()
         });
-        console.log("✅ WRITE SUCCESS!");
-        alert("✅ SUCCESS! Database Connected & Secured.");
+        alert("✅ SUCCESS! The Database API is ENABLED and working.");
     } catch (e) {
         console.error("❌ FAILED:", e);
-        alert("❌ ERROR: " + e.message);
+        if (e.message.includes("Cloud Firestore API")) {
+             alert("🚨 MAJOR ERROR: The API is still DISABLED. You must go to Google Cloud Console and click ENABLE.");
+        } else if (e.code === 'permission-denied') {
+             alert("❌ Permission Denied. Check Firestore Rules.");
+        } else {
+             alert("❌ Error: " + e.message);
+        }
     }
 };

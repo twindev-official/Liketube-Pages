@@ -21,24 +21,32 @@ const firebaseConfig = {
 };
 
 // ==========================================
-// 3. INITIALIZATION (Production Ready)
+// 3. INITIALIZATION (Fixed for "Hanging" Connections)
 // ==========================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+// Add 'initializeFirestore' to the imports:
+import { getFirestore, collection, addDoc, setLogLevel, initializeFirestore } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js"; 
+
 const app = initializeApp(firebaseConfig);
 
-// Keep this to see WHY it fails in the browser console
-setLogLevel('debug'); 
+// ---------------------------------------------------------
+// FIX: Force Long Polling to prevent the "Infinite Pending"
+// ---------------------------------------------------------
+const db = initializeFirestore(app, {
+    experimentalForceLongPolling: true, // <--- THIS IS THE MAGIC FIX
+});
 
-const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Initialize App Check WITHOUT the debug token line
+// Keep App Check as is
 const appCheck = initializeAppCheck(app, {
-  // Ensure this Key is correct!
   provider: new ReCaptchaV3Provider('6LeaIhosAAAAAEVskUAHLp8hJpVkfS3BW0UFKppV'), 
   isTokenAutoRefreshEnabled: true
 });
 
-console.log("Firebase initialized (Production Mode)");
+// Enable logs so we can see the switch
+setLogLevel('debug'); 
+console.log("Firebase initialized with Long Polling");
 
 // ==========================================
 // 4. AUTHENTICATION LOGIC

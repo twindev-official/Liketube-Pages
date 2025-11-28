@@ -21,24 +21,24 @@ const firebaseConfig = {
 };
 
 // ==========================================
-// 3. INITIALIZATION
+// 3. INITIALIZATION (Production Ready)
 // ==========================================
 const app = initializeApp(firebaseConfig);
 
-// Initialize Database
-const db = getFirestore(app);
+// Keep this to see WHY it fails in the browser console
+setLogLevel('debug'); 
 
-// Initialize Auth
+const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Initialize App Check (Security)
-// ⚠️ REPLACE 'YOUR_SITE_KEY' WITH YOUR REAL RECAPTCHA KEY (Starts with 6L...)
+// Initialize App Check WITHOUT the debug token line
 const appCheck = initializeAppCheck(app, {
+  // Ensure this Key is correct!
   provider: new ReCaptchaV3Provider('6LeaIhosAAAAAEVskUAHLp8hJpVkfS3BW0UFKppV'), 
   isTokenAutoRefreshEnabled: true
 });
 
-console.log("Firebase initialized");
+console.log("Firebase initialized (Production Mode)");
 
 // ==========================================
 // 4. AUTHENTICATION LOGIC

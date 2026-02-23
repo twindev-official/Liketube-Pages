@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liketube - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #e6f0ff;
+            --primary-blue: #4267B2;
+            --header-gradient: linear-gradient(to bottom, #4267B2, #3b5998);
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* The Top Bar (Header) */
+        .top-bar {
+            background: var(--header-gradient);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .top-bar .logo {
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Centering the login card */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card h1 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover { background-color: #365899; }
+
+        #message-box {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e9; color: #2e7d32; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="#" class="logo"><i class="fab fa-youtube"></i> Liketube</a>
+    </div>
+
+    <div class="main-content">
+        <div class="login-card">
+            <h1>Login</h1>
+            <div id="message-box"></div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="email@example.com">
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+
+            <button class="login-btn" id="login-button">Log In</button>
+            
+            <p style="margin-top: 20px; font-size: 14px; color: #777;">
+                New to Liketube? <a href="signup.html" style="color: var(--primary-blue); font-weight: bold;">Create an account</a>
+            </p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+        // Remember to fill this with your actual Firebase info!
+const firebaseConfig = {
+
+  apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
+
+  authDomain: "liketube-82d69.firebaseapp.com",
+
+  projectId: "liketube-82d69",
+
+  storageBucket: "liketube-82d69.firebasestorage.app",
+
+  messagingSenderId: "327169877918",
+
+  appId: "1:327169877918:web:b6c770809a79487a8f988f",
+
+}
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginBtn = document.getElementById('login-button');
+        const messageBox = document.getElementById('message-box');
+
+        loginBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showMessage("Fill in all boxes!", "error");
+                return;
+            }
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showMessage("Success! Going to home page...", "success");
+                
+                setTimeout(() => {
+                    window.location.href = "#"; // This goes to your home section
+                }, 1500);
+
+            } catch (error) {
+                showMessage("Error: " + error.message, "error");
+            }
+        });
+
+        function showMessage(text, type) {
+            messageBox.textContent = text;
+            messageBox.className = type;
+            messageBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

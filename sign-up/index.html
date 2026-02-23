@@ -5,17 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liketube - Sign Up</title>
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         :root {
             --bg-color: #e6f0ff;
-            --primary-blue: #4267B2;
-            --header-gradient: linear-gradient(to bottom, #4267B2, #3b5998);
+            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
+            --header-border: #365899;
+            --header-text: #ffffff;
             --white: #ffffff;
+            --primary-blue: #4267B2;
+            --signup-green: #42b72a;
         }
 
         body {
-            font-family: 'Tahoma', sans-serif;
+            font-family: 'Tahoma', 'Tajawal', sans-serif;
             background-color: var(--bg-color);
             margin: 0;
             display: flex;
@@ -24,63 +29,86 @@
         }
 
         .top-bar {
-            background: var(--header-gradient);
-            height: 50px;
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--header-border);
+            height: 45px;
             display: flex;
             align-items: center;
-            padding: 0 20px;
-            color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 0 15px;
+            color: var(--header-text);
         }
 
-        .top-bar .logo {
+        .logo {
             font-size: 20px;
             font-weight: bold;
             text-decoration: none;
             color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .main-content {
+        .main-container {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
-        .login-card {
+        .auth-card {
             background: var(--white);
-            padding: 30px;
+            border: 1px solid #bdc7d8;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 90%;
+            padding: 25px;
+            width: 100%;
             max-width: 400px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
         }
 
-        .login-card h1 { color: var(--primary-blue); margin-bottom: 20px; }
+        .auth-card h2 { margin-top: 0; color: #1c1e21; font-size: 28px; margin-bottom: 5px; }
+        .auth-card p { color: #606770; margin-bottom: 20px; }
 
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .input-box {
+            width: 100%;
+            padding: 11px;
+            margin: 6px 0;
+            border: 1px solid #dddfe2;
+            border-radius: 5px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background-color: #f5f6f7;
+        }
 
         .signup-btn {
-            background-color: #42b72a; /* Green for signup */
+            background-color: var(--signup-green);
             color: white;
             border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
+            width: 60%;
+            padding: 10px;
+            font-size: 18px;
             font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
         }
 
         .signup-btn:hover { background-color: #36a420; }
 
-        #message-box { margin-top: 15px; padding: 10px; border-radius: 4px; display: none; font-size: 14px; }
-        .error { background: #ffebee; color: #c62828; }
-        .success { background: #e8f5e9; color: #2e7d32; }
+        #message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: 14px;
+            text-align: left;
+        }
+        .error { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+        .success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+
+        .footer-link { margin-top: 20px; border-top: 1px solid #dddfe2; padding-top: 15px; font-size: 14px; }
+        .footer-link a { color: var(--primary-blue); text-decoration: none; }
     </style>
 </head>
 <body>
@@ -89,36 +117,29 @@
         <a href="index.html" class="logo"><i class="fab fa-youtube"></i> Liketube</a>
     </div>
 
-    <div class="main-content">
-        <div class="login-card">
-            <h1>Join Liketube</h1>
-            <p>It's quick and easy!</p>
-            <div id="message-box"></div>
-
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" id="email" placeholder="Choose an email">
-            </div>
-
-            <div class="input-group">
-                <label>New Password</label>
-                <input type="password" id="password" placeholder="Min. 6 characters">
-            </div>
-
-            <button class="signup-btn" id="signup-button">Sign Up</button>
+    <div class="main-container">
+        <div class="auth-card">
+            <h2>Create a New Account</h2>
+            <p>It's quick and easy.</p>
+            <div id="message"></div>
             
-            <p style="margin-top: 20px; font-size: 14px; color: #777;">
-                Already have an account? <a href="index.html" style="color: var(--primary-blue); font-weight: bold;">Log In</a>
-            </p>
+            <input type="text" id="username" class="input-box" placeholder="Username (Display Name)">
+            <input type="email" id="email" class="input-box" placeholder="Email address">
+            <input type="password" id="password" class="input-box" placeholder="New password">
+            
+            <button class="signup-btn" id="signup-btn">Sign Up</button>
+            
+            <div class="footer-link">
+                <a href="index.html">Already have an account?</a>
+            </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
-        // Paste your Firebase Config here too!
-      const firebaseConfig = {
+const firebaseConfig = {
 
   apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
 
@@ -132,45 +153,44 @@
 
   appId: "1:327169877918:web:b6c770809a79487a8f988f",
 
-
 };
 
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        const signupBtn = document.getElementById('signup-button');
-        const messageBox = document.getElementById('message-box');
+        const msg = document.getElementById('message');
 
-        signupBtn.addEventListener('click', async () => {
+        document.getElementById('signup-btn').addEventListener('click', async () => {
+            const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            if (password.length < 6) {
-                showMessage("Password must be at least 6 characters!", "error");
+            if (!username) {
+                showMessage("Please pick a username!", "error");
                 return;
             }
 
             try {
-                // This command tells Firebase: "Create a new user!"
-                // It automatically adds them to your Firebase dashboard
-                await createUserWithEmailAndPassword(auth, email, password);
+                // 1. Create the user
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 
-                showMessage("Account created! Redirecting...", "success");
-                
-                setTimeout(() => {
-                    window.location.href = "index.html"; 
-                }, 2000);
+                // 2. Set the Username (Display Name) in Firebase
+                await updateProfile(userCredential.user, {
+                    displayName: username
+                });
 
-            } catch (error) {
-                showMessage("Error: " + error.message, "error");
+                showMessage("Account created! Redirecting to login...", "success");
+                setTimeout(() => window.location.href = "index.html", 2000);
+            } catch (e) {
+                showMessage(e.message, "error");
             }
         });
 
         function showMessage(text, type) {
-            messageBox.textContent = text;
-            messageBox.className = type;
-            messageBox.style.display = 'block';
+            msg.textContent = text;
+            msg.className = type;
+            msg.style.display = "block";
         }
     </script>
 </body>

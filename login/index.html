@@ -4,476 +4,457 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Liketube</title>
-    <!-- Using Tahoma font for a more classic web feel -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Added Google Font "Tajawal" for better Arabic support -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- EMOJI FAVICON -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📺</text></svg>">
-    
+    <!-- Icon changed to # as requested -->
+    <link rel="icon" href="#">
     <style>
         :root {
-            /* Light Mode (Default) - Classic Theme */
-            --bg-color: #e6f0ff; 
-            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998); 
+            --bg-color: #e6f0ff;
+            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
             --header-border: #365899;
             --header-text: #ffffff;
-            --header-text-secondary: #d0d8e0;
-            --text-color: #333333;
-            --box-bg: #ffffff;
-            --border-color: #ccd0d5;
-            --primary-btn: #1877f2;
-            --primary-btn-hover: #166fe5;
-            --secondary-btn: #42b72a;
-            --secondary-btn-hover: #36a420;
-            --input-bg: #ffffff;
+            --header-text-secondary: #d0d8e8;
+            --text-color: #000000;
+            --text-color-secondary: #333;
+            --primary-blue: #3b5998;
+            --primary-blue-hover: #365899;
+            --search-bg: #ffffff;
+            --search-border: #ddd;
+            --footer-bg: #343a40;
+            --footer-text: #f8f9fa;
+            --dropdown-bg: #ffffff;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            --dropdown-hover: #f1f1f1;
+            --btn-login-bg: linear-gradient(to bottom, #f0f8ff, #d6e8ff);
+            --btn-login-hover-bg: linear-gradient(to bottom, #d6e8ff, #c0d9ff);
+            --btn-login-border: var(--primary-blue);
+            --btn-login-text: var(--primary-blue);
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
+            --btn-signup-border: #1e7e34;
+            --btn-signup-text: #ffffff;
+            --mobile-menu-bg: #f0f2f5;
+            --mobile-menu-text: #000000;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --input-border: #ccc;
         }
-
-        /* Dark Mode Theme Variables */
-        [data-theme="dark"] {
-            --bg-color: #18191a;
-            --header-bg: #242526;
-            --header-border: #393a3b;
-            --header-text: #e4e6eb;
-            --header-text-secondary: #b0b3b8;
-            --text-color: #e4e6eb;
-            --box-bg: #242526;
-            --border-color: #3e4042;
-            --primary-btn: #2374e1;
-            --primary-btn-hover: #3982e4;
-            --input-bg: #3a3b3c;
+        .dark-mode {
+            --bg-color: #1a2233;
+            --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a);
+            --header-border: #243f7a;
+            --header-text: #e0e0e0;
+            --header-text-secondary: #a0a8b8;
+            --text-color: #e0e0e0;
+            --text-color-secondary: #aaaaaa;
+            --primary-blue: #5890ff;
+            --primary-blue-hover: #4267B2;
+            --search-bg: #2c2c2c;
+            --search-border: #444;
+            --footer-bg: #1c1c1c;
+            --footer-text: #aaaaaa;
+            --dropdown-bg: #2c2c2c;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+            --dropdown-hover: #3a3a3a;
+            --btn-login-bg: linear-gradient(to bottom, #2c3a5e, #24304d);
+            --btn-login-hover-bg: linear-gradient(to bottom, #24304d, #1e2840);
+            --btn-login-border: var(--primary-blue);
+            --btn-login-text: var(--primary-blue);
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
+            --btn-signup-border: #1e7e34;
+            --btn-signup-text: #ffffff;
+            --mobile-menu-bg: #2c2c2c;
+            --mobile-menu-text: #e0e0e0;
+            --card-bg: #2c2c2c;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            --input-border: #555;
         }
-
-        body {
-            font-family: 'Tahoma', 'Tajawal', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        /* --- 100% Functional Header Styles --- */
-        .header-container {
-            background: var(--header-bg);
-            border-bottom: 1px solid var(--header-border);
-            color: var(--header-text);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            height: 56px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            color: var(--header-text);
-            text-decoration: none;
-            font-size: 22px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border-radius: 20px;
-            padding: 4px 12px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .search-bar input {
-            border: none;
-            outline: none;
-            padding: 6px;
-            flex-grow: 1;
-            background: transparent;
-            color: #333;
-        }
-
-        .search-bar button {
-            border: none;
-            background: none;
-            cursor: pointer;
-            color: #606770;
-        }
-
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-icon {
-            color: var(--header-text);
-            text-decoration: none;
-            font-size: 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .nav-icon:hover {
-            color: var(--header-text-secondary);
-        }
-
-        /* Dropdown Menus */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 40px;
-            right: -10px;
-            background: var(--box-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            min-width: 160px;
-            z-index: 1001;
-            overflow: hidden;
-        }
-
-        .dropdown-menu.show {
-            display: block;
-            animation: fadeIn 0.2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: var(--bg-color);
-        }
-
-        .dropdown-menu a.active {
-            font-weight: bold;
-            color: var(--primary-btn);
-        }
-
-        /* --- Login Box Styles --- */
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 56px);
-            padding: 20px;
-        }
-
-        .login-box {
-            background: var(--box-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .login-box h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-sizing: border-box;
-            background: var(--input-bg);
-            color: var(--text-color);
-            font-size: 16px;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--primary-btn);
-            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--primary-btn);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: background-color 0.2s;
-        }
-
-        .login-btn:hover {
-            background-color: var(--primary-btn-hover);
-        }
-
-        /* Notification Message Box */
-        .message-box {
-            display: none;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .message-box.error {
-            background-color: #ffebee;
-            color: #c62828;
-            border: 1px solid #ef9a9a;
-        }
-        .message-box.success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #a5d6a7;
-        }
-        .message-box.info {
-            background-color: #e3f2fd;
-            color: #1565c0;
-            border: 1px solid #90caf9;
-        }
-
-        .form-footer a {
-            color: var(--primary-btn);
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .form-footer hr {
-            margin: 20px 0;
-            border: 0;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .create-account-btn {
-            background-color: var(--secondary-btn);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .create-account-btn:hover {
-            background-color: var(--secondary-btn-hover);
-        }
-
-        /* RTL support */
-        [dir="rtl"] .search-bar input { text-align: right; }
-        [dir="rtl"] .input-group { text-align: right; }
-        [dir="rtl"] .dropdown-menu { right: auto; left: -10px; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; min-width: 100%; overflow-x: clip; height: 100%; }
+        body { font-family: 'Tahoma', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; display: flex; flex-direction: column; }
+        [dir="rtl"] body, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] .mobile-search-bar input { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
+        @keyframes fadeAndSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .header { background-image: var(--header-bg); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--header-border); transition: background-image 0.3s ease; position: sticky; top: 0; z-index: 1000; }
+        .header-left, .header-center, .header-right { display: flex; align-items: center; }
+        .header-left { flex: 1; justify-content: flex-start; align-items: center; }
+        .header-center { flex: 2; justify-content: center; }
+        .header-right { flex: 1; justify-content: flex-end; }
+        .logo { font-size: 1.75rem; font-weight: 700; color: var(--header-text); text-decoration: none; margin-right: 2.5rem; animation: fadeAndSlideUp 0.6s ease-out; }
+        .nav-links { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-links a { color: var(--header-text); text-decoration: none; font-weight: 500; position: relative; transition: color 0.2s ease; opacity: 0; animation: fadeAndSlideUp 0.6s ease-out forwards; padding: 0 0 5px 0; }
+        .nav-links a:nth-child(1) { animation-delay: 0.1s; }
+        .nav-links a:nth-child(2) { animation-delay: 0.2s; }
+        .nav-links a:nth-child(3) { animation-delay: 0.3s; }
+        .nav-links a:nth-child(4) { animation-delay: 0.4s; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; background-color: var(--header-text); left: 50%; transform: translateX(-50%); bottom: -5px; transition: width 0.3s ease; }
+        .nav-links a:hover { color: var(--header-text-secondary); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active-nav-link, .mobile-nav-links a.active-nav-link { color: var(--header-text-secondary); font-weight: 700; }
+        .nav-links a.active-nav-link::after { width: 100%; }
+        .mobile-nav-links a.active-nav-link { color: var(--primary-blue); background-color: rgba(0,0,0,0.05); }
+        .dark-mode .mobile-nav-links a.active-nav-link { color: var(--primary-blue); }
+        .search-bar { width: 100%; max-width: 450px; display: flex; align-items: center; background-color: var(--search-bg); border: 1px solid var(--search-border); border-radius: 4px; padding: 0.5rem 1rem; transition: background-color 0.3s, border-color 0.3s; opacity: 0; animation: fadeAndSlideUp 0.6s ease-out forwards; animation-delay: 0.2s; }
+        .search-bar i { color: #888; margin-right: 0.5rem; }
+        [dir="rtl"] .search-bar i { margin-right: 0; margin-left: 0.5rem; }
+        .search-bar input { border: none; background: transparent; outline: none; width: 100%; color: #000; font-family: 'Tahoma', sans-serif; font-size: 0.9rem; }
+        .dark-mode .search-bar input { color: var(--text-color); }
+        .user-controls { display: flex; align-items: center; gap: 0.75rem; }
+        .user-controls > * { opacity: 0; animation: fadeAndSlideUp 0.6s ease-out forwards; }
+        .user-controls > *:nth-child(1) { animation-delay: 0.4s; }
+        .user-controls > *:nth-child(2) { animation-delay: 0.5s; }
+        .user-controls > *:nth-child(3) { animation-delay: 0.6s; }
+        .user-controls > *:nth-child(4) { animation-delay: 0.7s; }
+        .dropdown { position: relative; }
+        .dropdown-toggle { background: none; border: none; cursor: pointer; color: var(--header-text); font-size: 1.2rem; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease, color 0.2s ease; }
+        .lang-toggle { font-size: 0.9rem; font-weight: 500; }
+        .dropdown-toggle:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--header-text); }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 50px; background-color: var(--dropdown-bg); min-width: 140px; box-shadow: var(--dropdown-shadow); z-index: 1; border-radius: 4px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease; }
+        .dropdown-menu.show { display: block; opacity: 1; visibility: visible; transform: translateY(0); }
+        [dir="rtl"] .dropdown-menu { right: auto; left: 0; }
+        .dropdown-menu a { color: var(--text-color); padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.9rem; transition: background-color 0.2s; }
+        .dropdown-menu a:hover { background-color: var(--dropdown-hover); }
+        .dropdown-menu a.active { background-color: var(--primary-blue); color: white; }
+        .btn { border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 700; font-family: 'Tahoma', sans-serif; text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease; }
+        .btn-disabled-style { background: #b0b3b8 !important; background-image: none !important; border: 1px solid #999 !important; color: #444 !important; cursor: default; pointer-events: none; }
+        .dark-mode .btn-disabled-style { background: #4a4a4a !important; border: 1px solid #333 !important; color: #ccc !important; }
+        .btn-signup { background-image: var(--btn-signup-bg); color: var(--btn-signup-text); border: 1px solid var(--btn-signup-border); }
+        .btn-signup:hover { background-image: var(--btn-signup-hover-bg); border-color: var(--btn-signup-border); transform: translateY(-2px); }
+        .hamburger-menu { display: none; font-size: 1.5rem; color: var(--header-text); cursor: pointer; margin-right: 1rem; }
+        [dir="rtl"] .hamburger-menu { margin-right: 0; margin-left: 1rem; }
+        .mobile-menu { position: fixed; top: 0; left: -100%; width: 80%; height: 100%; background-color: var(--mobile-menu-bg); color: var(--mobile-menu-text); z-index: 1050; padding: 2rem; transform: translateX(0); transition: left 0.3s ease-out; box-shadow: 2px 0 5px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 1.5rem; }
+        [dir="rtl"] .mobile-menu { left: auto; right: -100%; transition: right 0.3s ease-out; }
+        .mobile-menu.open { left: 0; }
+        [dir="rtl"] .mobile-menu.open { left: auto; right: 0; }
+        .mobile-menu-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: var(--text-color); }
+        [dir="rtl"] .mobile-menu-close { right: auto; left: 1rem; }
+        .mobile-nav-links a { display: block; padding: 0.75rem 0; text-decoration: none; color: var(--mobile-menu-text); font-weight: 700; border-bottom: 1px solid rgba(0,0,0,0.1); transition: background-color 0.2s; }
+        .dark-mode .mobile-nav-links a { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-nav-links a:hover { background-color: rgba(0,0,0,0.05); }
+        .mobile-search-bar { width: 100%; display: flex; align-items: center; background-color: var(--search-bg); border: 1px solid var(--search-border); border-radius: 4px; padding: 0.5rem 1rem; transition: background-color 0.3s, border-color 0.3s; }
+        .mobile-search-bar i { color: #888; margin-right: 0.5rem; }
+        .mobile-search-bar input { border: none; background: transparent; outline: none; width: 100%; color: var(--text-color); font-family: 'Tahoma', sans-serif; font-size: 0.9rem; }
+        .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; }
+        .login-card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 8px; box-shadow: var(--card-shadow); width: 100%; max-width: 420px; text-align: center; animation: fadeAndSlideUp 0.6s ease-out; }
+        .login-card h2 { margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--text-color); }
+        .form-group { margin-bottom: 1.2rem; text-align: left; }
+        [dir="rtl"] .form-group { text-align: right; }
+        .form-control { width: 100%; padding: 0.9rem; border: 1px solid var(--input-border); border-radius: 4px; background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 1rem; outline: none; }
+        .form-control:focus { border-color: var(--primary-blue); }
+        .btn-full { width: 100%; padding: 0.8rem; font-size: 1.1rem; margin-top: 1rem; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .btn-submit-login { background-image: var(--btn-login-bg); border: 1px solid var(--btn-login-border); color: var(--btn-login-text); }
+        .btn-submit-signup { background-image: var(--btn-signup-bg); color: white; border: 1px solid var(--btn-signup-border); }
         
-        /* Mobile layout adjustments */
-        @media (max-width: 600px) {
-            .search-bar { display: none; /* Hide search on mobile for cleaner top bar */ }
+        /* Disabled State: Brighter and Unclickable */
+        .btn-submit-login:disabled, .btn-submit-signup:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: brightness(1.3); /* Brighter as requested */
+            pointer-events: none;
         }
+
+        .msg-box { margin-top: 1rem; padding: 10px; border-radius: 4px; font-size: 0.9rem; display: none; font-weight: bold; }
+        .error-msg { background-color: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #dc3545; }
+        .success-msg { background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745; display: none; margin-top: 1rem; }
+        .auth-toggle-text { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-color-secondary); }
+        .auth-toggle-link { color: var(--primary-blue); font-weight: bold; text-decoration: underline; cursor: pointer; }
+        a.auth-toggle-link:hover { color: var(--primary-blue-hover); }
+        .footer { background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 2rem; font-size: 0.9rem; margin-top: auto; transition: background-color 0.3s ease, color 0.3s ease; }
+        @media (max-width: 1200px) { .header { padding: 1rem 2rem; } }
+        @media (max-width: 992px) { .hamburger-menu { display: block; } .header-center, .nav-links { display: none; } .header-left { flex: none; } .header-right { flex: 1; } }
+        @media (max-width: 768px) { .header { flex-wrap: nowrap; padding: 1rem; } .header-left { flex: 1; justify-content: flex-start; } .header-right { flex: none; } .user-controls { gap: 0.25rem; } .logo { margin-right: 0.5rem; font-size: 1.5rem; } .btn { padding: 0.5rem 0.8rem; font-size: 0.8rem; } }
     </style>
 </head>
 <body>
 
-    <!-- 100% Functional Top Navigation Bar -->
-    <header class="header-container">
-        <a href="index.html" class="logo">
-            <i class="fas fa-tv"></i> Liketube
-        </a>
-        
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <button><i class="fas fa-search"></i></button>
+    <!-- Mobile Menu Container -->
+    <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-times mobile-menu-close" id="mobile-menu-close"></i>
+        <div class="mobile-search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
         </div>
-        
-        <div class="nav-icons">
-            <a href="index.html" class="nav-icon" title="Home"><i class="fas fa-home"></i></a>
-            
-            <!-- Theme Dropdown -->
-            <div class="dropdown">
-                <button class="nav-icon dropdown-toggle" title="Theme">
-                    <i id="current-theme-icon" class="fas fa-sun"></i>
-                </button>
-                <div class="dropdown-menu theme-menu" id="theme-menu">
-                    <a href="#" data-theme="light" class="active"><i class="fas fa-sun"></i> Light</a>
-                    <a href="#" data-theme="dark"><i class="fas fa-moon"></i> Dark</a>
-                    <a href="#" data-theme="auto"><i class="fas fa-adjust"></i> Auto</a>
-                </div>
-            </div>
+        <nav class="mobile-nav-links">
+            <a href="#" data-key="nav_home">Home</a>
+            <a href="#" data-key="nav_posts">Posts</a>
+            <a href="#" data-key="nav_ping">Ping</a>
+            <a href="Download" data-key="nav_download">Download</a>
+        </nav>
+    </div>
 
-            <!-- Language Dropdown -->
-            <div class="dropdown">
-                <button class="nav-icon dropdown-toggle" title="Language">
-                    <i class="fas fa-globe"></i>
-                </button>
-                <div class="dropdown-menu lang-menu">
-                    <a href="#" data-lang="en"><i class="fas fa-language"></i> English</a>
-                    <a href="#" data-lang="ar"><i class="fas fa-language"></i> العربية</a>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
+            <a href="index.html" class="logo">Liketube</a>
+            <nav class="nav-links">
+                <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home">Home</a>
+                <a href="#" data-key="nav_posts">Posts</a>
+                <a href="#" data-key="nav_ping">Ping</a>
+                <a href="Download" data-key="nav_download">Download</a>
+            </nav>
+        </div>
+
+        <div class="header-center">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="user-controls">
+                <div class="dropdown">
+                    <button class="dropdown-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
+                        <i class="fas fa-sun" id="theme-icon"></i>
+                    </button>
+                    <div class="dropdown-menu" id="theme-menu">
+                        <a href="#" data-theme="light" data-key="theme_light"><i class="fas fa-sun fa-fw"></i> Light</a>
+                        <a href="#" data-theme="dark" data-key="theme_dark"><i class="fas fa-moon fa-fw"></i> Dark</a>
+                        <a href="#" data-theme="auto" data-key="theme_auto"><i class="fas fa-magic fa-fw"></i> Automatic</a>
+                    </div>
                 </div>
+                
+                <div class="dropdown">
+                    <button class="dropdown-toggle lang-toggle" id="lang-toggle-btn" aria-label="Toggle language">
+                        EN
+                    </button>
+                    <div class="dropdown-menu" id="lang-menu">
+                        <a href="#" data-lang="en" data-key="lang_en">English</a>
+                        <a href="#" data-lang="ar" data-key="lang_ar">Arabic</a>
+                    </div>
+                </div>
+
+                <a href="index.html" class="btn btn-login" data-key="btn_login">Login</a>
+                <a href="signup.html" class="btn btn-signup" data-key="btn_signup">Signup</a>
             </div>
         </div>
     </header>
 
-    <!-- Login Section -->
-    <main class="login-wrapper">
-        <div class="login-box">
-            <h2>Login to Liketube</h2>
+    <!-- MAIN LOGIN CARD -->
+    <main class="main-container">
+        <div class="login-card">
+            <h2 id="form-title" data-key="login_title">Login</h2>
             
-            <!-- Message Box for Success/Errors -->
-            <div id="message-box" class="message-box"></div>
-            
-            <form id="login-form">
-                <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required placeholder="Enter your email">
+            <form id="auth-form">
+                <div class="form-group">
+                    <input type="email" id="email" class="form-control" placeholder="Email Address" required>
                 </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required placeholder="Enter your password">
+                <div class="form-group" style="position: relative;">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required>
+                    <i class="fas fa-eye" id="toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;"></i>
+                    <style>
+                        [dir="rtl"] #toggle-password { right: auto; left: 15px; }
+                    </style>
                 </div>
-                <button type="submit" class="login-btn" id="login-submit-btn">Log In</button>
+                <!-- Disabled by default -->
+                <button type="submit" id="btn-submit" class="btn-full btn-submit-login" data-key="btn_login" disabled>Login</button>
             </form>
-            
-            <div class="form-footer">
-                <a href="#">Forgot password?</a>
-                <hr>
-                <button class="create-account-btn">Create New Account</button>
+
+            <div id="error-msg" class="msg-box error-msg"></div>
+            <div id="success-msg" class="msg-box success-msg">Success! Redirecting...</div>
+
+            <div class="auth-toggle-text">
+                <span id="toggle-text" data-key="no_account_text">Don't have an account?</span>
+                <a href="signup.html" class="auth-toggle-link" data-key="toggle_signup">Signup</a>
             </div>
         </div>
     </main>
 
-    <!-- Top Navigation Bar Scripts -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    <footer class="footer">
+        <p data-key="footer_text">© 2025 Liketube. Developed by Twindev. All rights reserved.</p>
+    </footer>
 
-            // --- Theme Functions ---
-            function applyTheme(theme) {
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
+          authDomain: "liketube-82d69.firebaseapp.com",
+          projectId: "liketube-82d69",
+          storageBucket: "liketube-82d69.firebasestorage.app",
+          messagingSenderId: "327169877918",
+          appId: "1:327169877918:web:b6c770809a79487a8f988f",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu ---
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+            hamburgerMenu.addEventListener('click', () => {
+                mobileMenu.classList.add('open');
+                document.body.style.overflow = 'hidden'; 
+            });
+
+            mobileMenuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+
+            // --- Password Toggle ---
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                togglePassword.classList.toggle('fa-eye');
+                togglePassword.classList.toggle('fa-eye-slash');
+            });
+
+            // --- Button Validation ---
+            const emailInput = document.getElementById('email');
+            // passwordInput already declared above
+            const btnSubmit = document.getElementById('btn-submit');
+
+            function validateInputs() {
+                if(emailInput.value.trim() !== "" && passwordInput.value.trim() !== "") {
+                    btnSubmit.disabled = false;
                 } else {
-                    document.documentElement.removeAttribute('data-theme');
+                    btnSubmit.disabled = true;
                 }
             }
 
+            emailInput.addEventListener('input', validateInputs);
+            passwordInput.addEventListener('input', validateInputs);
+
+            // --- Auth Logic ---
+            const authForm = document.getElementById('auth-form');
+            const errorMsg = document.getElementById('error-msg');
+            const successMsg = document.getElementById('success-msg');
+
+            authForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = emailInput.value;
+                const password = passwordInput.value;
+                const originalBtnText = btnSubmit.innerText;
+                
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'none';
+                btnSubmit.disabled = true;
+                btnSubmit.innerText = "Processing...";
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    successMsg.textContent = "Login successful!";
+                    successMsg.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.location.href = '#'; // Redirect to #
+                    }, 1500);
+
+                } catch (error) {
+                    console.error(error);
+                    errorMsg.style.display = 'block';
+                    
+                    let message = error.message;
+                    if(error.code === 'auth/invalid-email') message = "Invalid email address.";
+                    if(error.code === 'auth/user-not-found') message = "No account found with this email.";
+                    if(error.code === 'auth/wrong-password') message = "Incorrect password.";
+                    
+                    errorMsg.textContent = message;
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerText = originalBtnText;
+                    // Re-apply validation check in case user cleared input while waiting (unlikely but safe)
+                    validateInputs();
+                    
+                    // Restore translated text if needed
+                    const lang = localStorage.getItem('language') || 'en';
+                    const key = btnSubmit.getAttribute('data-key');
+                    if(translations[lang][key]) btnSubmit.innerText = translations[lang][key];
+                }
+            });
+
+            // --- Translations & Theme (Simplified for brevity, same logic) ---
+            const translations = {
+                en: {
+                    nav_home: "Home", nav_posts: "Posts", nav_ping: "Ping", nav_download: "Download",
+                    search_placeholder: "Search for people, posts, groups...", theme_light: "Light", theme_dark: "Dark", theme_auto: "Automatic",
+                    lang_en: "English", lang_ar: "Arabic", footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved.",
+                    login_title: "Login", btn_login: "Login", btn_signup: "Signup",
+                    no_account_text: "Don't have an account?", toggle_signup: "Signup"
+                },
+                ar: {
+                    nav_home: "الرئيسية", nav_posts: "المنشورات", nav_ping: "بينغ", nav_download: "تحميل",
+                    search_placeholder: "ابحث عن أشخاص، منشورات، مجموعات...", theme_light: "فاتح", theme_dark: "داكن", theme_auto: "تلقائي",
+                    lang_en: "الإنجليزية", lang_ar: "العربية", footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة.",
+                    login_title: "تسجيل الدخول", btn_login: "تسجيل الدخول", btn_signup: "إنشاء حساب",
+                    no_account_text: "ليس لديك حساب؟", toggle_signup: "إنشاء حساب"
+                }
+            };
+
+            const langMenu = document.getElementById('lang-menu');
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            function setLanguage(lang) {
+                if (!translations[lang]) lang = 'en';
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (translations[lang][key]) {
+                        if(el.tagName === 'INPUT') el.placeholder = translations[lang][key];
+                        else el.innerText = translations[lang][key];
+                    }
+                });
+                langToggleBtn.textContent = lang.toUpperCase();
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(localStorage.getItem('language') || 'en');
+
+            langMenu.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('a[data-lang]');
+                if (target) {
+                    setLanguage(target.getAttribute('data-lang'));
+                    target.closest('.dropdown-menu').classList.remove('show');
+                }
+            });
+
+            // Theme Logic
+            const themeMenu = document.getElementById('theme-menu');
+            const themeIcon = document.getElementById('theme-icon');
+            const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            function applyTheme(theme) {
+                if (theme === 'dark') document.body.classList.add('dark-mode');
+                else document.body.classList.remove('dark-mode');
+            }
+            function updateThemeIcon(selectedTheme) {
+                if (selectedTheme === 'auto') themeIcon.className = 'fas fa-magic';
+                else if (selectedTheme === 'dark') themeIcon.className = 'fas fa-moon';
+                else themeIcon.className = 'fas fa-sun';
+            }
             function applyAutomaticTheme() {
                 if (osDarkScheme.matches) applyTheme('dark');
                 else applyTheme('light');
             }
-
-            function updateThemeIcon(theme) {
-                const icon = document.getElementById('current-theme-icon');
-                if (theme === 'dark') icon.className = 'fas fa-moon';
-                else if (theme === 'auto') icon.className = 'fas fa-adjust';
-                else icon.className = 'fas fa-sun';
-            }
-
-            // Initialize Theme
-            const savedTheme = localStorage.getItem('theme') || 'light';
+            const savedTheme = localStorage.getItem('theme') || 'auto';
+            updateThemeIcon(savedTheme);
             if (savedTheme === 'auto') applyAutomaticTheme();
             else applyTheme(savedTheme);
-            updateThemeIcon(savedTheme);
 
-            document.querySelectorAll('.theme-menu a').forEach(a => {
-                if(a.getAttribute('data-theme') === savedTheme) {
-                    a.classList.add('active');
-                } else {
-                    a.classList.remove('active');
-                }
-            });
-
-            // --- Language Functions ---
-            function setLanguage(lang) {
-                document.documentElement.lang = lang;
-                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-                localStorage.setItem('lang', lang);
-                // Additional localization text updates can be done here.
-            }
-            
-            const savedLang = localStorage.getItem('lang') || 'en';
-            setLanguage(savedLang);
-
-            // --- Event Listeners ---
-            
-            // Theme Menu Clicks
-            document.getElementById('theme-menu').addEventListener('click', (e) => {
+            themeMenu.addEventListener('click', (e) => {
                 e.preventDefault();
-                const target = e.target.closest('a');
+                const target = e.target.closest('a[data-theme]');
                 if (!target) return;
-
-                document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
-                target.classList.add('active');
-                
                 const newTheme = target.getAttribute('data-theme');
                 localStorage.setItem('theme', newTheme);
                 updateThemeIcon(newTheme);
-                
                 if (newTheme === 'auto') applyAutomaticTheme();
                 else applyTheme(newTheme);
-                
                 target.closest('.dropdown-menu').classList.remove('show');
             });
 
-            // OS Theme Change Listener
-            osDarkScheme.addEventListener('change', () => {
-                if (localStorage.getItem('theme') === 'auto') applyAutomaticTheme();
-            });
-
-            // Language Menu Clicks
-            document.querySelector('.lang-menu').addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = e.target.closest('a');
-                if (!target) return;
-
-                const newLang = target.getAttribute('data-lang');
-                setLanguage(newLang);
-                target.closest('.dropdown-menu').classList.remove('show');
-            });
-
-            // --- Dropdown Toggles ---
+            // Dropdowns
             document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
                 toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -484,92 +465,9 @@
                     menu.classList.toggle('show');
                 });
             });
-
             window.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
             });
-        });
-    </script>
-
-    <!-- Firebase Authentication Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        // TODO: Replace with your actual Firebase config details!
-		const firebaseConfig = {
-
-		apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
-		authDomain: "liketube-82d69.firebaseapp.com",
-		projectId: "liketube-82d69",
-		storageBucket: "liketube-82d69.firebasestorage.app",
-		messagingSenderId: "327169877918",
-		appId: "1:327169877918:web:b6c770809a79487a8f988f",
-
-	};
-
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form');
-            const messageBox = document.getElementById('message-box');
-            const submitBtn = document.getElementById('login-submit-btn');
-
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                
-                // Show loading state
-                showMessage('Logging in... Please wait.', 'info');
-                submitBtn.disabled = true;
-                submitBtn.style.opacity = '0.7';
-
-                try {
-                    // Firebase Auth Method (Email & Password)
-                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
-                    
-                    // Success! Show message and redirect
-                    showMessage('Login successful! Redirecting...', 'success');
-                    
-                    setTimeout(() => {
-                        window.location.href = '#'; // Redirect path to fix later
-                    }, 1500);
-
-                } catch (error) {
-                    // Show exact errors based on Firebase error codes
-                    const errorMessage = getFriendlyErrorMessage(error.code) || error.message;
-                    showMessage(errorMessage, 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.style.opacity = '1';
-                }
-            });
-
-            // Helper function to show messages
-            function showMessage(msg, type) {
-                messageBox.textContent = msg;
-                messageBox.style.display = 'block';
-                // Reset classes and apply the specific type (error, success, info)
-                messageBox.className = 'message-box ' + type;
-            }
-
-            // Helper function to make Firebase errors user-friendly
-            function getFriendlyErrorMessage(code) {
-                switch(code) {
-                    case 'auth/invalid-email': return 'Invalid email address format.';
-                    case 'auth/user-disabled': return 'This user account has been disabled.';
-                    case 'auth/user-not-found': return 'No account found with this email.';
-                    case 'auth/wrong-password': return 'Incorrect password. Please try again.';
-                    case 'auth/invalid-credential': return 'Invalid email or password.';
-                    case 'auth/network-request-failed': return 'Network error. Please check your internet connection.';
-                    default: return null;
-                }
-            }
         });
     </script>
 </body>

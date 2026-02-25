@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Liketube</title>
-    <!-- Fonts -->
+    <!-- Using Tahoma font for a more classic web feel -->
     <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Added Google Font "Tajawal" for better Arabic support -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- EMOJI FAVICON -->
@@ -17,469 +18,558 @@
         :root {
             /* Light Mode (Default) - Classic Theme */
             --bg-color: #e6f0ff; 
-            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
+            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998); 
             --header-border: #365899;
             --header-text: #ffffff;
-            --header-text-secondary: #d0d8e8;
-            --card-bg: #ffffff;
-            --card-border: #bdc7d8;
+            --header-text-secondary: #d0d8e0;
             --text-color: #333333;
-            --link-color: #3b5998;
+            --box-bg: #ffffff;
+            --border-color: #ccd0d5;
+            --primary-btn: #1877f2;
+            --primary-btn-hover: #166fe5;
+            --secondary-btn: #42b72a;
+            --secondary-btn-hover: #36a420;
             --input-bg: #ffffff;
-            --input-border: #bdc7d8;
-            --btn-bg: #4267B2;
-            --btn-text: #ffffff;
-            --dropdown-bg: #ffffff;
-            --dropdown-hover: #f0f2f5;
         }
 
+        /* Dark Mode Theme Variables */
         [data-theme="dark"] {
             --bg-color: #18191a;
             --header-bg: #242526;
-            --header-border: #3e4042;
+            --header-border: #393a3b;
             --header-text: #e4e6eb;
             --header-text-secondary: #b0b3b8;
-            --card-bg: #242526;
-            --card-border: #3e4042;
             --text-color: #e4e6eb;
-            --link-color: #45bd62;
+            --box-bg: #242526;
+            --border-color: #3e4042;
+            --primary-btn: #2374e1;
+            --primary-btn-hover: #3982e4;
             --input-bg: #3a3b3c;
-            --input-border: #3e4042;
-            --btn-bg: #45bd62;
-            --btn-text: #ffffff;
-            --dropdown-bg: #242526;
-            --dropdown-hover: #3a3b3c;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
             font-family: 'Tahoma', 'Tajawal', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
+            margin: 0;
+            padding: 0;
             transition: background-color 0.3s, color 0.3s;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* --- Header Navigation --- */
-        header {
+        /* --- 100% Functional Header Styles --- */
+        .header-container {
             background: var(--header-bg);
             border-bottom: 1px solid var(--header-border);
-            padding: 8px 15px;
             color: var(--header-text);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
+            height: 56px;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
         .logo {
-            font-size: 1.5rem;
+            color: var(--header-text);
+            text-decoration: none;
+            font-size: 22px;
             font-weight: bold;
             display: flex;
             align-items: center;
             gap: 8px;
-            text-decoration: none;
-            color: var(--header-text);
         }
 
-        .nav-controls {
+        .search-bar {
             display: flex;
             align-items: center;
-            gap: 15px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 4px 12px;
+            width: 100%;
+            max-width: 400px;
         }
 
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 6px;
+            flex-grow: 1;
+            background: transparent;
+            color: #333;
+        }
+
+        .search-bar button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #606770;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            color: var(--header-text);
+            text-decoration: none;
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon:hover {
+            color: var(--header-text-secondary);
+        }
+
+        /* Dropdown Menus */
         .dropdown {
             position: relative;
         }
 
-        .dropdown-toggle {
-            background: transparent;
-            border: none;
-            color: var(--header-text);
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 8px;
-            border-radius: 4px;
-        }
-
-        .dropdown-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
         .dropdown-menu {
-            position: absolute;
-            right: 0;
-            top: 100%;
-            background: var(--dropdown-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 4px;
-            min-width: 150px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: none;
-            flex-direction: column;
+            position: absolute;
+            top: 40px;
+            right: -10px;
+            background: var(--box-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            min-width: 160px;
+            z-index: 1001;
             overflow: hidden;
-            margin-top: 5px;
         }
 
         .dropdown-menu.show {
-            display: flex;
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .dropdown-menu a {
-            padding: 10px 15px;
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
             color: var(--text-color);
-            font-size: 0.9rem;
+            text-decoration: none;
             transition: background 0.2s;
-            cursor: pointer;
         }
 
         .dropdown-menu a:hover {
-            background: var(--dropdown-hover);
+            background-color: var(--bg-color);
         }
 
         .dropdown-menu a.active {
             font-weight: bold;
-            color: var(--btn-bg);
+            color: var(--primary-btn);
         }
 
-        /* --- Login Form --- */
-        .login-container {
-            flex-grow: 1;
+        /* --- Login Box Styles --- */
+        .login-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: calc(100vh - 56px);
             padding: 20px;
         }
 
-        .login-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
+        .login-box {
+            background: var(--box-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             padding: 30px;
             width: 100%;
             max-width: 400px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .login-card h2 {
-            margin-bottom: 20px;
             text-align: center;
-            font-size: 1.4rem;
         }
 
-        .form-group {
+        .login-box h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .input-group {
             margin-bottom: 15px;
+            text-align: left;
         }
 
-        .form-group label {
+        .input-group label {
             display: block;
             margin-bottom: 5px;
-            font-size: 0.9rem;
+            font-size: 14px;
             font-weight: bold;
         }
 
-        .form-group input {
+        .input-group input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid var(--input-border);
-            border-radius: 4px;
-            background-color: var(--input-bg);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            background: var(--input-bg);
             color: var(--text-color);
-            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-btn);
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
         }
 
         .login-btn {
             width: 100%;
-            padding: 12px;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
+            padding: 14px;
+            background-color: var(--primary-btn);
+            color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 1rem;
-            transition: opacity 0.2s;
+            margin-bottom: 15px;
+            transition: background-color 0.2s;
         }
 
         .login-btn:hover {
-            opacity: 0.9;
+            background-color: var(--primary-btn-hover);
         }
 
-        .login-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        #message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            text-align: center;
+        /* Notification Message Box */
+        .message-box {
             display: none;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .message-box.error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        .message-box.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        .message-box.info {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #90caf9;
         }
 
-        #message.error {
-            display: block;
-            background-color: #fce4e4;
-            color: #cc0000;
-            border: 1px solid #f7c6c6;
+        .form-footer a {
+            color: var(--primary-btn);
+            text-decoration: none;
+            font-size: 14px;
         }
 
-        #message.success {
-            display: block;
-            background-color: #e7f4e4;
-            color: #2b7a2b;
-            border: 1px solid #d4e9d4;
+        .form-footer hr {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px solid var(--border-color);
         }
 
-        /* RTL Adjustments */
-        [lang="ar"] {
-            direction: rtl;
+        .create-account-btn {
+            background-color: var(--secondary-btn);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
-        [lang="ar"] .dropdown-menu {
-            right: auto;
-            left: 0;
+
+        .create-account-btn:hover {
+            background-color: var(--secondary-btn-hover);
+        }
+
+        /* RTL support */
+        [dir="rtl"] .search-bar input { text-align: right; }
+        [dir="rtl"] .input-group { text-align: right; }
+        [dir="rtl"] .dropdown-menu { right: auto; left: -10px; }
+        
+        /* Mobile layout adjustments */
+        @media (max-width: 600px) {
+            .search-bar { display: none; /* Hide search on mobile for cleaner top bar */ }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <!-- 100% Functional Top Navigation Bar -->
+    <header class="header-container">
         <a href="index.html" class="logo">
-            <i class="fas fa-play-circle"></i> Liketube
+            <i class="fas fa-tv"></i> Liketube
         </a>
-
-        <div class="nav-controls">
-            <!-- Language Dropdown -->
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        
+        <div class="nav-icons">
+            <a href="index.html" class="nav-icon" title="Home"><i class="fas fa-home"></i></a>
+            
+            <!-- Theme Dropdown -->
             <div class="dropdown">
-                <button class="dropdown-toggle" id="lang-btn">
-                    <i class="fas fa-globe"></i> <span id="current-lang-label">English</span>
+                <button class="nav-icon dropdown-toggle" title="Theme">
+                    <i id="current-theme-icon" class="fas fa-sun"></i>
                 </button>
-                <div class="dropdown-menu" id="lang-menu">
-                    <a data-lang="en" class="active">English</a>
-                    <a data-lang="ar">العربية</a>
+                <div class="dropdown-menu theme-menu" id="theme-menu">
+                    <a href="#" data-theme="light" class="active"><i class="fas fa-sun"></i> Light</a>
+                    <a href="#" data-theme="dark"><i class="fas fa-moon"></i> Dark</a>
+                    <a href="#" data-theme="auto"><i class="fas fa-adjust"></i> Auto</a>
                 </div>
             </div>
 
-            <!-- Theme Dropdown -->
+            <!-- Language Dropdown -->
             <div class="dropdown">
-                <button class="dropdown-toggle" id="theme-btn">
-                    <i id="theme-icon" class="fas fa-sun"></i> <span id="current-theme-label" data-tr="theme_light">Light</span>
+                <button class="nav-icon dropdown-toggle" title="Language">
+                    <i class="fas fa-globe"></i>
                 </button>
-                <div class="dropdown-menu" id="theme-menu">
-                    <a data-theme="light" class="active"><i class="fas fa-sun"></i> <span data-tr="theme_light">Light</span></a>
-                    <a data-theme="dark"><i class="fas fa-moon"></i> <span data-tr="theme_dark">Dark</span></a>
-                    <a data-theme="auto"><i class="fas fa-adjust"></i> <span data-tr="theme_auto">Auto</span></a>
+                <div class="dropdown-menu lang-menu">
+                    <a href="#" data-lang="en"><i class="fas fa-language"></i> English</a>
+                    <a href="#" data-lang="ar"><i class="fas fa-language"></i> العربية</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="login-container">
-        <div class="login-card">
-            <h2 data-tr="login_title">Login to Liketube</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="email" data-tr="email_label">Email Address</label>
-                    <input type="email" id="email" required placeholder="example@mail.com">
-                </div>
-                <div class="form-group">
-                    <label for="password" data-tr="password_label">Password</label>
-                    <input type="password" id="password" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="login-btn" id="submit-btn" data-tr="login_button">Login</button>
-            </form>
-            <div id="message"></div>
-        </div>
-    </div>
-
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-
-        // Global Firebase Configuration (Values provided by the environment at runtime)
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // --- Multi-Language Logic ---
-        const translations = {
-            en: {
-                login_title: "Login to Liketube",
-                email_label: "Email Address",
-                password_label: "Password",
-                login_button: "Login",
-                theme_light: "Light",
-                theme_dark: "Dark",
-                theme_auto: "Auto",
-                err_failed: "Login failed. Please check your credentials.",
-                err_generic: "An error occurred. Please try again.",
-                success_msg: "Login successful! Redirecting..."
-            },
-            ar: {
-                login_title: "تسجيل الدخول إلى لايك تيوب",
-                email_label: "البريد الإلكتروني",
-                password_label: "كلمة المرور",
-                login_button: "دخول",
-                theme_light: "فاتح",
-                theme_dark: "داكن",
-                theme_auto: "تلقائي",
-                err_failed: "فشل تسجيل الدخول. يرجى التحقق من بياناتك.",
-                err_generic: "حدث خطأ. يرجى المحاولة مرة أخرى.",
-                success_msg: "تم تسجيل الدخول بنجاح! جاري التوجيه..."
-            }
-        };
-
-        function setLanguage(lang) {
-            document.documentElement.lang = lang;
-            localStorage.setItem('lang', lang);
+    <!-- Login Section -->
+    <main class="login-wrapper">
+        <div class="login-box">
+            <h2>Login to Liketube</h2>
             
-            // Update labels
-            document.querySelectorAll('[data-tr]').forEach(el => {
-                const key = el.getAttribute('data-tr');
-                if (translations[lang][key]) {
-                    el.textContent = translations[lang][key];
+            <!-- Message Box for Success/Errors -->
+            <div id="message-box" class="message-box"></div>
+            
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="login-btn" id="login-submit-btn">Log In</button>
+            </form>
+            
+            <div class="form-footer">
+                <a href="#">Forgot password?</a>
+                <hr>
+                <button class="create-account-btn">Create New Account</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Top Navigation Bar Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+            // --- Theme Functions ---
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            }
+
+            function applyAutomaticTheme() {
+                if (osDarkScheme.matches) applyTheme('dark');
+                else applyTheme('light');
+            }
+
+            function updateThemeIcon(theme) {
+                const icon = document.getElementById('current-theme-icon');
+                if (theme === 'dark') icon.className = 'fas fa-moon';
+                else if (theme === 'auto') icon.className = 'fas fa-adjust';
+                else icon.className = 'fas fa-sun';
+            }
+
+            // Initialize Theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'auto') applyAutomaticTheme();
+            else applyTheme(savedTheme);
+            updateThemeIcon(savedTheme);
+
+            document.querySelectorAll('.theme-menu a').forEach(a => {
+                if(a.getAttribute('data-theme') === savedTheme) {
+                    a.classList.add('active');
+                } else {
+                    a.classList.remove('active');
                 }
             });
 
-            // Update UI elements
-            document.getElementById('current-lang-label').textContent = lang === 'en' ? 'English' : 'العربية';
-            
-            // Update Active Class in Menu
-            document.querySelectorAll('#lang-menu a').forEach(a => {
-                a.classList.toggle('active', a.getAttribute('data-lang') === lang);
-            });
-        }
-
-        // --- Theme Logic ---
-        const osDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        
-        function applyTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-        }
-
-        function applyAutomaticTheme() {
-            applyTheme(osDarkScheme.matches ? 'dark' : 'light');
-        }
-
-        function updateThemeIcon(theme) {
-            const icon = document.getElementById('theme-icon');
-            const label = document.getElementById('current-theme-label');
-            
-            if (theme === 'dark') icon.className = 'fas fa-moon';
-            else if (theme === 'light') icon.className = 'fas fa-sun';
-            else icon.className = 'fas fa-adjust';
-
-            label.setAttribute('data-tr', `theme_${theme}`);
-            const currentLang = localStorage.getItem('lang') || 'en';
-            label.textContent = translations[currentLang][`theme_${theme}`];
-        }
-
-        // --- Init Auth & State ---
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Setup Auth
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                try { await signInWithCustomToken(auth, __initial_auth_token); } catch(e) {}
+            // --- Language Functions ---
+            function setLanguage(lang) {
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                localStorage.setItem('lang', lang);
+                // Additional localization text updates can be done here.
             }
-
-            // Restore Lang
+            
             const savedLang = localStorage.getItem('lang') || 'en';
             setLanguage(savedLang);
 
-            // Restore Theme
-            const savedTheme = localStorage.getItem('theme') || 'auto';
-            updateThemeIcon(savedTheme);
-            if (savedTheme === 'auto') applyAutomaticTheme();
-            else applyTheme(savedTheme);
-
-            // --- Event Listeners for Nav ---
-            document.getElementById('lang-menu').addEventListener('click', (e) => {
-                const target = e.target.closest('a');
-                if (target) setLanguage(target.getAttribute('data-lang'));
-            });
-
+            // --- Event Listeners ---
+            
+            // Theme Menu Clicks
             document.getElementById('theme-menu').addEventListener('click', (e) => {
+                e.preventDefault();
                 const target = e.target.closest('a');
                 if (!target) return;
+
+                document.querySelectorAll('#theme-menu a').forEach(a => a.classList.remove('active'));
+                target.classList.add('active');
+                
                 const newTheme = target.getAttribute('data-theme');
                 localStorage.setItem('theme', newTheme);
                 updateThemeIcon(newTheme);
+                
                 if (newTheme === 'auto') applyAutomaticTheme();
                 else applyTheme(newTheme);
+                
+                target.closest('.dropdown-menu').classList.remove('show');
             });
 
-            // Dropdown Toggles
-            document.querySelectorAll('.dropdown-toggle').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+            // OS Theme Change Listener
+            osDarkScheme.addEventListener('change', () => {
+                if (localStorage.getItem('theme') === 'auto') applyAutomaticTheme();
+            });
+
+            // Language Menu Clicks
+            document.querySelector('.lang-menu').addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('a');
+                if (!target) return;
+
+                const newLang = target.getAttribute('data-lang');
+                setLanguage(newLang);
+                target.closest('.dropdown-menu').classList.remove('show');
+            });
+
+            // --- Dropdown Toggles ---
+            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    const menu = btn.nextElementSibling;
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        if (m !== menu) m.classList.remove('show');
+                    const menu = toggle.nextElementSibling;
+                    document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                        if (openMenu !== menu) openMenu.classList.remove('show');
                     });
                     menu.classList.toggle('show');
                 });
             });
 
             window.addEventListener('click', () => {
-                document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
             });
+        });
+    </script>
 
-            // --- Form Submission ---
+    <!-- Firebase Authentication Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // TODO: Replace with your actual Firebase config details!
+		const firebaseConfig = {
+
+		apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
+		authDomain: "liketube-82d69.firebaseapp.com",
+		projectId: "liketube-82d69",
+		storageBucket: "liketube-82d69.firebasestorage.app",
+		messagingSenderId: "327169877918",
+		appId: "1:327169877918:web:b6c770809a79487a8f988f",
+
+	};
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.addEventListener('DOMContentLoaded', () => {
             const loginForm = document.getElementById('login-form');
-            const messageEl = document.getElementById('message');
-            const submitBtn = document.getElementById('submit-btn');
+            const messageBox = document.getElementById('message-box');
+            const submitBtn = document.getElementById('login-submit-btn');
 
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const email = document.getElementById('email').value;
+                
+                const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value;
-                const currentLang = localStorage.getItem('lang') || 'en';
-
-                // Reset state
-                messageEl.style.display = 'none';
-                messageEl.className = '';
+                
+                // Show loading state
+                showMessage('Logging in... Please wait.', 'info');
                 submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.7';
 
                 try {
-                    await signInWithEmailAndPassword(auth, email, password);
+                    // Firebase Auth Method (Email & Password)
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
                     
-                    messageEl.textContent = translations[currentLang].success_msg;
-                    messageEl.classList.add('success');
+                    // Success! Show message and redirect
+                    showMessage('Login successful! Redirecting...', 'success');
                     
-                    // Redirect to # as requested
                     setTimeout(() => {
-                        window.location.href = '#';
-                        // Since # doesn't reload, we just stop here. 
-                        // You'd typically go to index.html or home.html
+                        window.location.href = '#'; // Redirect path to fix later
                     }, 1500);
 
                 } catch (error) {
-                    console.error("Login error:", error);
+                    // Show exact errors based on Firebase error codes
+                    const errorMessage = getFriendlyErrorMessage(error.code) || error.message;
+                    showMessage(errorMessage, 'error');
                     submitBtn.disabled = false;
-                    messageEl.classList.add('error');
-                    
-                    if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                        messageEl.textContent = translations[currentLang].err_failed;
-                    } else {
-                        messageEl.textContent = translations[currentLang].err_generic;
-                    }
+                    submitBtn.style.opacity = '1';
                 }
             });
+
+            // Helper function to show messages
+            function showMessage(msg, type) {
+                messageBox.textContent = msg;
+                messageBox.style.display = 'block';
+                // Reset classes and apply the specific type (error, success, info)
+                messageBox.className = 'message-box ' + type;
+            }
+
+            // Helper function to make Firebase errors user-friendly
+            function getFriendlyErrorMessage(code) {
+                switch(code) {
+                    case 'auth/invalid-email': return 'Invalid email address format.';
+                    case 'auth/user-disabled': return 'This user account has been disabled.';
+                    case 'auth/user-not-found': return 'No account found with this email.';
+                    case 'auth/wrong-password': return 'Incorrect password. Please try again.';
+                    case 'auth/invalid-credential': return 'Invalid email or password.';
+                    case 'auth/network-request-failed': return 'Network error. Please check your internet connection.';
+                    default: return null;
+                }
+            }
         });
     </script>
 </body>

@@ -510,7 +510,7 @@
         /* Feed Nav Bar (Tabs) */
         .feed-nav-bar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Changed to start for top bar */
             align-items: center;
             margin-bottom: 20px;
             padding: 0 10px;
@@ -523,6 +523,27 @@
             gap: 20px;
         }
 
+        /* Bottom Mode Switcher Styles */
+        .bottom-mode-switcher {
+            position: fixed;
+            bottom: 60px; /* Above footer/copyright */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--input-border);
+            z-index: 1000;
+            width: auto;
+            max-width: 90%;
+        }
+        
+        .centered-group {
+            justify-content: center;
+            gap: 30px;
+        }
+
         .nav-tab {
             padding: 10px 5px;
             cursor: pointer;
@@ -533,6 +554,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
         .nav-tab:hover { color: var(--text-color); }
         .nav-tab.active { color: var(--primary-blue); font-weight: 600; }
@@ -597,24 +619,13 @@
     <div class="main-layout">
         <div class="feed-container">
             
-            <!-- New Feed Navbar -->
-            <div class="feed-nav-bar">
+            <!-- New Feed Navbar (Top - Filters Only) -->
+            <div class="feed-nav-bar top-bar">
                 <!-- Left Group: Filters -->
                 <div class="nav-group left-group" id="filter-tabs">
                     <div class="nav-tab active" data-target="new">New To You</div>
                     <div class="nav-tab" data-target="foryou">For You</div>
                     <div class="nav-tab" data-target="followers">Followers</div>
-                    <div class="sliding-line"></div>
-                </div>
-
-                <!-- Right Group: Modes -->
-                <div class="nav-group right-group" id="mode-tabs">
-                    <div class="nav-tab active" data-target="feed">
-                        <i class="fas fa-stream"></i> Feed <i class="fas fa-chevron-down small-icon"></i>
-                    </div>
-                    <div class="nav-tab" data-target="create">
-                        <i class="fas fa-pen"></i> Post Creator <i class="fas fa-chevron-down small-icon"></i>
-                    </div>
                     <div class="sliding-line"></div>
                 </div>
             </div>
@@ -642,6 +653,19 @@
                 <!-- Posts injected here -->
             </div>
 
+        </div>
+    </div>
+
+    <!-- Bottom Mode Switcher -->
+    <div class="bottom-mode-switcher">
+        <div class="nav-group centered-group" id="mode-tabs">
+            <div class="nav-tab active" data-target="feed">
+                <i class="fas fa-stream"></i> Feed
+            </div>
+            <div class="nav-tab" data-target="create">
+                <i class="fas fa-pen"></i> Post Creator
+            </div>
+            <div class="sliding-line"></div>
         </div>
     </div>
 
@@ -714,7 +738,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, getDoc, setDoc, updateDoc, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
@@ -729,6 +753,15 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         const appId = 'liketube-web';
+        
+        // Enable Offline Persistence
+        enableIndexedDbPersistence(db).catch((err) => {
+            if (err.code == 'failed-precondition') {
+                console.log('Multiple tabs open, persistence can only be enabled in one tab at a a time.');
+            } else if (err.code == 'unimplemented') {
+                console.log('The current browser does not support all of the features required to enable persistence');
+            }
+        });
 
         let currentUser = null;
         let myProfileData = {};
@@ -773,7 +806,8 @@
             }
 
             tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
+                tab.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent bubbling
                     // Remove active from siblings
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
@@ -798,7 +832,7 @@
             if(activeTab) setTimeout(() => updateLine(activeTab), 100); 
         }
 
-        // Call initTabs after DOM is ready (script is module so it runs deferred, but safe to call directly)
+        // Call initTabs after DOM is ready
         initTabs('filter-tabs');
         initTabs('mode-tabs');
 
@@ -808,8 +842,13 @@
             profileDropdown.classList.toggle('show');
         });
 
-        window.addEventListener('click', () => {
-            profileDropdown.classList.remove('show');
+        window.addEventListener('click', (e) => {
+            if (!e.target.closest('#profile-dropdown') && !e.target.closest('#profile-menu-trigger')) {
+                profileDropdown.classList.remove('show');
+            }
+            if (e.target == profileModal) {
+                profileModal.style.display = "none";
+            }
         });
         
         profileDropdown.addEventListener('click', (e) => e.stopPropagation());

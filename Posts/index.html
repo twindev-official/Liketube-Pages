@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Liketube</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="#">
+    <style>
+        :root {
+            --bg-color: #18191a; /* Darker background for home */
+            --header-bg: #242526;
+            --header-text: #e4e6eb;
+            --text-color: #e4e6eb;
+            --text-secondary: #b0b3b8;
+            --primary-blue: #2e89ff;
+            --card-bg: #242526;
+            --hover-bg: #3a3b3c;
+            --border-color: #3e4042;
+            --input-bg: #3a3b3c;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Tahoma', sans-serif; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
+        [dir="rtl"] body { font-family: 'Tajawal', 'Tahoma', sans-serif; }
+
+        /* --- Animations --- */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* --- Header --- */
+        .header {
+            background-color: var(--header-bg);
+            padding: 0.5rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        .header-left { display: flex; align-items: center; gap: 1rem; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--header-text); text-decoration: none; }
+        .hamburger { font-size: 1.2rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; background: transparent; color: var(--text-color); border: none; }
+        .hamburger:hover { background-color: var(--hover-bg); }
+
+        .header-center { flex: 1; display: flex; justify-content: center; max-width: 600px; margin: 0 1rem; }
+        .search-bar {
+            width: 100%;
+            background-color: var(--input-bg);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+        }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            width: 100%;
+            margin-left: 0.5rem;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .header-right { display: flex; align-items: center; gap: 1rem; }
+        .user-greeting { font-size: 0.9rem; font-weight: 600; display: none; } /* Hidden on small screens */
+        .icon-btn { font-size: 1.2rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; background: var(--hover-bg); color: var(--text-color); border: none; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
+        .icon-btn:hover { filter: brightness(1.2); }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; cursor: pointer; overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- Category Nav --- */
+        .category-nav {
+            background-color: var(--header-bg);
+            padding: 0 1rem;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .cat-link {
+            padding: 1rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: color 0.2s;
+        }
+        .cat-link:hover { background-color: var(--hover-bg); border-radius: 8px; }
+        .cat-link.active { color: var(--primary-blue); border-bottom: 3px solid var(--primary-blue); border-radius: 0; }
+        .cat-link.active:hover { background-color: transparent; }
+
+        /* --- Main Layout --- */
+        .main-layout {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feed-container {
+            flex: 1;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* --- Post Creator (Word-like) --- */
+        .post-creator {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            animation: slideUp 0.5s ease-out;
+        }
+        .pc-header { font-weight: bold; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.4rem;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .tool-btn:hover { background-color: var(--hover-bg); color: var(--text-color); }
+        .tool-btn.active { color: var(--primary-blue); background-color: rgba(46, 137, 255, 0.1); }
+
+        .editor-area {
+            width: 100%;
+            min-height: 100px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.8rem;
+            color: var(--text-color);
+            outline: none;
+            margin-bottom: 1rem;
+            overflow-y: auto;
+        }
+        .editor-area:empty:before {
+            content: attr(placeholder);
+            color: #888;
+            display: block; /* For Firefox */
+        }
+
+        .pc-footer { display: flex; justify-content: flex-end; }
+        .post-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+        .post-btn:hover { filter: brightness(1.1); }
+        .post-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* --- Post Card --- */
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            animation: slideUp 0.5s ease-out;
+        }
+        .post-header { display: flex; align-items: center; margin-bottom: 1rem; }
+        .post-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #555; margin-right: 0.8rem; overflow: hidden; }
+        .post-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .post-info h4 { font-size: 1rem; color: var(--text-color); margin-bottom: 0.2rem; }
+        .post-info span { font-size: 0.8rem; color: var(--text-secondary); }
+        
+        .post-content { margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem; }
+        .post-content img { max-width: 100%; border-radius: 8px; margin-top: 0.5rem; }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.5rem;
+        }
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
+        }
+        .action-btn:hover { background-color: var(--hover-bg); }
+
+        /* --- Bottom Bar (Mobile) --- */
+        .bottom-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 0.8rem;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+        .bottom-btn { font-size: 1.5rem; color: var(--text-color); background: none; border: none; cursor: pointer; }
+
+        /* --- Responsive --- */
+        @media (min-width: 768px) {
+            .user-greeting { display: block; }
+        }
+        @media (max-width: 768px) {
+            .header-center { display: none; } /* Hide search on mobile header */
+            .category-nav { justify-content: flex-start; }
+            .main-layout { padding: 1rem; }
+            .bottom-bar { display: flex; }
+            .post-creator { display: none; } /* Hide inline creator on mobile, use bottom bar */
+            /* Show creator if triggered (logic to be added if needed, for now just hidden to match "app" feel) */
+            .post-creator.mobile-active { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; margin: 0; border-radius: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="hamburger"><i class="fas fa-bars"></i></button>
+            <a href="#" class="logo">Liketube</a>
+        </div>
+        <div class="header-center">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for people, posts, groups...">
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="user-greeting" id="user-greeting">Welcome back!</span>
+            <button class="icon-btn"><i class="fas fa-bell"></i></button>
+            <div class="user-avatar" id="header-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Nav (Secondary) -->
+    <nav class="category-nav">
+        <a href="#" class="cat-link active">Posts</a>
+        <a href="#" class="cat-link">Videos</a>
+        <a href="#" class="cat-link">Communities</a>
+        <a href="#" class="cat-link">People</a>
+        <a href="#" class="cat-link">Business</a>
+        <a href="#" class="cat-link">Fun & Games</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-layout">
+        <!-- Left Sidebar (Optional for future expansion, keeping layout centered for now as per image) -->
+        
+        <div class="feed-container" id="feed-container">
+            
+            <!-- Post Creator (Desktop) -->
+            <div class="post-creator" id="desktop-post-creator">
+                <div class="pc-header">Create Post</div>
+                <div class="toolbar">
+                    <button class="tool-btn" title="Bold" onclick="document.execCommand('bold',false,null)"><i class="fas fa-bold"></i></button>
+                    <button class="tool-btn" title="Italic" onclick="document.execCommand('italic',false,null)"><i class="fas fa-italic"></i></button>
+                    <button class="tool-btn" title="Underline" onclick="document.execCommand('underline',false,null)"><i class="fas fa-underline"></i></button>
+                    <button class="tool-btn" title="List" onclick="document.execCommand('insertUnorderedList',false,null)"><i class="fas fa-list-ul"></i></button>
+                    <button class="tool-btn" title="Ordered List" onclick="document.execCommand('insertOrderedList',false,null)"><i class="fas fa-list-ol"></i></button>
+                    <button class="tool-btn" title="Align Left" onclick="document.execCommand('justifyLeft',false,null)"><i class="fas fa-align-left"></i></button>
+                    <button class="tool-btn" title="Align Center" onclick="document.execCommand('justifyCenter',false,null)"><i class="fas fa-align-center"></i></button>
+                    <button class="tool-btn" title="Image" id="add-image-btn"><i class="fas fa-image"></i></button>
+                    <button class="tool-btn" title="Link" onclick="let url = prompt('Enter link:'); if(url) document.execCommand('createLink', false, url);"><i class="fas fa-link"></i></button>
+                </div>
+                <div class="editor-area" contenteditable="true" placeholder="What's on your mind?"></div>
+                <div class="pc-footer">
+                    <button class="post-btn" id="publish-btn" disabled>Post</button>
+                </div>
+            </div>
+
+            <!-- Posts Feed -->
+            <div id="posts-list">
+                <!-- Posts will be injected here -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom Bar (Mobile) -->
+    <div class="bottom-bar">
+        <button class="bottom-btn"><i class="fas fa-edit"></i></button>
+        <button class="bottom-btn"><i class="fas fa-plus-circle" style="color: var(--primary-blue); font-size: 2rem;"></i></button>
+        <button class="bottom-btn"><i class="fas fa-user"></i></button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
+          authDomain: "liketube-82d69.firebaseapp.com",
+          projectId: "liketube-82d69",
+          storageBucket: "liketube-82d69.firebasestorage.app",
+          messagingSenderId: "327169877918",
+          appId: "1:327169877918:web:b6c770809a79487a8f988f",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = 'liketube-web';
+
+        let currentUser = null;
+        let userProfile = null;
+
+        // --- Auth Check ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                // Fetch Profile
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'info');
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        userProfile = docSnap.data();
+                        document.getElementById('user-greeting').textContent = `Welcome back, ${userProfile.displayName || 'User'}!`;
+                        // Set avatar if available (using placeholder for now if not)
+                        // document.getElementById('header-avatar').innerHTML = `<img src="${userProfile.photoURL}" />`;
+                    } else {
+                        document.getElementById('user-greeting').textContent = `Welcome back, ${user.email}!`;
+                    }
+                } catch (e) {
+                    console.error("Error fetching profile", e);
+                }
+                
+                // Load Posts
+                loadPosts();
+            } else {
+                // Redirect to login if not authenticated
+                window.location.href = 'index.html';
+            }
+        });
+
+        // --- Post Logic ---
+        const editor = document.querySelector('.editor-area');
+        const publishBtn = document.getElementById('publish-btn');
+        const postsList = document.getElementById('posts-list');
+
+        // Simple validation
+        editor.addEventListener('input', () => {
+            if (editor.innerText.trim().length > 0) {
+                publishBtn.disabled = false;
+            } else {
+                publishBtn.disabled = true;
+            }
+        });
+
+        publishBtn.addEventListener('click', async () => {
+            const content = editor.innerHTML;
+            if (!editor.innerText.trim() && !content.includes('<img')) return;
+
+            publishBtn.disabled = true;
+            publishBtn.innerText = "Posting...";
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'posts'), {
+                    content: content,
+                    authorId: currentUser.uid,
+                    authorName: userProfile ? userProfile.displayName : (currentUser.displayName || 'Anonymous'),
+                    authorEmail: currentUser.email,
+                    timestamp: serverTimestamp(),
+                    likes: 0
+                });
+                
+                editor.innerHTML = "";
+                publishBtn.innerText = "Post";
+                publishBtn.disabled = true;
+            } catch (e) {
+                console.error("Error posting: ", e);
+                alert("Failed to post. Check console.");
+                publishBtn.disabled = false;
+                publishBtn.innerText = "Post";
+            }
+        });
+
+        // --- Feed Logic ---
+        function loadPosts() {
+            const q = query(collection(db, 'artifacts', appId, 'posts'), orderBy('timestamp', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                postsList.innerHTML = ''; // Clear list
+
+                snapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const postEl = document.createElement('div');
+                    postEl.className = 'post-card';
+                    
+                    // Format Date
+                    let dateStr = "Just now";
+                    if (post.timestamp) {
+                        dateStr = new Date(post.timestamp.toDate()).toLocaleString();
+                    }
+
+                    postEl.innerHTML = `
+                        <div class="post-header">
+                            <div class="post-avatar">
+                                <i class="fas fa-user" style="color: white; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; height: 100%;"></i>
+                            </div>
+                            <div class="post-info">
+                                <h4>${post.authorName}</h4>
+                                <span>${dateStr}</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            ${post.content}
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn"><i class="far fa-thumbs-up"></i> Like</button>
+                            <button class="action-btn"><i class="far fa-comment"></i> Comment</button>
+                            <button class="action-btn"><i class="fas fa-share"></i> Share</button>
+                        </div>
+                    `;
+                    postsList.appendChild(postEl);
+                });
+            });
+        }
+
+        // --- Image Button Mock ---
+        document.getElementById('add-image-btn').addEventListener('click', () => {
+            const url = prompt("Enter image URL (Firebase Storage recommended for production):");
+            if (url) {
+                document.execCommand('insertImage', false, url);
+            }
+        });
+
+    </script>
+</body>
+</html>

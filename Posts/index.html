@@ -9,98 +9,161 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="#">
     <style>
+        /* --- COPY OF INDEX.HTML STYLES --- */
         :root {
-            --bg-color: #18191a; /* Darker background for home */
-            --header-bg: #242526;
-            --header-text: #e4e6eb;
-            --text-color: #e4e6eb;
-            --text-secondary: #b0b3b8;
-            --primary-blue: #2e89ff;
-            --card-bg: #242526;
+            --bg-color: #e6f0ff;
+            --header-bg: linear-gradient(to bottom, #4267B2, #3b5998);
+            --header-border: #365899;
+            --header-text: #ffffff;
+            --header-text-secondary: #d0d8e8;
+            --text-color: #000000;
+            --text-color-secondary: #333;
+            --primary-blue: #3b5998;
+            --primary-blue-hover: #365899;
+            --search-bg: #ffffff;
+            --search-border: #ddd;
+            --footer-bg: #343a40;
+            --footer-text: #f8f9fa;
+            --dropdown-bg: #ffffff;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            --dropdown-hover: #f1f1f1;
+            --btn-login-bg: linear-gradient(to bottom, #f0f8ff, #d6e8ff);
+            --btn-login-hover-bg: linear-gradient(to bottom, #d6e8ff, #c0d9ff);
+            --btn-login-border: var(--primary-blue);
+            --btn-login-text: var(--primary-blue);
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
+            --btn-signup-border: #1e7e34;
+            --btn-signup-text: #ffffff;
+            --mobile-menu-bg: #f0f2f5;
+            --mobile-menu-text: #000000;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --input-border: #ccc;
+            /* Extra for Home */
+            --hover-bg: #f0f2f5;
+        }
+        .dark-mode {
+            --bg-color: #1a2233;
+            --header-bg: linear-gradient(to bottom, #2a4a8a, #243f7a);
+            --header-border: #243f7a;
+            --header-text: #e0e0e0;
+            --header-text-secondary: #a0a8b8;
+            --text-color: #e0e0e0;
+            --text-color-secondary: #aaaaaa;
+            --primary-blue: #5890ff;
+            --primary-blue-hover: #4267B2;
+            --search-bg: #2c2c2c;
+            --search-border: #444;
+            --footer-bg: #1c1c1c;
+            --footer-text: #aaaaaa;
+            --dropdown-bg: #2c2c2c;
+            --dropdown-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+            --dropdown-hover: #3a3a3a;
+            --btn-login-bg: linear-gradient(to bottom, #2c3a5e, #24304d);
+            --btn-login-hover-bg: linear-gradient(to bottom, #24304d, #1e2840);
+            --btn-login-border: var(--primary-blue);
+            --btn-login-text: var(--primary-blue);
+            --btn-signup-bg: linear-gradient(to bottom, #28a745, #218838);
+            --btn-signup-hover-bg: linear-gradient(to bottom, #218838, #1e7e34);
+            --btn-signup-border: #1e7e34;
+            --btn-signup-text: #ffffff;
+            --mobile-menu-bg: #2c2c2c;
+            --mobile-menu-text: #e0e0e0;
+            --card-bg: #2c2c2c;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            --input-border: #555;
+            /* Extra for Home */
             --hover-bg: #3a3b3c;
-            --border-color: #3e4042;
-            --input-bg: #3a3b3c;
-            --shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; min-width: 100%; overflow-x: clip; height: 100%; }
+        body { font-family: 'Tahoma', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; display: flex; flex-direction: column; }
+        [dir="rtl"] body, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] .mobile-search-bar input { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
+        @keyframes fadeAndSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Header Styles (Exact Copy) */
+        .header { background-image: var(--header-bg); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--header-border); transition: background-image 0.3s ease; position: sticky; top: 0; z-index: 1000; }
+        .header-left, .header-center, .header-right { display: flex; align-items: center; }
+        .header-left { flex: 1; justify-content: flex-start; align-items: center; }
+        .header-center { flex: 2; justify-content: center; }
+        .header-right { flex: 1; justify-content: flex-end; }
+        .logo { font-size: 1.75rem; font-weight: 700; color: var(--header-text); text-decoration: none; margin-right: 2.5rem; animation: fadeAndSlideUp 0.6s ease-out; }
+        .nav-links { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-links a { color: var(--header-text); text-decoration: none; font-weight: 500; position: relative; transition: color 0.2s ease; opacity: 0; animation: fadeAndSlideUp 0.6s ease-out forwards; padding: 0 0 5px 0; }
+        .nav-links a:nth-child(1) { animation-delay: 0.1s; }
+        .nav-links a:nth-child(2) { animation-delay: 0.2s; }
+        .nav-links a:nth-child(3) { animation-delay: 0.3s; }
+        .nav-links a:nth-child(4) { animation-delay: 0.4s; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; background-color: var(--header-text); left: 50%; transform: translateX(-50%); bottom: -5px; transition: width 0.3s ease; }
+        .nav-links a:hover { color: var(--header-text-secondary); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active-nav-link, .mobile-nav-links a.active-nav-link { color: var(--header-text-secondary); font-weight: 700; }
+        .nav-links a.active-nav-link::after { width: 100%; }
+        .mobile-nav-links a.active-nav-link { color: var(--primary-blue); background-color: rgba(0,0,0,0.05); }
+        .dark-mode .mobile-nav-links a.active-nav-link { color: var(--primary-blue); }
+        .search-bar { width: 100%; max-width: 450px; display: flex; align-items: center; background-color: var(--search-bg); border: 1px solid var(--search-border); border-radius: 4px; padding: 0.5rem 1rem; transition: background-color 0.3s, border-color 0.3s; opacity: 0; animation: fadeAndSlideUp 0.6s ease-out forwards; animation-delay: 0.2s; }
+        .search-bar i { color: #888; margin-right: 0.5rem; }
+        [dir="rtl"] .search-bar i { margin-right: 0; margin-left: 0.5rem; }
+        .search-bar input { border: none; background: transparent; outline: none; width: 100%; color: #000; font-family: 'Tahoma', sans-serif; font-size: 0.9rem; }
+        .dark-mode .search-bar input { color: var(--text-color); }
+        .user-controls { display: flex; align-items: center; gap: 0.75rem; }
+        .user-controls > * { opacity: 0; animation: fadeAndSlideUp 0.6s ease-out forwards; }
+        .user-controls > *:nth-child(1) { animation-delay: 0.4s; }
+        .user-controls > *:nth-child(2) { animation-delay: 0.5s; }
+        .user-controls > *:nth-child(3) { animation-delay: 0.6s; }
+        .user-controls > *:nth-child(4) { animation-delay: 0.7s; }
+        .dropdown { position: relative; }
+        .dropdown-toggle { background: none; border: none; cursor: pointer; color: var(--header-text); font-size: 1.2rem; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease, color 0.2s ease; }
+        .lang-toggle { font-size: 0.9rem; font-weight: 500; }
+        .dropdown-toggle:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--header-text); }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 50px; background-color: var(--dropdown-bg); min-width: 140px; box-shadow: var(--dropdown-shadow); z-index: 100; border-radius: 4px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease; }
+        .dropdown-menu.show { display: block; opacity: 1; visibility: visible; transform: translateY(0); }
+        [dir="rtl"] .dropdown-menu { right: auto; left: 0; }
+        .dropdown-menu a { color: var(--text-color); padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.9rem; transition: background-color 0.2s; }
+        .dropdown-menu a:hover { background-color: var(--dropdown-hover); }
+        .dropdown-menu a.active { background-color: var(--primary-blue); color: white; }
+        .hamburger-menu { display: none; font-size: 1.5rem; color: var(--header-text); cursor: pointer; margin-right: 1rem; }
+        [dir="rtl"] .hamburger-menu { margin-right: 0; margin-left: 1rem; }
+        .mobile-menu { position: fixed; top: 0; left: -100%; width: 80%; height: 100%; background-color: var(--mobile-menu-bg); color: var(--mobile-menu-text); z-index: 1050; padding: 2rem; transform: translateX(0); transition: left 0.3s ease-out; box-shadow: 2px 0 5px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 1.5rem; }
+        [dir="rtl"] .mobile-menu { left: auto; right: -100%; transition: right 0.3s ease-out; }
+        .mobile-menu.open { left: 0; }
+        [dir="rtl"] .mobile-menu.open { left: auto; right: 0; }
+        .mobile-menu-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: var(--text-color); }
+        [dir="rtl"] .mobile-menu-close { right: auto; left: 1rem; }
+        .mobile-nav-links a { display: block; padding: 0.75rem 0; text-decoration: none; color: var(--mobile-menu-text); font-weight: 700; border-bottom: 1px solid rgba(0,0,0,0.1); transition: background-color 0.2s; }
+        .dark-mode .mobile-nav-links a { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-nav-links a:hover { background-color: rgba(0,0,0,0.05); }
+        .mobile-search-bar { width: 100%; display: flex; align-items: center; background-color: var(--search-bg); border: 1px solid var(--search-border); border-radius: 4px; padding: 0.5rem 1rem; transition: background-color 0.3s, border-color 0.3s; }
+        .mobile-search-bar i { color: #888; margin-right: 0.5rem; }
+        .mobile-search-bar input { border: none; background: transparent; outline: none; width: 100%; color: var(--text-color); font-family: 'Tahoma', sans-serif; font-size: 0.9rem; }
+        .footer { background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 2rem; font-size: 0.9rem; margin-top: auto; transition: background-color 0.3s ease, color 0.3s ease; }
+        @media (max-width: 1200px) { .header { padding: 1rem 2rem; } }
+        @media (max-width: 992px) { .hamburger-menu { display: block; } .header-center, .nav-links { display: none; } .header-left { flex: none; } .header-right { flex: 1; } }
+        @media (max-width: 768px) { .header { flex-wrap: nowrap; padding: 1rem; } .header-left { flex: 1; justify-content: flex-start; } .header-right { flex: none; } .user-controls { gap: 0.25rem; } .logo { margin-right: 0.5rem; font-size: 1.5rem; } .btn { padding: 0.5rem 0.8rem; font-size: 0.8rem; } }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Tahoma', sans-serif; background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
-        [dir="rtl"] body { font-family: 'Tajawal', 'Tahoma', sans-serif; }
-
-        /* --- Animations --- */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* --- Header --- */
-        .header {
-            background-color: var(--header-bg);
-            padding: 0.5rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            height: 60px;
-            box-shadow: var(--shadow);
-        }
-
-        .header-left { display: flex; align-items: center; gap: 1rem; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--header-text); text-decoration: none; }
-        .hamburger { font-size: 1.2rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; background: transparent; color: var(--text-color); border: none; }
-        .hamburger:hover { background-color: var(--hover-bg); }
-
-        .header-center { flex: 1; display: flex; justify-content: center; max-width: 600px; margin: 0 1rem; }
-        .search-bar {
-            width: 100%;
-            background-color: var(--input-bg);
-            border-radius: 20px;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            color: var(--text-secondary);
-        }
-        .search-bar input {
-            background: transparent;
-            border: none;
-            color: var(--text-color);
-            width: 100%;
-            margin-left: 0.5rem;
-            outline: none;
-            font-size: 0.95rem;
-        }
-
-        .header-right { display: flex; align-items: center; gap: 1rem; }
-        .user-greeting { font-size: 0.9rem; font-weight: 600; display: none; } /* Hidden on small screens */
-        .icon-btn { font-size: 1.2rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; background: var(--hover-bg); color: var(--text-color); border: none; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
-        .icon-btn:hover { filter: brightness(1.2); }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; cursor: pointer; overflow: hidden; }
-        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* --- Category Nav --- */
+        /* --- HOME SPECIFIC STYLES --- */
         .category-nav {
-            background-color: var(--header-bg);
+            background-color: var(--card-bg); /* Match card bg */
             padding: 0 1rem;
             display: flex;
             justify-content: center;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--input-border);
             overflow-x: auto;
             white-space: nowrap;
+            margin-bottom: 1rem;
         }
         .cat-link {
             padding: 1rem 1.5rem;
-            color: var(--text-secondary);
+            color: var(--text-color-secondary);
             text-decoration: none;
             font-weight: 600;
             position: relative;
             transition: color 0.2s;
         }
-        .cat-link:hover { background-color: var(--hover-bg); border-radius: 8px; }
-        .cat-link.active { color: var(--primary-blue); border-bottom: 3px solid var(--primary-blue); border-radius: 0; }
-        .cat-link.active:hover { background-color: transparent; }
+        .cat-link:hover { background-color: var(--hover-bg); }
+        .cat-link.active { color: var(--primary-blue); border-bottom: 3px solid var(--primary-blue); }
 
-        /* --- Main Layout --- */
         .main-layout {
             display: flex;
             justify-content: center;
@@ -108,6 +171,7 @@
             gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            flex: 1;
         }
 
         .feed-container {
@@ -118,93 +182,106 @@
             gap: 1.5rem;
         }
 
-        /* --- Post Creator (Word-like) --- */
+        /* View Switcher */
+        .view-switcher {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 0.5rem;
+            box-shadow: var(--card-shadow);
+        }
+        .view-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            background: transparent;
+            color: var(--text-color-secondary);
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .view-btn.active {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        /* Post Creator */
         .post-creator {
             background-color: var(--card-bg);
             border-radius: 8px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--card-shadow);
             padding: 1rem;
-            animation: slideUp 0.5s ease-out;
+            display: none; /* Hidden by default, toggled by view */
         }
-        .pc-header { font-weight: bold; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        .post-creator.active { display: block; }
+        
+        .pc-header { font-weight: bold; margin-bottom: 0.5rem; border-bottom: 1px solid var(--input-border); padding-bottom: 0.5rem; color: var(--text-color); }
         
         .toolbar {
             display: flex;
             gap: 0.5rem;
             margin-bottom: 0.5rem;
             flex-wrap: wrap;
+            background: var(--hover-bg);
+            padding: 0.5rem;
+            border-radius: 4px;
         }
         .tool-btn {
             background: transparent;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-color-secondary);
             cursor: pointer;
             padding: 0.4rem;
             border-radius: 4px;
             font-size: 1rem;
         }
-        .tool-btn:hover { background-color: var(--hover-bg); color: var(--text-color); }
-        .tool-btn.active { color: var(--primary-blue); background-color: rgba(46, 137, 255, 0.1); }
+        .tool-btn:hover { background-color: rgba(0,0,0,0.1); color: var(--text-color); }
+        .dark-mode .tool-btn:hover { background-color: rgba(255,255,255,0.1); }
 
         .editor-area {
             width: 100%;
-            min-height: 100px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border-color);
+            min-height: 200px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--input-border);
             border-radius: 4px;
-            padding: 0.8rem;
+            padding: 1rem;
             color: var(--text-color);
             outline: none;
             margin-bottom: 1rem;
             overflow-y: auto;
         }
-        .editor-area:empty:before {
-            content: attr(placeholder);
-            color: #888;
-            display: block; /* For Firefox */
-        }
 
-        .pc-footer { display: flex; justify-content: flex-end; }
-        .post-btn {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: filter 0.2s;
-        }
-        .post-btn:hover { filter: brightness(1.1); }
-        .post-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* --- Post Card --- */
+        /* Post Card */
         .post-card {
             background-color: var(--card-bg);
             border-radius: 8px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--card-shadow);
             padding: 1rem;
-            animation: slideUp 0.5s ease-out;
+            animation: fadeAndSlideUp 0.5s ease-out;
+            margin-bottom: 1rem;
         }
         .post-header { display: flex; align-items: center; margin-bottom: 1rem; }
-        .post-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #555; margin-right: 0.8rem; overflow: hidden; }
+        .post-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #ccc; margin-right: 0.8rem; overflow: hidden; cursor: pointer; position: relative; }
         .post-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .post-info h4 { font-size: 1rem; color: var(--text-color); margin-bottom: 0.2rem; }
-        .post-info span { font-size: 0.8rem; color: var(--text-secondary); }
+        .post-info h4 { font-size: 1rem; color: var(--text-color); margin-bottom: 0.2rem; font-weight: bold; }
+        .post-info span { font-size: 0.8rem; color: var(--text-color-secondary); }
         
-        .post-content { margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem; }
+        .post-content { margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem; color: var(--text-color); }
         .post-content img { max-width: 100%; border-radius: 8px; margin-top: 0.5rem; }
         
         .post-actions {
             display: flex;
             justify-content: space-around;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--input-border);
             padding-top: 0.5rem;
         }
         .action-btn {
             background: transparent;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-color-secondary);
             cursor: pointer;
             padding: 0.5rem 1rem;
             border-radius: 4px;
@@ -217,61 +294,186 @@
         }
         .action-btn:hover { background-color: var(--hover-bg); }
 
-        /* --- Bottom Bar (Mobile) --- */
-        .bottom-bar {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--header-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 0.8rem;
-            justify-content: space-around;
+        /* User Profile in Header */
+        .user-profile-header {
+            display: flex;
             align-items: center;
-            z-index: 1000;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: background 0.2s;
         }
-        .bottom-btn { font-size: 1.5rem; color: var(--text-color); background: none; border: none; cursor: pointer; }
+        .user-profile-header:hover { background: rgba(255,255,255,0.1); }
+        .user-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #ccc;
+            overflow: hidden;
+        }
+        .user-avatar-small img { width: 100%; height: 100%; object-fit: cover; }
+        .user-name-header { font-weight: bold; font-size: 0.9rem; color: var(--header-text); }
 
-        /* --- Responsive --- */
-        @media (min-width: 768px) {
-            .user-greeting { display: block; }
+        /* Profile Modal */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+            animation: fadeIn 0.3s;
         }
-        @media (max-width: 768px) {
-            .header-center { display: none; } /* Hide search on mobile header */
-            .category-nav { justify-content: flex-start; }
-            .main-layout { padding: 1rem; }
-            .bottom-bar { display: flex; }
-            .post-creator { display: none; } /* Hide inline creator on mobile, use bottom bar */
-            /* Show creator if triggered (logic to be added if needed, for now just hidden to match "app" feel) */
-            .post-creator.mobile-active { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; margin: 0; border-radius: 0; }
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 10% auto; 
+            padding: 0;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            animation: fadeAndSlideUp 0.3s;
         }
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: var(--text-color); }
+        
+        .profile-banner {
+            height: 150px;
+            background-color: var(--primary-blue);
+            border-radius: 8px 8px 0 0;
+            background-size: cover;
+            background-position: center;
+        }
+        .profile-header-info {
+            padding: 0 1.5rem 1.5rem;
+            position: relative;
+            text-align: center;
+        }
+        .profile-pic-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid var(--card-bg);
+            background-color: #ccc;
+            margin: -50px auto 10px;
+            position: relative;
+            overflow: visible; /* Allow status dot */
+        }
+        .profile-pic-large img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        
+        .status-dot {
+            width: 20px;
+            height: 20px;
+            background-color: #28a745; /* Active green */
+            border: 3px solid var(--card-bg);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+        .status-dot.away { background-color: #ffc107; }
+        .status-dot.dnd { background-color: #dc3545; }
+        .status-dot.busy { background-color: #6c757d; }
+
+        .profile-name { font-size: 1.5rem; font-weight: bold; color: var(--text-color); margin-bottom: 0.2rem; }
+        .profile-bio { color: var(--text-color-secondary); font-size: 0.95rem; margin-bottom: 1rem; }
+        .status-share { 
+            background-color: var(--bg-color); 
+            padding: 0.5rem 1rem; 
+            border-radius: 20px; 
+            display: inline-block; 
+            font-size: 0.9rem; 
+            color: var(--primary-blue); 
+            font-weight: bold;
+            border: 1px solid var(--input-border);
+        }
+
+        /* Edit Profile Form */
+        .edit-profile-form { padding: 1rem; display: none; }
+        .edit-profile-form.active { display: block; }
+        .edit-group { margin-bottom: 1rem; text-align: left; }
+        .edit-label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--text-color); }
+        .edit-input { width: 100%; padding: 0.5rem; border: 1px solid var(--input-border); border-radius: 4px; background: var(--bg-color); color: var(--text-color); }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
     </style>
 </head>
 <body>
 
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <i class="fas fa-times mobile-menu-close" id="mobile-menu-close"></i>
+        <div class="mobile-search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." data-key="search_placeholder">
+        </div>
+        <nav class="mobile-nav-links">
+            <a href="#" class="active-nav-link" data-key="nav_home">Home</a>
+            <a href="#" data-key="nav_posts">Posts</a>
+            <a href="#" data-key="nav_ping">Ping</a>
+            <a href="Download" data-key="nav_download">Download</a>
+        </nav>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-left">
-            <button class="hamburger"><i class="fas fa-bars"></i></button>
+            <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
             <a href="#" class="logo">Liketube</a>
+            <nav class="nav-links">
+                <a href="#" class="active-nav-link" data-key="nav_home">Home</a>
+                <a href="#" data-key="nav_posts">Posts</a>
+                <a href="#" data-key="nav_ping">Ping</a>
+                <a href="Download" data-key="nav_download">Download</a>
+            </nav>
         </div>
+
         <div class="header-center">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search for people, posts, groups...">
+                <input type="text" placeholder="Search..." data-key="search_placeholder">
             </div>
         </div>
+
         <div class="header-right">
-            <span class="user-greeting" id="user-greeting">Welcome back!</span>
-            <button class="icon-btn"><i class="fas fa-bell"></i></button>
-            <div class="user-avatar" id="header-avatar">
-                <i class="fas fa-user"></i>
+            <div class="user-controls">
+                <!-- User Profile Trigger -->
+                <div class="user-profile-header" id="my-profile-trigger">
+                    <div class="user-avatar-small">
+                        <img src="https://picsum.photos/50/50" alt="Me" id="header-avatar-img">
+                    </div>
+                    <span class="user-name-header" id="header-username">Loading...</span>
+                </div>
+
+                <div class="dropdown">
+                    <button class="dropdown-toggle" id="theme-toggle-btn"><i class="fas fa-sun" id="theme-icon"></i></button>
+                    <div class="dropdown-menu" id="theme-menu">
+                        <a href="#" data-theme="light"><i class="fas fa-sun fa-fw"></i> Light</a>
+                        <a href="#" data-theme="dark"><i class="fas fa-moon fa-fw"></i> Dark</a>
+                        <a href="#" data-theme="auto"><i class="fas fa-magic fa-fw"></i> Auto</a>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Category Nav (Secondary) -->
+    <!-- Secondary Nav -->
     <nav class="category-nav">
         <a href="#" class="cat-link active">Posts</a>
         <a href="#" class="cat-link">Videos</a>
@@ -283,49 +485,110 @@
 
     <!-- Main Content -->
     <div class="main-layout">
-        <!-- Left Sidebar (Optional for future expansion, keeping layout centered for now as per image) -->
-        
-        <div class="feed-container" id="feed-container">
+        <div class="feed-container">
             
-            <!-- Post Creator (Desktop) -->
-            <div class="post-creator" id="desktop-post-creator">
+            <!-- View Switcher -->
+            <div class="view-switcher">
+                <button class="view-btn active" id="view-feed-btn">Feed</button>
+                <button class="view-btn" id="view-create-btn">Create Post</button>
+            </div>
+
+            <!-- Post Creator (Hidden by default unless toggled) -->
+            <div class="post-creator" id="post-creator-area">
                 <div class="pc-header">Create Post</div>
                 <div class="toolbar">
-                    <button class="tool-btn" title="Bold" onclick="document.execCommand('bold',false,null)"><i class="fas fa-bold"></i></button>
-                    <button class="tool-btn" title="Italic" onclick="document.execCommand('italic',false,null)"><i class="fas fa-italic"></i></button>
-                    <button class="tool-btn" title="Underline" onclick="document.execCommand('underline',false,null)"><i class="fas fa-underline"></i></button>
-                    <button class="tool-btn" title="List" onclick="document.execCommand('insertUnorderedList',false,null)"><i class="fas fa-list-ul"></i></button>
-                    <button class="tool-btn" title="Ordered List" onclick="document.execCommand('insertOrderedList',false,null)"><i class="fas fa-list-ol"></i></button>
-                    <button class="tool-btn" title="Align Left" onclick="document.execCommand('justifyLeft',false,null)"><i class="fas fa-align-left"></i></button>
-                    <button class="tool-btn" title="Align Center" onclick="document.execCommand('justifyCenter',false,null)"><i class="fas fa-align-center"></i></button>
-                    <button class="tool-btn" title="Image" id="add-image-btn"><i class="fas fa-image"></i></button>
-                    <button class="tool-btn" title="Link" onclick="let url = prompt('Enter link:'); if(url) document.execCommand('createLink', false, url);"><i class="fas fa-link"></i></button>
+                    <button class="tool-btn" onclick="document.execCommand('bold',false,null)"><i class="fas fa-bold"></i></button>
+                    <button class="tool-btn" onclick="document.execCommand('italic',false,null)"><i class="fas fa-italic"></i></button>
+                    <button class="tool-btn" onclick="document.execCommand('underline',false,null)"><i class="fas fa-underline"></i></button>
+                    <button class="tool-btn" onclick="document.execCommand('insertUnorderedList',false,null)"><i class="fas fa-list-ul"></i></button>
+                    <button class="tool-btn" onclick="document.execCommand('justifyLeft',false,null)"><i class="fas fa-align-left"></i></button>
+                    <button class="tool-btn" onclick="document.execCommand('justifyCenter',false,null)"><i class="fas fa-align-center"></i></button>
+                    <button class="tool-btn" id="add-image-btn"><i class="fas fa-image"></i></button>
                 </div>
                 <div class="editor-area" contenteditable="true" placeholder="What's on your mind?"></div>
                 <div class="pc-footer">
-                    <button class="post-btn" id="publish-btn" disabled>Post</button>
+                    <button class="btn btn-login" id="publish-btn" style="width: 100%;">Post</button>
                 </div>
             </div>
 
             <!-- Posts Feed -->
             <div id="posts-list">
-                <!-- Posts will be injected here -->
+                <!-- Posts injected here -->
             </div>
 
         </div>
     </div>
 
-    <!-- Bottom Bar (Mobile) -->
-    <div class="bottom-bar">
-        <button class="bottom-btn"><i class="fas fa-edit"></i></button>
-        <button class="bottom-btn"><i class="fas fa-plus-circle" style="color: var(--primary-blue); font-size: 2rem;"></i></button>
-        <button class="bottom-btn"><i class="fas fa-user"></i></button>
+    <!-- Profile Modal (Preview & Edit) -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            
+            <!-- View Mode -->
+            <div id="profile-view-mode">
+                <div class="profile-banner" id="modal-banner"></div>
+                <div class="profile-header-info">
+                    <div class="profile-pic-large">
+                        <img src="" id="modal-pic" alt="Profile">
+                        <div class="status-dot" id="modal-status-dot"></div>
+                    </div>
+                    <h2 class="profile-name" id="modal-name">User Name</h2>
+                    <p class="profile-bio" id="modal-bio">No bio available.</p>
+                    <div class="status-share" id="modal-status-msg">Thinking...</div>
+                    
+                    <div style="margin-top: 1rem;" id="edit-profile-btn-container">
+                        <!-- Edit button injected if own profile -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Mode -->
+            <div id="profile-edit-mode" class="edit-profile-form">
+                <h3>Edit Profile</h3>
+                <div class="edit-group">
+                    <label class="edit-label">Display Name</label>
+                    <input type="text" id="edit-name" class="edit-input">
+                </div>
+                <div class="edit-group">
+                    <label class="edit-label">Bio</label>
+                    <input type="text" id="edit-bio" class="edit-input">
+                </div>
+                <div class="edit-group">
+                    <label class="edit-label">Status Message (Share a word)</label>
+                    <input type="text" id="edit-status-msg" class="edit-input">
+                </div>
+                <div class="edit-group">
+                    <label class="edit-label">Status</label>
+                    <select id="edit-status" class="edit-input">
+                        <option value="active">Active</option>
+                        <option value="away">Away</option>
+                        <option value="dnd">Do Not Disturb</option>
+                        <option value="busy">Busy</option>
+                    </select>
+                </div>
+                <div class="edit-group">
+                    <label class="edit-label">Profile Pic URL</label>
+                    <input type="text" id="edit-pic" class="edit-input">
+                </div>
+                <div class="edit-group">
+                    <label class="edit-label">Banner URL</label>
+                    <input type="text" id="edit-banner" class="edit-input">
+                </div>
+                <button class="btn btn-login" id="save-profile-btn" style="width: 100%;">Save Changes</button>
+                <button class="btn" id="cancel-edit-btn" style="width: 100%; margin-top: 0.5rem; background: transparent; border: 1px solid #ccc;">Cancel</button>
+            </div>
+
+        </div>
     </div>
+
+    <footer class="footer">
+        <p data-key="footer_text">© 2025 Liketube. Developed by Twindev. All rights reserved.</p>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
@@ -342,49 +605,80 @@
         const appId = 'liketube-web';
 
         let currentUser = null;
-        let userProfile = null;
+        let myProfileData = {};
 
-        // --- Auth Check ---
+        // --- DOM Elements ---
+        const postsList = document.getElementById('posts-list');
+        const postCreator = document.getElementById('post-creator-area');
+        const viewFeedBtn = document.getElementById('view-feed-btn');
+        const viewCreateBtn = document.getElementById('view-create-btn');
+        const profileModal = document.getElementById('profile-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const profileViewMode = document.getElementById('profile-view-mode');
+        const profileEditMode = document.getElementById('profile-edit-mode');
+        const modalName = document.getElementById('modal-name');
+        const modalBio = document.getElementById('modal-bio');
+        const modalStatusMsg = document.getElementById('modal-status-msg');
+        const modalPic = document.getElementById('modal-pic');
+        const modalBanner = document.getElementById('modal-banner');
+        const modalStatusDot = document.getElementById('modal-status-dot');
+        const editProfileBtnContainer = document.getElementById('edit-profile-btn-container');
+
+        // --- View Switcher Logic ---
+        viewFeedBtn.addEventListener('click', () => {
+            viewFeedBtn.classList.add('active');
+            viewCreateBtn.classList.remove('active');
+            postsList.style.display = 'block';
+            postCreator.classList.remove('active');
+        });
+
+        viewCreateBtn.addEventListener('click', () => {
+            viewCreateBtn.classList.add('active');
+            viewFeedBtn.classList.remove('active');
+            postsList.style.display = 'none';
+            postCreator.classList.add('active');
+        });
+
+        // --- Auth & Profile Logic ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                // Fetch Profile
-                try {
-                    const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'info');
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        userProfile = docSnap.data();
-                        document.getElementById('user-greeting').textContent = `Welcome back, ${userProfile.displayName || 'User'}!`;
-                        // Set avatar if available (using placeholder for now if not)
-                        // document.getElementById('header-avatar').innerHTML = `<img src="${userProfile.photoURL}" />`;
-                    } else {
-                        document.getElementById('user-greeting').textContent = `Welcome back, ${user.email}!`;
-                    }
-                } catch (e) {
-                    console.error("Error fetching profile", e);
-                }
+                const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'info');
                 
-                // Load Posts
+                // Real-time listener for MY profile
+                onSnapshot(docRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        myProfileData = docSnap.data();
+                        updateHeaderProfile(myProfileData);
+                    } else {
+                        // Create default if missing
+                        const defaultData = {
+                            displayName: user.displayName || user.email.split('@')[0],
+                            email: user.email,
+                            photoURL: "https://picsum.photos/200",
+                            bannerURL: "https://picsum.photos/600/200",
+                            bio: "Hello, I am new here!",
+                            status: "active",
+                            statusMsg: "Just joined Liketube!"
+                        };
+                        setDoc(docRef, defaultData);
+                    }
+                });
+
                 loadPosts();
             } else {
-                // Redirect to login if not authenticated
                 window.location.href = 'index.html';
             }
         });
 
+        function updateHeaderProfile(data) {
+            document.getElementById('header-username').textContent = data.displayName;
+            document.getElementById('header-avatar-img').src = data.photoURL;
+        }
+
         // --- Post Logic ---
         const editor = document.querySelector('.editor-area');
         const publishBtn = document.getElementById('publish-btn');
-        const postsList = document.getElementById('posts-list');
-
-        // Simple validation
-        editor.addEventListener('input', () => {
-            if (editor.innerText.trim().length > 0) {
-                publishBtn.disabled = false;
-            } else {
-                publishBtn.disabled = true;
-            }
-        });
 
         publishBtn.addEventListener('click', async () => {
             const content = editor.innerHTML;
@@ -397,18 +691,19 @@
                 await addDoc(collection(db, 'artifacts', appId, 'posts'), {
                     content: content,
                     authorId: currentUser.uid,
-                    authorName: userProfile ? userProfile.displayName : (currentUser.displayName || 'Anonymous'),
-                    authorEmail: currentUser.email,
+                    authorName: myProfileData.displayName || "Anonymous",
+                    authorPic: myProfileData.photoURL || "https://picsum.photos/50",
                     timestamp: serverTimestamp(),
                     likes: 0
                 });
                 
                 editor.innerHTML = "";
                 publishBtn.innerText = "Post";
-                publishBtn.disabled = true;
+                publishBtn.disabled = false;
+                viewFeedBtn.click();
             } catch (e) {
                 console.error("Error posting: ", e);
-                alert("Failed to post. Check console.");
+                alert("Failed. " + e.message);
                 publishBtn.disabled = false;
                 publishBtn.innerText = "Post";
             }
@@ -419,50 +714,168 @@
             const q = query(collection(db, 'artifacts', appId, 'posts'), orderBy('timestamp', 'desc'));
             
             onSnapshot(q, (snapshot) => {
-                postsList.innerHTML = ''; // Clear list
-
-                snapshot.forEach((doc) => {
-                    const post = doc.data();
+                postsList.innerHTML = '';
+                snapshot.forEach((docSnap) => {
+                    const post = docSnap.data();
                     const postEl = document.createElement('div');
                     postEl.className = 'post-card';
                     
-                    // Format Date
-                    let dateStr = "Just now";
-                    if (post.timestamp) {
-                        dateStr = new Date(post.timestamp.toDate()).toLocaleString();
-                    }
+                    let dateStr = post.timestamp ? new Date(post.timestamp.toDate()).toLocaleString() : "Just now";
 
                     postEl.innerHTML = `
                         <div class="post-header">
-                            <div class="post-avatar">
-                                <i class="fas fa-user" style="color: white; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; height: 100%;"></i>
+                            <div class="post-avatar" data-uid="${post.authorId}" style="cursor: pointer;">
+                                <img src="${post.authorPic || 'https://picsum.photos/50'}" onerror="this.src='https://picsum.photos/50'">
                             </div>
                             <div class="post-info">
                                 <h4>${post.authorName}</h4>
                                 <span>${dateStr}</span>
                             </div>
                         </div>
-                        <div class="post-content">
-                            ${post.content}
-                        </div>
+                        <div class="post-content">${post.content}</div>
                         <div class="post-actions">
                             <button class="action-btn"><i class="far fa-thumbs-up"></i> Like</button>
                             <button class="action-btn"><i class="far fa-comment"></i> Comment</button>
                             <button class="action-btn"><i class="fas fa-share"></i> Share</button>
                         </div>
                     `;
+                    
+                    // Add click listener to avatar
+                    postEl.querySelector('.post-avatar').addEventListener('click', () => {
+                        openProfile(post.authorId);
+                    });
+                    
                     postsList.appendChild(postEl);
                 });
             });
         }
 
-        // --- Image Button Mock ---
-        document.getElementById('add-image-btn').addEventListener('click', () => {
-            const url = prompt("Enter image URL (Firebase Storage recommended for production):");
-            if (url) {
-                document.execCommand('insertImage', false, url);
+        // --- Profile Modal Logic ---
+        async function openProfile(userId) {
+            profileModal.style.display = "block";
+            profileViewMode.style.display = "block";
+            profileEditMode.style.display = "none";
+            
+            // Reset to loading state
+            modalName.textContent = "Loading...";
+            
+            const docRef = doc(db, 'artifacts', appId, 'users', userId, 'profile', 'info');
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                modalName.textContent = data.displayName;
+                modalBio.textContent = data.bio;
+                modalStatusMsg.textContent = data.statusMsg || "";
+                modalPic.src = data.photoURL;
+                modalBanner.style.backgroundImage = `url('${data.bannerURL}')`;
+                
+                modalStatusDot.className = 'status-dot ' + (data.status || 'active');
+
+                editProfileBtnContainer.innerHTML = '';
+                if (currentUser && userId === currentUser.uid) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn btn-login';
+                    btn.innerText = "Edit Profile";
+                    btn.onclick = () => {
+                        profileViewMode.style.display = "none";
+                        profileEditMode.style.display = "block";
+                        
+                        document.getElementById('edit-name').value = data.displayName;
+                        document.getElementById('edit-bio').value = data.bio;
+                        document.getElementById('edit-status-msg').value = data.statusMsg || "";
+                        document.getElementById('edit-status').value = data.status || "active";
+                        document.getElementById('edit-pic').value = data.photoURL;
+                        document.getElementById('edit-banner').value = data.bannerURL;
+                    };
+                    editProfileBtnContainer.appendChild(btn);
+                }
+            }
+        }
+
+        closeModal.onclick = () => { profileModal.style.display = "none"; };
+        window.onclick = (event) => { if (event.target == profileModal) profileModal.style.display = "none"; };
+
+        document.getElementById('save-profile-btn').addEventListener('click', async () => {
+            const updates = {
+                displayName: document.getElementById('edit-name').value,
+                bio: document.getElementById('edit-bio').value,
+                statusMsg: document.getElementById('edit-status-msg').value,
+                status: document.getElementById('edit-status').value,
+                photoURL: document.getElementById('edit-pic').value,
+                bannerURL: document.getElementById('edit-banner').value
+            };
+            
+            try {
+                await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'profile', 'info'), updates);
+                // Refresh modal view
+                openProfile(currentUser.uid);
+            } catch (e) {
+                alert("Error saving: " + e.message);
             }
         });
+
+        document.getElementById('cancel-edit-btn').addEventListener('click', () => {
+            profileViewMode.style.display = "block";
+            profileEditMode.style.display = "none";
+        });
+
+        document.getElementById('my-profile-trigger').addEventListener('click', () => {
+            if(currentUser) openProfile(currentUser.uid);
+        });
+
+        document.getElementById('add-image-btn').addEventListener('click', () => {
+            const url = prompt("Enter image URL:");
+            if (url) document.execCommand('insertImage', false, url);
+        });
+
+        // Theme Logic
+        const themeMenu = document.getElementById('theme-menu');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        function applyTheme(theme) {
+            if (theme === 'dark') document.body.classList.add('dark-mode');
+            else document.body.classList.remove('dark-mode');
+        }
+        
+        themeMenu.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = e.target.closest('a[data-theme]');
+            if (!target) return;
+            const newTheme = target.getAttribute('data-theme');
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+            target.closest('.dropdown-menu').classList.remove('show');
+        });
+        
+        const savedTheme = localStorage.getItem('theme') || 'auto';
+        if (savedTheme === 'auto') {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+        } else {
+            applyTheme(savedTheme);
+        }
+
+        // Dropdowns
+        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const menu = toggle.nextElementSibling;
+                document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                    if (openMenu !== menu) openMenu.classList.remove('show');
+                });
+                menu.classList.toggle('show');
+            });
+        });
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+        });
+        
+        // Mobile Menu
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        hamburgerMenu.addEventListener('click', () => mobileMenu.classList.add('open'));
+        mobileMenuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
 
     </script>
 </body>

@@ -436,63 +436,161 @@
         <div class="header-left">
             <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
             <a href="#" class="logo">Liketube</a>
-            <nav class="nav-links">
-                <a href="#" class="active-nav-link" data-key="nav_home">Home</a>
-                <a href="#" data-key="nav_posts">Posts</a>
-                <a href="#" data-key="nav_ping">Ping</a>
-                <a href="Download" data-key="nav_download">Download</a>
-            </nav>
         </div>
 
         <div class="header-center">
+            <nav class="nav-links">
+                <a href="#" class="active-nav-link"><img src="#" alt="" class="nav-icon"> Posts</a>
+                <a href="#"><img src="#" alt="" class="nav-icon"> Videos</a>
+                <a href="#"><img src="#" alt="" class="nav-icon"> Communities</a>
+                <a href="#"><img src="#" alt="" class="nav-icon"> People</a>
+                <a href="#"><img src="#" alt="" class="nav-icon"> Business</a>
+                <a href="#"><img src="#" alt="" class="nav-icon"> Fun & Games</a>
+            </nav>
+        </div>
+
+        <div class="header-right">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search..." data-key="search_placeholder">
             </div>
-        </div>
-
-        <div class="header-right">
+            
             <div class="user-controls">
-                <!-- User Profile Trigger -->
-                <div class="user-profile-header" id="my-profile-trigger">
+                <!-- Profile Menu Trigger -->
+                <div class="user-profile-header" id="profile-menu-trigger">
                     <div class="user-avatar-small">
-                        <img src="https://picsum.photos/50/50" alt="Me" id="header-avatar-img">
+                        <img src="" id="header-avatar-img" alt="Profile">
                     </div>
-                    <span class="user-name-header" id="header-username">Loading...</span>
                 </div>
 
-                <div class="dropdown">
-                    <button class="dropdown-toggle" id="theme-toggle-btn"><i class="fas fa-sun" id="theme-icon"></i></button>
-                    <div class="dropdown-menu" id="theme-menu">
-                        <a href="#" data-theme="light"><i class="fas fa-sun fa-fw"></i> Light</a>
-                        <a href="#" data-theme="dark"><i class="fas fa-moon fa-fw"></i> Dark</a>
-                        <a href="#" data-theme="auto"><i class="fas fa-magic fa-fw"></i> Auto</a>
+                <!-- Profile/Settings Dropdown (New) -->
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div class="dropdown-section">
+                        <h4 data-key="section_profile">Profile</h4>
+                        <div class="menu-item" id="menu-view-profile">
+                            <i class="fas fa-user"></i> <span id="menu-username">Name</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-section">
+                        <h4 data-key="section_settings">Settings</h4>
+                        <div class="menu-item" id="menu-theme-toggle">
+                            <i class="fas fa-moon"></i> <span data-key="theme_label">Theme</span>
+                        </div>
+                        <div class="menu-item" id="menu-lang-toggle">
+                            <i class="fas fa-globe"></i> <span data-key="lang_label">Language</span>
+                        </div>
+                        <div class="menu-item" id="menu-logout">
+                            <i class="fas fa-sign-out-alt"></i> <span data-key="logout_label">Log Out</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Secondary Nav -->
-    <nav class="category-nav">
-        <a href="#" class="cat-link active">Posts</a>
-        <a href="#" class="cat-link">Videos</a>
-        <a href="#" class="cat-link">Communities</a>
-        <a href="#" class="cat-link">People</a>
-        <a href="#" class="cat-link">Business</a>
-        <a href="#" class="cat-link">Fun & Games</a>
-    </nav>
+    <!-- Secondary Navbar -->
+    <div class="secondary-navbar">
+        <div class="sub-nav-links">
+            <a href="#" class="active" data-key="feed_new">New To You</a>
+            <a href="#" data-key="feed_foryou">For You</a>
+            <a href="#" data-key="feed_followers">Followers</a>
+        </div>
+        <div class="view-controls">
+            <button class="sub-nav-btn active" id="view-feed-btn" data-key="view_feed">Feed</button>
+            <button class="sub-nav-btn" id="view-create-btn" data-key="view_create">Post Creator</button>
+        </div>
+    </div>
+
+    <style>
+        /* --- New Styles for Refactored Header & Sub-Nav --- */
+        .nav-icon { width: 16px; height: 16px; margin-right: 5px; background-color: #ccc; border-radius: 2px; display: inline-block; vertical-align: middle; }
+        
+        .secondary-navbar {
+            background-image: var(--header-bg);
+            padding: 0.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--header-border);
+            color: var(--header-text);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .sub-nav-links { display: flex; gap: 1.5rem; }
+        .sub-nav-links a {
+            color: var(--header-text);
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            font-size: 0.95rem;
+        }
+        .sub-nav-links a:hover, .sub-nav-links a.active { opacity: 1; font-weight: 700; text-decoration: underline; }
+
+        .view-controls { display: flex; gap: 10px; }
+        .sub-nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--header-text);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .sub-nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .sub-nav-btn.active { background: var(--header-text); color: var(--primary-blue); font-weight: bold; border-color: var(--header-text); }
+
+        /* Profile Dropdown (Liketube Theme) */
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            width: 250px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1100;
+            border: 1px solid var(--input-border);
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .profile-dropdown.show { display: block; }
+        
+        .dropdown-section { padding: 10px; }
+        .dropdown-section h4 { margin: 0 0 5px 10px; font-size: 0.8rem; color: var(--text-color-secondary); text-transform: uppercase; }
+        .dropdown-divider { height: 1px; background-color: var(--input-border); margin: 0; }
+        
+        .menu-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .menu-item:hover { background-color: var(--hover-bg); }
+        .menu-item i { width: 20px; text-align: center; color: var(--primary-blue); }
+
+        /* Adjustments for Mobile */
+        @media (max-width: 768px) {
+            .secondary-navbar { padding: 0.5rem 1rem; flex-direction: column; gap: 10px; }
+            .sub-nav-links { width: 100%; justify-content: space-around; }
+            .view-controls { width: 100%; justify-content: center; }
+            .header-center { display: none; } /* Hide categories on mobile header */
+        }
+    </style>
 
     <!-- Main Content -->
     <div class="main-layout">
         <div class="feed-container">
             
-            <!-- View Switcher -->
-            <div class="view-switcher">
-                <button class="view-btn active" id="view-feed-btn">Feed</button>
-                <button class="view-btn" id="view-create-btn">Create Post</button>
-            </div>
-
             <!-- Post Creator (Hidden by default unless toggled) -->
             <div class="post-creator" id="post-creator-area">
                 <div class="pc-header">Create Post</div>
@@ -623,8 +721,17 @@
         const modalBanner = document.getElementById('modal-banner');
         const modalStatusDot = document.getElementById('modal-status-dot');
         const editProfileBtnContainer = document.getElementById('edit-profile-btn-container');
+        
+        // New Menu Elements
+        const profileMenuTrigger = document.getElementById('profile-menu-trigger');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const menuViewProfile = document.getElementById('menu-view-profile');
+        const menuThemeToggle = document.getElementById('menu-theme-toggle');
+        const menuLangToggle = document.getElementById('menu-lang-toggle');
+        const menuLogout = document.getElementById('menu-logout');
+        const menuUsername = document.getElementById('menu-username');
 
-        // --- View Switcher Logic ---
+        // --- View Switcher Logic (Updated for Sub-Nav) ---
         viewFeedBtn.addEventListener('click', () => {
             viewFeedBtn.classList.add('active');
             viewCreateBtn.classList.remove('active');
@@ -639,6 +746,49 @@
             postCreator.classList.add('active');
         });
 
+        // --- Profile Menu Logic ---
+        profileMenuTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('show');
+        });
+
+        window.addEventListener('click', () => {
+            profileDropdown.classList.remove('show');
+        });
+        
+        profileDropdown.addEventListener('click', (e) => e.stopPropagation());
+
+        menuViewProfile.addEventListener('click', () => {
+            profileDropdown.classList.remove('show');
+            if(currentUser) openProfile(currentUser.uid);
+        });
+
+        menuLogout.addEventListener('click', () => {
+            signOut(auth).then(() => window.location.href = 'index.html');
+        });
+
+        // Theme Toggle (Simple Cycle)
+        menuThemeToggle.addEventListener('click', () => {
+            const current = localStorage.getItem('theme') || 'auto';
+            let next = 'light';
+            if(current === 'light') next = 'dark';
+            else if(current === 'dark') next = 'auto';
+            
+            localStorage.setItem('theme', next);
+            applyTheme(next);
+            // Update icon/text if needed, for now just functional
+        });
+
+        // Lang Toggle (Simple Cycle)
+        menuLangToggle.addEventListener('click', () => {
+            const current = localStorage.getItem('language') || 'en';
+            const next = current === 'en' ? 'ar' : 'en';
+            // Assuming setLanguage is available globally or we re-implement simplified version
+            localStorage.setItem('language', next);
+            location.reload(); // Simple reload to apply lang
+        });
+
+
         // --- Auth & Profile Logic ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -651,12 +801,13 @@
                         myProfileData = docSnap.data();
                         updateHeaderProfile(myProfileData);
                     } else {
-                        // Create default if missing
+                        // Create default "Anonymous" profile
                         const defaultData = {
-                            displayName: user.displayName || user.email.split('@')[0],
+                            displayName: "Anonymous",
                             email: user.email,
-                            photoURL: "https://picsum.photos/200",
-                            bannerURL: "https://picsum.photos/600/200",
+                            // Generic placeholder for "without-like" look
+                            photoURL: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
+                            bannerURL: "https://via.placeholder.com/600x200/cccccc/999999?text=No+Banner",
                             bio: "Hello, I am new here!",
                             status: "active",
                             statusMsg: "Just joined Liketube!"
@@ -672,8 +823,10 @@
         });
 
         function updateHeaderProfile(data) {
-            document.getElementById('header-username').textContent = data.displayName;
+            // Update Header
             document.getElementById('header-avatar-img').src = data.photoURL;
+            // Update Menu
+            menuUsername.textContent = data.displayName;
         }
 
         // --- Post Logic ---

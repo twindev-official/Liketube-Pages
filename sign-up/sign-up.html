@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup - Liketube</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="#">
@@ -148,7 +147,6 @@
         .btn-submit-login { background-image: var(--btn-login-bg); border: 1px solid var(--btn-login-border); color: var(--btn-login-text); }
         .btn-submit-signup { background-image: var(--btn-signup-bg); color: white; border: 1px solid var(--btn-signup-border); }
         
-        /* Disabled State: Brighter and Unclickable */
         .btn-submit-login:disabled, .btn-submit-signup:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -158,7 +156,7 @@
 
         .msg-box { margin-top: 1rem; padding: 10px; border-radius: 4px; font-size: 0.9rem; display: none; font-weight: bold; }
         .error-msg { background-color: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #dc3545; }
-        .success-msg { background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745; margin-top: 1rem; }
+        .success-msg { background-color: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745; display: none; margin-top: 1rem; }
         .auth-toggle-text { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-color-secondary); }
         .auth-toggle-link { color: var(--primary-blue); font-weight: bold; text-decoration: underline; cursor: pointer; }
         a.auth-toggle-link:hover { color: var(--primary-blue-hover); }
@@ -178,10 +176,10 @@
             <input type="text" placeholder="Search for people, posts, groups..." data-key="search_placeholder">
         </div>
         <nav class="mobile-nav-links">
-            <a href="#" data-key="nav_home">Home</a>
+            <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home">Home</a>
             <a href="#" data-key="nav_posts">Posts</a>
             <a href="#" data-key="nav_ping">Ping</a>
-            <a href="Download" data-key="nav_download">Download</a>
+            <a href="../Download" data-key="nav_download">Download</a>
         </nav>
     </div>
 
@@ -189,12 +187,12 @@
     <header class="header">
         <div class="header-left">
             <i class="fas fa-bars hamburger-menu" id="hamburger-menu"></i>
-            <a href="index.html" class="logo">Liketube</a>
+            <a href="https://twindev-official.github.io/Liketube-Pages/" class="logo">Liketube</a>
             <nav class="nav-links">
-                <a href="#" data-key="nav_home">Home</a>
+                <a href="https://twindev-official.github.io/Liketube-Pages/" data-key="nav_home">Home</a>
                 <a href="#" data-key="nav_posts">Posts</a>
                 <a href="#" data-key="nav_ping">Ping</a>
-                <a href="Download" data-key="nav_download">Download</a>
+                <a href="../Download" data-key="nav_download">Download</a>
             </nav>
         </div>
 
@@ -228,8 +226,8 @@
                     </div>
                 </div>
 
-                <a href="index.html" class="btn btn-login" data-key="btn_login">Login</a>
-                <a href="signup.html" class="btn btn-disabled-style" data-key="btn_signup">Signup</a>
+                <a href="../login/index.html" class="btn btn-login" data-key="btn_login">Login</a>
+                <a href="index.html" class="btn btn-disabled-style" data-key="btn_signup">Signup</a>
             </div>
         </div>
     </header>
@@ -253,7 +251,6 @@
                         [dir="rtl"] #toggle-password { right: auto; left: 15px; }
                     </style>
                 </div>
-                <!-- Disabled by default -->
                 <button type="submit" id="btn-submit" class="btn-full btn-submit-signup" data-key="btn_signup_action" disabled>Create Account</button>
             </form>
 
@@ -262,7 +259,7 @@
 
             <div class="auth-toggle-text">
                 <span id="toggle-text" data-key="have_account_text">Already have an account?</span>
-                <a href="index.html" class="auth-toggle-link" data-key="toggle_login">Login</a>
+                <a href="../login/index.html" class="auth-toggle-link" data-key="toggle_login">Login</a>
             </div>
         </div>
     </main>
@@ -273,23 +270,20 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+        // Using the exact working Firebase config from your login page
         const firebaseConfig = {
-            apiKey: "AIzaSyB3sD90sRQcKyDGa3YSdzacO2Ixxu9SgGI",
-            authDomain: "liketube-database.firebaseapp.com",
-            databaseURL: "https://liketube-database-default-rtdb.firebaseio.com",
-            projectId: "liketube-database",
-            storageBucket: "liketube-database.firebasestorage.app",
-            messagingSenderId: "328915578966",
-            appId: "1:328915578966:web:ea47dbe233d55add864bf7"
+          apiKey: "AIzaSyDItGuxXkX0SbwJUbgOcXwbs-DdWk-Iegw",
+          authDomain: "liketube-82d69.firebaseapp.com",
+          projectId: "liketube-82d69",
+          storageBucket: "liketube-82d69.firebasestorage.app",
+          messagingSenderId: "327169877918",
+          appId: "1:327169877918:web:b6c770809a79487a8f988f",
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = 'liketube-web';
 
         document.addEventListener('DOMContentLoaded', () => {
             
@@ -355,26 +349,17 @@
 
                 try {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
                     
-                    try {
-                        // Ensure your Firestore rules allow writes to this specific document path
-                        await setDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'info'), {
-                            displayName: displayName,
-                            email: email,
-                            createdAt: new Date().toISOString(),
-                            role: 'user'
-                        });
-                    } catch (docError) { 
-                        console.error("Profile creation failed:", docError); 
-                        // Note: Even if Firestore fails, the auth user is successfully created. 
-                    }
+                    // Attach Display Name directly to Firebase Auth Profile
+                    await updateProfile(userCredential.user, {
+                        displayName: displayName
+                    });
 
                     successMsg.textContent = "Account created successfully!";
                     successMsg.style.display = 'block';
                     
                     setTimeout(() => {
-                        window.location.href = '#'; 
+                        window.location.href = '../posts/index.html'; 
                     }, 1500);
 
                 } catch (error) {

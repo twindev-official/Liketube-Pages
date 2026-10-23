@@ -38,6 +38,7 @@
             --card-bg: #ffffff;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
             --input-border: #ccc;
+            --addon-bg: #f0f4f9;
         }
         .dark-mode {
             --bg-color: #1a2233;
@@ -69,11 +70,12 @@
             --card-bg: #2c2c2c;
             --card-shadow: 0 4px 12px rgba(0,0,0,0.4);
             --input-border: #555;
+            --addon-bg: #3a3a3a;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { width: 100%; min-width: 100%; overflow-x: clip; height: 100%; }
         body { font-family: 'Tahoma', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; display: flex; flex-direction: column; }
-        [dir="rtl"] body, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] .mobile-search-bar input { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
+        [dir="rtl"] body, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] select, [dir="rtl"] .mobile-search-bar input { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
         @keyframes fadeAndSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
         
@@ -139,12 +141,20 @@
         .mobile-search-bar i { color: #888; margin-right: 0.5rem; }
         .mobile-search-bar input { border: none; background: transparent; outline: none; width: 100%; color: var(--text-color); font-family: 'Tahoma', sans-serif; font-size: 0.9rem; }
         .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; }
-        .login-card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 8px; box-shadow: var(--card-shadow); width: 100%; max-width: 420px; text-align: center; animation: fadeAndSlideUp 0.6s ease-out; }
+        .login-card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 8px; box-shadow: var(--card-shadow); width: 100%; max-width: 440px; text-align: center; animation: fadeAndSlideUp 0.6s ease-out; }
         .login-card h2 { margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--text-color); }
         .form-group { margin-bottom: 1.2rem; text-align: left; }
         [dir="rtl"] .form-group { text-align: right; }
         .form-control { width: 100%; padding: 0.9rem; border: 1px solid var(--input-border); border-radius: 4px; background-color: var(--bg-color); color: var(--text-color); font-family: inherit; font-size: 1rem; outline: none; }
         .form-control:focus { border-color: var(--primary-blue); }
+        
+        /* Input Group with domain addon */
+        .input-group { display: flex; align-items: center; width: 100%; }
+        .input-group .form-control { border-top-right-radius: 0; border-bottom-right-radius: 0; flex: 1; }
+        .input-group-addon { background-color: var(--addon-bg); border: 1px solid var(--input-border); border-left: none; padding: 0.9rem; font-size: 0.9rem; font-weight: bold; color: var(--text-color-secondary); border-top-right-radius: 4px; border-bottom-right-radius: 4px; white-space: nowrap; user-select: none; }
+        [dir="rtl"] .input-group .form-control { border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+        [dir="rtl"] .input-group-addon { border-left: 1px solid var(--input-border); border-right: none; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+
         .btn-full { width: 100%; padding: 0.8rem; font-size: 1.1rem; margin-top: 1rem; font-weight: bold; cursor: pointer; border-radius: 4px; }
         .btn-submit-login { background-image: var(--btn-login-bg); border: 1px solid var(--btn-login-border); color: var(--btn-login-text); }
         .btn-submit-signup { background-image: var(--btn-signup-bg); color: white; border: 1px solid var(--btn-signup-border); }
@@ -249,12 +259,27 @@
                 <h2 id="form-title" data-key="create_account_title">Create Account</h2>
                 
                 <form id="auth-form">
+                    <!-- Account Type Selection -->
+                    <div class="form-group">
+                        <select id="account-type" class="form-control">
+                            <option value="personal" data-key="account_type_personal">Personal Account (@liketube.com)</option>
+                            <option value="business" data-key="account_type_business">Business Account (@_______.___)</option>
+                            <option value="education" data-key="account_type_education">Education Account (@_______.___)</option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <input type="text" id="display-name" class="form-control" placeholder="Display Name" required>
                     </div>
+
+                    <!-- Email Field with Dynamic Addon -->
                     <div class="form-group">
-                        <input type="email" id="email" class="form-control" placeholder="Email Address" required>
+                        <div class="input-group">
+                            <input type="text" id="email" class="form-control" placeholder="Username" required>
+                            <span id="domain-addon" class="input-group-addon">@liketube.com</span>
+                        </div>
                     </div>
+
                     <div class="form-group" style="position: relative;">
                         <input type="password" id="password" class="form-control" placeholder="Password" required>
                         <i class="fas fa-eye" id="toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;"></i>
@@ -262,6 +287,7 @@
                             [dir="rtl"] #toggle-password { right: auto; left: 15px; }
                         </style>
                     </div>
+
                     <button type="submit" id="btn-submit" class="btn-full btn-submit-signup" data-key="btn_signup_action" disabled>Create Account</button>
                 </form>
 
@@ -303,6 +329,13 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // Define distinct redirect URLs for each account type
+        const redirectTargets = {
+            personal: "#",
+            education: "#education",
+            business: "#business"
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             
             // --- Mobile Menu ---
@@ -331,9 +364,29 @@
                 togglePassword.classList.toggle('fa-eye-slash');
             });
 
+            // --- Account Type Selector & Email Formatting ---
+            const accountTypeSelect = document.getElementById('account-type');
+            const emailInput = document.getElementById('email');
+            const domainAddon = document.getElementById('domain-addon');
+
+            function updateAccountTypeView() {
+                const type = accountTypeSelect.value;
+                if (type === 'personal') {
+                    domainAddon.style.display = 'inline-flex';
+                    emailInput.placeholder = "Username";
+                } else {
+                    domainAddon.style.display = 'none';
+                    emailInput.placeholder = "Email Address (e.g. name@domain.com)";
+                }
+            }
+
+            accountTypeSelect.addEventListener('change', () => {
+                updateAccountTypeView();
+                validateInputs();
+            });
+
             // --- Button Validation ---
             const displayNameInput = document.getElementById('display-name');
-            const emailInput = document.getElementById('email');
             const btnSubmit = document.getElementById('btn-submit');
 
             function validateInputs() {
@@ -356,10 +409,18 @@
 
             authForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const displayName = displayNameInput.value;
-                const email = emailInput.value;
+                const selectedType = accountTypeSelect.value;
+                const displayName = displayNameInput.value.trim();
+                let email = emailInput.value.trim();
                 const password = passwordInput.value;
                 const originalBtnText = btnSubmit.innerText;
+
+                // Format personal email to force @liketube.com
+                if (selectedType === 'personal') {
+                    if (!email.includes('@')) {
+                        email += '@liketube.com';
+                    }
+                }
                 
                 errorMsg.style.display = 'none';
                 btnSubmit.disabled = true;
@@ -376,9 +437,10 @@
                     formView.style.display = 'none';
                     successScreen.style.display = 'block';
                     
-                    // Redirect to # after 1.5s
+                    // Redirect to corresponding href target
+                    const targetHref = redirectTargets[selectedType] || "#";
                     setTimeout(() => {
-                        window.location.href = '#'; 
+                        window.location.href = targetHref; 
                     }, 1500);
 
                 } catch (error) {
@@ -386,8 +448,8 @@
                     errorMsg.style.display = 'block';
                     
                     let message = error.message;
-                    if(error.code === 'auth/invalid-email') message = "Invalid email address.";
-                    if(error.code === 'auth/email-already-in-use') message = "Email already in use.";
+                    if(error.code === 'auth/invalid-email') message = "Invalid email address format.";
+                    if(error.code === 'auth/email-already-in-use') message = "Email/Username already in use.";
                     if(error.code === 'auth/weak-password') message = "Password should be at least 6 characters.";
                     
                     errorMsg.textContent = message;
@@ -409,6 +471,9 @@
                     lang_en: "English", lang_ar: "Arabic", footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved.",
                     create_account_title: "Create Account", btn_login: "Login", btn_signup: "Signup", btn_signup_action: "Create Account",
                     have_account_text: "Already have an account?", toggle_login: "Login",
+                    account_type_personal: "Personal Account (@liketube.com)",
+                    account_type_business: "Business Account (@_______.___)",
+                    account_type_education: "Education Account (@_______.___)",
                     success_title: "Account Created!", success_subtext: "Redirecting..."
                 },
                 ar: {
@@ -417,6 +482,9 @@
                     lang_en: "الإنجليزية", lang_ar: "العربية", footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة.",
                     create_account_title: "إنشاء حساب", btn_login: "تسجيل الدخول", btn_signup: "إنشاء حساب", btn_signup_action: "إنشاء حساب",
                     have_account_text: "لديك حساب بالفعل؟", toggle_login: "دخول",
+                    account_type_personal: "حساب شخصي (@liketube.com)",
+                    account_type_business: "حساب تجاري (@_______.___)",
+                    account_type_education: "حساب تعليمي (@_______.___)",
                     success_title: "تم إنشاء الحساب!", success_subtext: "جاري إعادة التوجيه..."
                 }
             };

@@ -75,7 +75,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { width: 100%; min-width: 100%; overflow-x: clip; height: 100%; }
         body { font-family: 'Tahoma', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; display: flex; flex-direction: column; }
-        [dir="rtl"] body, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] select, [dir="rtl"] .mobile-search-bar input { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
+        [dir="rtl"] body, [dir="rtl"] .btn, [dir="rtl"] input, [dir="rtl"] .mobile-search-bar input { font-family: 'Tajawal', 'Tahoma', sans-serif; line-height: 1.7; }
         @keyframes fadeAndSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
         
@@ -109,16 +109,30 @@
         .user-controls > *:nth-child(2) { animation-delay: 0.5s; }
         .user-controls > *:nth-child(3) { animation-delay: 0.6s; }
         .user-controls > *:nth-child(4) { animation-delay: 0.7s; }
+        
         .dropdown { position: relative; }
         .dropdown-toggle { background: none; border: none; cursor: pointer; color: var(--header-text); font-size: 1.2rem; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease, color 0.2s ease; }
         .lang-toggle { font-size: 0.9rem; font-weight: 500; }
         .dropdown-toggle:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--header-text); }
-        .dropdown-menu { display: none; position: absolute; right: 0; top: 50px; background-color: var(--dropdown-bg); min-width: 140px; box-shadow: var(--dropdown-shadow); z-index: 1; border-radius: 4px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease; }
+        
+        /* Universal Dropdown styling shared by Header and Account Type popup */
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 50px; background-color: var(--dropdown-bg); min-width: 140px; box-shadow: var(--dropdown-shadow); z-index: 10; border-radius: 4px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease; }
         .dropdown-menu.show { display: block; opacity: 1; visibility: visible; transform: translateY(0); }
         [dir="rtl"] .dropdown-menu { right: auto; left: 0; }
-        .dropdown-menu a { color: var(--text-color); padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.9rem; transition: background-color 0.2s; }
+        .dropdown-menu a { color: var(--text-color); padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.9rem; transition: background-color 0.2s; text-align: left; }
+        [dir="rtl"] .dropdown-menu a { text-align: right; }
         .dropdown-menu a:hover { background-color: var(--dropdown-hover); }
         .dropdown-menu a.active { background-color: var(--primary-blue); color: white; }
+        
+        /* Form Account Type Selector Styles */
+        .account-selector-container { text-align: right; margin-bottom: 1.2rem; margin-top: 0.5rem; position: relative; }
+        [dir="rtl"] .account-selector-container { text-align: left; }
+        .account-type-trigger { cursor: pointer; font-size: 0.95rem; color: var(--text-color); font-weight: bold; display: inline-flex; align-items: center; gap: 6px; user-select: none; transition: opacity 0.2s; }
+        .account-type-trigger:hover { opacity: 0.8; }
+        .account-type-trigger i { font-size: 0.75rem; }
+        .account-type-popup { top: auto; bottom: 120%; margin-bottom: 5px; right: 0; min-width: 220px; }
+        [dir="rtl"] .account-type-popup { right: auto; left: 0; }
+
         .btn { border: none; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 700; font-family: 'Tahoma', sans-serif; text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease; }
         .btn-disabled-style { background: #b0b3b8 !important; background-image: none !important; border: 1px solid #999 !important; color: #444 !important; cursor: default; pointer-events: none; }
         .dark-mode .btn-disabled-style { background: #4a4a4a !important; border: 1px solid #333 !important; color: #ccc !important; }
@@ -140,6 +154,7 @@
         .mobile-search-bar { width: 100%; display: flex; align-items: center; background-color: var(--search-bg); border: 1px solid var(--search-border); border-radius: 4px; padding: 0.5rem 1rem; transition: background-color 0.3s, border-color 0.3s; }
         .mobile-search-bar i { color: #888; margin-right: 0.5rem; }
         .mobile-search-bar input { border: none; background: transparent; outline: none; width: 100%; color: var(--text-color); font-family: 'Tahoma', sans-serif; font-size: 0.9rem; }
+        
         .main-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 2rem; }
         .login-card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 8px; box-shadow: var(--card-shadow); width: 100%; max-width: 440px; text-align: center; animation: fadeAndSlideUp 0.6s ease-out; }
         .login-card h2 { margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--text-color); }
@@ -155,17 +170,11 @@
         [dir="rtl"] .input-group .form-control { border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
         [dir="rtl"] .input-group-addon { border-left: 1px solid var(--input-border); border-right: none; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 0; border-bottom-right-radius: 0; }
 
-        .btn-full { width: 100%; padding: 0.8rem; font-size: 1.1rem; margin-top: 1rem; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .btn-full { width: 100%; padding: 0.8rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 4px; }
         .btn-submit-login { background-image: var(--btn-login-bg); border: 1px solid var(--btn-login-border); color: var(--btn-login-text); }
         .btn-submit-signup { background-image: var(--btn-signup-bg); color: white; border: 1px solid var(--btn-signup-border); }
         
-        .btn-submit-login:disabled, .btn-submit-signup:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            filter: brightness(1.3);
-            pointer-events: none;
-        }
-
+        .btn-submit-login:disabled, .btn-submit-signup:disabled { opacity: 0.6; cursor: not-allowed; filter: brightness(1.3); pointer-events: none; }
         .msg-box { margin-top: 1rem; padding: 10px; border-radius: 4px; font-size: 0.9rem; display: none; font-weight: bold; }
         .error-msg { background-color: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #dc3545; }
         .auth-toggle-text { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-color-secondary); }
@@ -259,15 +268,6 @@
                 <h2 id="form-title" data-key="create_account_title">Create Account</h2>
                 
                 <form id="auth-form">
-                    <!-- Account Type Selection -->
-                    <div class="form-group">
-                        <select id="account-type" class="form-control">
-                            <option value="personal" data-key="account_type_personal">Personal Account (@liketube.com)</option>
-                            <option value="business" data-key="account_type_business">Business Account (@_______.___)</option>
-                            <option value="education" data-key="account_type_education">Education Account (@_______.___)</option>
-                        </select>
-                    </div>
-
                     <div class="form-group">
                         <input type="text" id="display-name" class="form-control" placeholder="Display Name" required>
                     </div>
@@ -280,12 +280,27 @@
                         </div>
                     </div>
 
-                    <div class="form-group" style="position: relative;">
+                    <div class="form-group" style="position: relative; margin-bottom: 0;">
                         <input type="password" id="password" class="form-control" placeholder="Password" required>
                         <i class="fas fa-eye" id="toggle-password" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;"></i>
                         <style>
                             [dir="rtl"] #toggle-password { right: auto; left: 15px; }
                         </style>
+                    </div>
+
+                    <!-- Custom Account Type Selector placed directly beneath password -->
+                    <div class="account-selector-container">
+                        <span id="account-type-trigger" class="account-type-trigger">
+                            <i class="fas fa-chevron-up"></i>
+                            <span id="selected-type-name" data-key="account_type_personal_text">Personal Account</span>
+                        </span>
+                        
+                        <!-- The popup uses the global dropdown-menu styling but overridden position -->
+                        <div id="account-type-popup" class="dropdown-menu account-type-popup">
+                            <a href="#" data-type="personal" data-key="account_type_personal_text">Personal Account</a>
+                            <a href="#" data-type="business" data-key="account_type_business_text">Business Account</a>
+                            <a href="#" data-type="education" data-key="account_type_education_text">Education Account</a>
+                        </div>
                     </div>
 
                     <button type="submit" id="btn-submit" class="btn-full btn-submit-signup" data-key="btn_signup_action" disabled>Create Account</button>
@@ -329,7 +344,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Define distinct redirect URLs for each account type
+        let currentAccountType = 'personal';
         const redirectTargets = {
             personal: "#",
             education: "#education",
@@ -343,15 +358,8 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileMenuClose = document.getElementById('mobile-menu-close');
 
-            hamburgerMenu.addEventListener('click', () => {
-                mobileMenu.classList.add('open');
-                document.body.style.overflow = 'hidden'; 
-            });
-
-            mobileMenuClose.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                document.body.style.overflow = '';
-            });
+            hamburgerMenu.addEventListener('click', () => { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; });
+            mobileMenuClose.addEventListener('click', () => { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; });
 
             // --- Password Toggle ---
             const togglePassword = document.getElementById('toggle-password');
@@ -364,25 +372,52 @@
                 togglePassword.classList.toggle('fa-eye-slash');
             });
 
-            // --- Account Type Selector & Email Formatting ---
-            const accountTypeSelect = document.getElementById('account-type');
+            // --- Custom Account Type Selector Logic ---
+            const accountTypeTrigger = document.getElementById('account-type-trigger');
+            const accountTypePopup = document.getElementById('account-type-popup');
+            const selectedTypeName = document.getElementById('selected-type-name');
             const emailInput = document.getElementById('email');
             const domainAddon = document.getElementById('domain-addon');
 
+            accountTypeTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Close other global dropdowns before opening
+                document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
+                    if (openMenu !== accountTypePopup) openMenu.classList.remove('show');
+                });
+                accountTypePopup.classList.toggle('show');
+            });
+
             function updateAccountTypeView() {
-                const type = accountTypeSelect.value;
-                if (type === 'personal') {
+                const lang = localStorage.getItem('language') || 'en';
+                if (currentAccountType === 'personal') {
                     domainAddon.style.display = 'inline-flex';
-                    emailInput.placeholder = "Username";
+                    emailInput.placeholder = translations[lang]['username_placeholder'];
                 } else {
                     domainAddon.style.display = 'none';
-                    emailInput.placeholder = "Email Address (e.g. name@domain.com)";
+                    emailInput.placeholder = translations[lang]['email_placeholder'];
                 }
             }
 
-            accountTypeSelect.addEventListener('change', () => {
-                updateAccountTypeView();
-                validateInputs();
+            accountTypePopup.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('a[data-type]');
+                if (target) {
+                    currentAccountType = target.getAttribute('data-type');
+                    
+                    // Update Text Display
+                    const lang = localStorage.getItem('language') || 'en';
+                    const key = target.getAttribute('data-key');
+                    if(translations[lang] && translations[lang][key]) {
+                        selectedTypeName.innerText = translations[lang][key];
+                    } else {
+                        selectedTypeName.innerText = target.innerText;
+                    }
+
+                    updateAccountTypeView();
+                    accountTypePopup.classList.remove('show');
+                    validateInputs();
+                }
             });
 
             // --- Button Validation ---
@@ -409,14 +444,13 @@
 
             authForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const selectedType = accountTypeSelect.value;
                 const displayName = displayNameInput.value.trim();
                 let email = emailInput.value.trim();
                 const password = passwordInput.value;
                 const originalBtnText = btnSubmit.innerText;
 
                 // Format personal email to force @liketube.com
-                if (selectedType === 'personal') {
+                if (currentAccountType === 'personal') {
                     if (!email.includes('@')) {
                         email += '@liketube.com';
                     }
@@ -437,8 +471,8 @@
                     formView.style.display = 'none';
                     successScreen.style.display = 'block';
                     
-                    // Redirect to corresponding href target
-                    const targetHref = redirectTargets[selectedType] || "#";
+                    // Redirect to corresponding target
+                    const targetHref = redirectTargets[currentAccountType] || "#";
                     setTimeout(() => {
                         window.location.href = targetHref; 
                     }, 1500);
@@ -471,9 +505,11 @@
                     lang_en: "English", lang_ar: "Arabic", footer_text: "© 2025 Liketube. Developed by Twindev. All rights reserved.",
                     create_account_title: "Create Account", btn_login: "Login", btn_signup: "Signup", btn_signup_action: "Create Account",
                     have_account_text: "Already have an account?", toggle_login: "Login",
-                    account_type_personal: "Personal Account",
-                    account_type_business: "Business Account",
-                    account_type_education: "Education Account",
+                    account_type_personal_text: "Personal Account",
+                    account_type_business_text: "Business Account",
+                    account_type_education_text: "Education Account",
+                    username_placeholder: "Username",
+                    email_placeholder: "Email Address (e.g. name@domain.com)",
                     success_title: "Account Created!", success_subtext: "Redirecting..."
                 },
                 ar: {
@@ -482,9 +518,11 @@
                     lang_en: "الإنجليزية", lang_ar: "العربية", footer_text: "© 2025  لايكتيوب. مصنوع من توين ديف. جميع الحقوق محفوظة.",
                     create_account_title: "إنشاء حساب", btn_login: "تسجيل الدخول", btn_signup: "إنشاء حساب", btn_signup_action: "إنشاء حساب",
                     have_account_text: "لديك حساب بالفعل؟", toggle_login: "دخول",
-                    account_type_personal: "حساب شخصي",
-                    account_type_business: "حساب تجاري",
-                    account_type_education: "حساب تعليمي",
+                    account_type_personal_text: "حساب شخصي",
+                    account_type_business_text: "حساب تجاري",
+                    account_type_education_text: "حساب تعليمي",
+                    username_placeholder: "اسم المستخدم",
+                    email_placeholder: "البريد الإلكتروني",
                     success_title: "تم إنشاء الحساب!", success_subtext: "جاري إعادة التوجيه..."
                 }
             };
@@ -495,17 +533,30 @@
                 if (!translations[lang]) lang = 'en';
                 document.documentElement.lang = lang;
                 document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                
+                // Update specific placeholders based on current mode
+                updateAccountTypeView();
+
                 document.querySelectorAll('[data-key]').forEach(el => {
                     const key = el.getAttribute('data-key');
                     if (translations[lang][key]) {
-                        if(el.tagName === 'INPUT') el.placeholder = translations[lang][key];
+                        if(el.tagName === 'INPUT') {
+                            // Handled by updateAccountTypeView for email
+                            if(el.id !== 'email') el.placeholder = translations[lang][key];
+                        }
                         else el.innerText = translations[lang][key];
                     }
                 });
+                
+                // Keep icon in the trigger text
+                selectedTypeName.innerHTML = translations[lang][selectedTypeName.getAttribute('data-key')] || selectedTypeName.innerText;
+                
                 langToggleBtn.textContent = lang.toUpperCase();
                 localStorage.setItem('language', lang);
             }
-            setLanguage(localStorage.getItem('language') || 'en');
+            
+            // Initialize language but make sure view matches it
+            setTimeout(() => setLanguage(localStorage.getItem('language') || 'en'), 0);
 
             langMenu.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -551,7 +602,7 @@
                 target.closest('.dropdown-menu').classList.remove('show');
             });
 
-            // Dropdowns
+            // Global Dropdown Click Listener (Handles Top-Nav and Account Selector)
             document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
                 toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
